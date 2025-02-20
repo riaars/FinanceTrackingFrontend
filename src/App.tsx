@@ -6,12 +6,12 @@ import Sidebar from "./Sidebar";
 function App() {
   return (
     <>
-      <Header />
       <div className="app">
         <div className="sidebar">
           <Sidebar />
         </div>
         <div className="main-content">
+          <Header />
           <MainContent />
         </div>
       </div>
