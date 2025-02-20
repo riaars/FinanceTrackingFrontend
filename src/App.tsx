@@ -1,17 +1,20 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import Header from "./Header";
+import MainContent from "./MainContent";
+import Sidebar from "./Sidebar";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <h1>Expense Manager</h1>
-
-      <button>Expense Tracking</button>
-      <button>Income Tracking</button>
+      <Header />
+      <div className="app">
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+        <div className="main-content">
+          <MainContent />
+        </div>
+      </div>
     </>
   );
 }
