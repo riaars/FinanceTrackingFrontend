@@ -1,5 +1,15 @@
 import React, { useState } from "react";
+import { API_URL } from "../config/API";
 
+type LoginInputType = {
+  email: string;
+  password: string;
+};
+
+type LoginOutputType = {
+  message: string;
+  token: string;
+};
 function Login() {
   const [form, setForm] = useState({
     email: "",
@@ -13,10 +23,35 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isFormValid()) {
+      signIn(form);
+    }
   };
 
   const isFormValid = () => {
     return true;
+  };
+
+  const signIn = async (form: LoginInputType) => {
+    const url = `${API_URL}/signIn`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const data = response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("error");
+    }
   };
 
   return (
