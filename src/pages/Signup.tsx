@@ -1,9 +1,21 @@
 import React, { useState } from "react";
+import { API_URL } from "../config/API";
 
-type SignupProps = {
+type SignupInputProps = {
   email: string;
   password: string;
   repassword: string;
+};
+
+type UserProps = {
+  id: string;
+  email: string;
+};
+
+type SignupResponseProps = {
+  message: string;
+  token: string;
+  user: UserProps;
 };
 
 function Signup() {
@@ -20,10 +32,37 @@ function Signup() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isFormValid()) {
+      signUp(form);
+    }
   };
 
   const isFormValid = () => {
     return true;
+  };
+
+  const signUp = async (form: SignupInputProps) => {
+    const url = `${API_URL}/signUp`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const data = response.json();
+
+      localStorage.set("token", data);
+      console.log(data);
+    } catch (error) {
+      console.error("error");
+    }
   };
 
   return (
