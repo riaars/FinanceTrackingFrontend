@@ -1,16 +1,18 @@
+@use "../utils/variables" as *;
+
 .sidebar {
   width: 20%;
-  background-color: blue;
+  background-color: $background-color;
 }
 .sidebar-container {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .sidebar-container__item {
   list-style: none;
   text-align: left;
   padding: 1rem;
-  color: white;
+  color: $text-color;
 }

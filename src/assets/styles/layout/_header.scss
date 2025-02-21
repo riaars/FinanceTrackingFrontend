@@ -1,7 +1,9 @@
+@use "../utils/variables" as *;
+
 .header {
   display: flex;
   flex-direction: row;
-  background-color: pink;
+  background-color: $background-color;
   justify-content: end;
 }
 
