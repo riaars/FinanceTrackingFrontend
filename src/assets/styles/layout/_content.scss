@@ -1,0 +1,10 @@
+.content {
+  width: 80%;
+  background-color: yellow;
+}
+
+.content__container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}

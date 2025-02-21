@@ -1,7 +1,6 @@
-import "./App.css";
-import Header from "./Header";
-import MainContent from "./MainContent";
-import Sidebar from "./Sidebar";
+import Header from "./layout/Header";
+import Content from "./layout/Content";
+import Sidebar from "./layout/Sidebar";
 
 function App() {
   return (
@@ -10,9 +9,9 @@ function App() {
         <div className="sidebar">
           <Sidebar />
         </div>
-        <div className="main-content">
+        <div className="content">
           <Header />
-          <MainContent />
+          <Content />
         </div>
       </div>
     </>

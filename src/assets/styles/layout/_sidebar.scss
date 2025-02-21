@@ -1,0 +1,16 @@
+.sidebar {
+  width: 20%;
+  background-color: blue;
+}
+.sidebar-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-container__item {
+  list-style: none;
+  text-align: left;
+  padding: 1rem;
+  color: white;
+}

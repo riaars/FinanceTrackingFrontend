@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  background-color: pink;
+  justify-content: end;
+}
+
+.header__item {
+  list-style: none;
+  padding: 0.5rem;
+}
