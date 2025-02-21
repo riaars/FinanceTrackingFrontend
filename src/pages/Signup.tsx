@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { API_URL } from "../config/API";
 
-type SignupInputProps = {
+type SignupInputType = {
   email: string;
   password: string;
   repassword: string;
 };
 
-type UserProps = {
+type UserType = {
   id: string;
   email: string;
 };
 
-type SignupResponseProps = {
+type SignupResponseType = {
   message: string;
   token: string;
-  user: UserProps;
+  user: UserType;
 };
 
 function Signup() {
@@ -41,7 +41,7 @@ function Signup() {
     return true;
   };
 
-  const signUp = async (form: SignupInputProps) => {
+  const signUp = async (form: SignupInputType) => {
     const url = `${API_URL}/signUp`;
     try {
       const response = await fetch(url, {
