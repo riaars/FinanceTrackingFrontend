@@ -1,20 +1,18 @@
-import Header from "./layout/Header";
-import Content from "./layout/Content";
-import Sidebar from "./layout/Sidebar";
+import Login from "./pages/Login";
+import MainPage from "./pages/MainPage";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Signup from "./pages/Signup";
 
+import * as PATH from "./config/Path";
 function App() {
   return (
-    <>
-      <div className="app">
-        <div className="sidebar">
-          <Sidebar />
-        </div>
-        <div className="content">
-          <Header />
-          <Content />
-        </div>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path={PATH.HOMEPAGE} element={<MainPage />} />
+        <Route path={PATH.SIGNUP} element={<Signup />} />
+        <Route path={PATH.LOGIN} element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
