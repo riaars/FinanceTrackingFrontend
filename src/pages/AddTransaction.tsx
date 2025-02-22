@@ -21,10 +21,14 @@ function AddTransaction() {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isFormValid()) {
-      addTransaction(form);
+      try {
+        await addTransaction(form);
+      } catch (error) {
+        console.log("something wrong");
+      }
     }
   };
 
@@ -48,10 +52,9 @@ function AddTransaction() {
         throw new Error(`Response status: ${response.status}`);
       }
 
-      const data = response.json();
+      const data = await response.json();
 
       localStorage.set("token", data);
-      console.log(data);
     } catch (error) {
       console.error("error");
     }
