@@ -1,19 +1,45 @@
 import Login from "./pages/Login";
-import MainPage from "./pages/MainPage";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Signup from "./pages/Signup";
 
 import * as PATH from "./config/Path";
 import AddTransaction from "./pages/AddTransaction";
+import Header from "./layout/Header";
+import Sidebar from "./layout/Sidebar";
+
 function App() {
+  const Layout = ({ children }: any) => {
+    const location = useLocation();
+    const hideAppBarRoutes = ["/login", "/signup"];
+
+    return (
+      <>
+        {!hideAppBarRoutes.includes(location.pathname) ? (
+          <div className="app">
+            <div className="sidebar">
+              <Sidebar />
+            </div>
+            <div className="content">
+              <Header />
+              <div>{children}</div>
+            </div>
+          </div>
+        ) : (
+          <div>{children}</div>
+        )}
+      </>
+    );
+  };
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path={PATH.HOMEPAGE} element={<MainPage />} />
-        <Route path={PATH.SIGNUP} element={<Signup />} />
-        <Route path={PATH.LOGIN} element={<Login />} />
-        <Route path={PATH.ADD_NEW_TRANSACTION} element={<AddTransaction />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path={PATH.SIGNUP} element={<Signup />} />
+          <Route path={PATH.LOGIN} element={<Login />} />
+          <Route path={PATH.ADD_NEW_TRANSACTION} element={<AddTransaction />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }
