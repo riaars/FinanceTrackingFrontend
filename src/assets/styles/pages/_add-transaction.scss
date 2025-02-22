@@ -1,0 +1,20 @@
+@use "../utils/variables" as *;
+
+.add-transaction__form__field {
+  margin: 0.5rem;
+}
+
+.add-transaction__form input,
+.add-transaction__form button {
+  padding: 12px;
+  border-radius: 8px;
+  border-width: 1px;
+}
+
+.add-transaction__form input {
+  min-width: 240px;
+}
+
+.add-transaction__form__button {
+  background-color: $secondary-color;
+}
