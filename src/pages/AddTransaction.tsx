@@ -44,7 +44,7 @@ function AddTransaction() {
         body: JSON.stringify(form),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2I4YzVmYjk5NzViMmU1MGZjYTY1OGQiLCJpYXQiOjE3NDAyMzIyMjksImV4cCI6MTc0MDMxODYyOX0.sbVeiUQ4hqJFL25dLUUwzDCw1GhO4RqmqbqaxdnZOGc`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2I4YzVmYjk5NzViMmU1MGZjYTY1OGQiLCJpYXQiOjE3NDAzNDAwMzcsImV4cCI6MTc0MDQyNjQzN30.-NOP85pBD1_Y79gQaduxpZD4KGezzU9nDj7GmvC5da4`,
         },
       });
 

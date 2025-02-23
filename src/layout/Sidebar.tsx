@@ -14,7 +14,12 @@ function Sidebar() {
         >
           Add Transaction
         </li>
-        <li className="sidebar-container__item">Transactions</li>
+        <li
+          className="sidebar-container__item"
+          onClick={() => navigate(PATH.TRANSACTIONS)}
+        >
+          Transactions
+        </li>
         <li className="sidebar-container__item">Dashboard</li>
         <li className="sidebar-container__item">Settings</li>
       </ul>

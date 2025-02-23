@@ -6,6 +6,7 @@ import * as PATH from "./config/Path";
 import AddTransaction from "./pages/AddTransaction";
 import Header from "./layout/Header";
 import Sidebar from "./layout/Sidebar";
+import Transactions from "./pages/Transactions";
 
 function App() {
   const Layout = ({ children }: any) => {
@@ -38,6 +39,7 @@ function App() {
           <Route path={PATH.SIGNUP} element={<Signup />} />
           <Route path={PATH.LOGIN} element={<Login />} />
           <Route path={PATH.ADD_NEW_TRANSACTION} element={<AddTransaction />} />
+          <Route path={PATH.TRANSACTIONS} element={<Transactions />} />
         </Routes>
       </Layout>
     </BrowserRouter>
