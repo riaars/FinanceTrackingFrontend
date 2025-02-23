@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { API_URL } from "../config/API";
 import Button from "../components/Button";
+import Input from "../components/Input";
 
 type SignupInputType = {
   email: string;
@@ -71,40 +72,33 @@ function Signup() {
       className="container signup__form"
       onSubmit={handleSubmit}
     >
-      <div className="signup__form__field">
-        <input
-          type="text"
-          name="email"
-          placeholder="email"
-          value={form.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="signup__form__field">
-        <input
-          type="text"
-          name="password"
-          placeholder="password"
-          value={form.password}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="signup__form__field">
-        <input
-          type="text"
-          name="repassword"
-          placeholder="re-password"
-          value={form.repassword}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="signup__form__field">
-        <Button
-          title="Signup"
-          className="action-button"
-          disabled={!isFormValid()}
-        />
-      </div>
+      <Input
+        type="text"
+        name="email"
+        placeholder="email"
+        value={form.email}
+        onChange={handleChange}
+      />
+      <Input
+        type="text"
+        name="password"
+        placeholder="password"
+        value={form.password}
+        onChange={handleChange}
+      />
+      <Input
+        type="text"
+        name="repassword"
+        placeholder="re-password"
+        value={form.repassword}
+        onChange={handleChange}
+      />
+
+      <Button
+        title="Signup"
+        className="action-button"
+        disabled={!isFormValid()}
+      />
     </form>
   );
 }

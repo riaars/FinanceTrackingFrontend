@@ -1,9 +1,9 @@
 @use "../utils/variables" as *;
 
-.action-button {
-  background-color: $secondary-color;
+.input-field {
   padding: 12px;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   border-width: 1px;
+  min-width: 240px;
   margin: 0.5rem;
 }

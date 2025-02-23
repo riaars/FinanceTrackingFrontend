@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { API_URL } from "../config/API";
 import Button from "../components/Button";
+import Input from "../components/Input";
 
 type AddTransactionType = {
   category: string;
@@ -67,50 +68,41 @@ function AddTransaction() {
       className="container add-transaction__form"
       onSubmit={handleSubmit}
     >
-      <div className="add-transaction__form__field">
-        <input
-          type="text"
-          name="type"
-          placeholder="type"
-          value={form.type}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="add-transaction__form__field">
-        <input
-          type="text"
-          name="category"
-          placeholder="category"
-          value={form.category}
-          onChange={handleChange}
-        />
-      </div>
+      <Input
+        type="text"
+        name="type"
+        placeholder="type"
+        value={form.type}
+        onChange={handleChange}
+      />
+      <Input
+        type="text"
+        name="category"
+        placeholder="category"
+        value={form.category}
+        onChange={handleChange}
+      />
 
-      <div className="add-transaction__form__field">
-        <input
-          type="text"
-          name="detail"
-          placeholder="detail"
-          value={form.detail}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="add-transaction__form__field">
-        <input
-          type="text"
-          name="amount"
-          placeholder="amount"
-          value={form.amount}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="add-transaction__form__field">
-        <Button
-          title="Add Transaction"
-          className="action-button"
-          disabled={!isFormValid()}
-        />
-      </div>
+      <Input
+        type="text"
+        name="detail"
+        placeholder="detail"
+        value={form.detail}
+        onChange={handleChange}
+      />
+      <Input
+        type="text"
+        name="amount"
+        placeholder="amount"
+        value={form.amount}
+        onChange={handleChange}
+      />
+
+      <Button
+        title="Add Transaction"
+        className="action-button"
+        disabled={!isFormValid()}
+      />
     </form>
   );
 }

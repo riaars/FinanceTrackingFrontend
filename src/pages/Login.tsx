@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { API_URL } from "../config/API";
 import Button from "../components/Button";
+import Input from "../components/Input";
 
 type LoginInputType = {
   email: string;
@@ -65,24 +66,21 @@ function Login() {
         className="container login__form"
         onSubmit={handleSubmit}
       >
-        <div className="login__form__field">
-          <input
-            type="text"
-            name="email"
-            placeholder="email"
-            value={form.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="login__form__field">
-          <input
-            type="text"
-            name="password"
-            placeholder="password"
-            value={form.password}
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type="text"
+          name="email"
+          placeholder="email"
+          value={form.email}
+          onChange={handleChange}
+        />
+
+        <Input
+          type="text"
+          name="password"
+          placeholder="password"
+          value={form.password}
+          onChange={handleChange}
+        />
 
         <div className="login__form__field">
           <Button
