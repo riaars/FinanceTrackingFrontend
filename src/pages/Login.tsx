@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { API_URL } from "../config/API";
+import Button from "../components/Button";
 
 type LoginInputType = {
   email: string;
@@ -84,9 +85,11 @@ function Login() {
         </div>
 
         <div className="login__form__field">
-          <button className="login__form__button" disabled={!isFormValid()}>
-            Login
-          </button>
+          <Button
+            title="Login"
+            className="action-button"
+            disabled={!isFormValid()}
+          />
         </div>
       </form>
     </div>

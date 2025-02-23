@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { API_URL } from "../config/API";
+import Button from "../components/Button";
 
 type AddTransactionType = {
   category: string;
@@ -104,12 +105,11 @@ function AddTransaction() {
         />
       </div>
       <div className="add-transaction__form__field">
-        <button
-          className="add-transaction__form__button"
+        <Button
+          title="Add Transaction"
+          className="action-button"
           disabled={!isFormValid()}
-        >
-          Add Transaction
-        </button>
+        />
       </div>
     </form>
   );

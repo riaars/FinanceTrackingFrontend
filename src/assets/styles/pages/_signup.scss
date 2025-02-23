@@ -4,8 +4,7 @@
   margin: 0.5rem;
 }
 
-.signup__form input,
-.signup__form button {
+.signup__form input {
   padding: 12px;
   border-radius: 8px;
   border-width: 1px;
@@ -13,8 +12,4 @@
 
 .signup__form input {
   min-width: 240px;
-}
-
-.signup__form__button {
-  background-color: $secondary-color;
 }
