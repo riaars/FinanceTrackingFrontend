@@ -47,7 +47,9 @@ function Login() {
         throw new Error(`Response status: ${response.status}`);
       }
 
-      const data = response.json();
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+
       console.log(data);
     } catch (error) {
       console.error("error");

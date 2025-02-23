@@ -56,10 +56,8 @@ function Signup() {
         throw new Error(`Response status: ${response.status}`);
       }
 
-      const data = response.json();
-
-      localStorage.set("token", data);
-      console.log(data);
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
     } catch (error) {
       console.error("error");
     }

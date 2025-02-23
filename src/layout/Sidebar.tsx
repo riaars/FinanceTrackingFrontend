@@ -10,6 +10,12 @@ function Sidebar() {
       <ul>
         <li
           className="sidebar-container__item"
+          onClick={() => navigate(PATH.DASHBOARD)}
+        >
+          Dashboard
+        </li>
+        <li
+          className="sidebar-container__item"
           onClick={() => navigate(PATH.ADD_NEW_TRANSACTION)}
         >
           Add Transaction
@@ -20,8 +26,13 @@ function Sidebar() {
         >
           Transactions
         </li>
-        <li className="sidebar-container__item">Dashboard</li>
-        <li className="sidebar-container__item">Settings</li>
+
+        <li
+          className="sidebar-container__item"
+          onClick={() => navigate(PATH.SETTINGS)}
+        >
+          Settings
+        </li>
       </ul>
     </div>
   );
