@@ -63,14 +63,17 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard">
-      <div>
-        <p>Expenses Chart</p>
-        <PieChart chartData={getChartData(expenses)} />
-      </div>
-      <div>
-        <p>Income Chart</p>
-        <PieChart chartData={getChartData(income)} />
+    <div>
+      <h1>Dashboard</h1>
+      <div className="dashboard">
+        <div>
+          <p>Expenses Chart</p>
+          <PieChart chartData={getChartData(expenses)} />
+        </div>
+        <div>
+          <p>Income Chart</p>
+          <PieChart chartData={getChartData(income)} />
+        </div>
       </div>
     </div>
   );

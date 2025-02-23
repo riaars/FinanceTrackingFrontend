@@ -63,47 +63,50 @@ function AddTransaction() {
     }
   };
   return (
-    <form
-      action="submit"
-      className="container add-transaction__form"
-      onSubmit={handleSubmit}
-    >
-      <Input
-        type="text"
-        name="type"
-        placeholder="type"
-        value={form.type}
-        onChange={handleChange}
-      />
-      <Input
-        type="text"
-        name="category"
-        placeholder="category"
-        value={form.category}
-        onChange={handleChange}
-      />
+    <div>
+      <h1>Dashboard</h1>
+      <form
+        action="submit"
+        className="container add-transaction__form"
+        onSubmit={handleSubmit}
+      >
+        <Input
+          type="text"
+          name="type"
+          placeholder="type"
+          value={form.type}
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="category"
+          placeholder="category"
+          value={form.category}
+          onChange={handleChange}
+        />
 
-      <Input
-        type="text"
-        name="detail"
-        placeholder="detail"
-        value={form.detail}
-        onChange={handleChange}
-      />
-      <Input
-        type="text"
-        name="amount"
-        placeholder="amount"
-        value={form.amount}
-        onChange={handleChange}
-      />
+        <Input
+          type="text"
+          name="detail"
+          placeholder="detail"
+          value={form.detail}
+          onChange={handleChange}
+        />
+        <Input
+          type="text"
+          name="amount"
+          placeholder="amount"
+          value={form.amount}
+          onChange={handleChange}
+        />
 
-      <Button
-        title="Add Transaction"
-        className="action-button"
-        disabled={!isFormValid()}
-      />
-    </form>
+        <Button
+          title="Add Transaction"
+          className="action-button"
+          disabled={!isFormValid()}
+        />
+      </form>
+    </div>
   );
 }
 
