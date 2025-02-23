@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../config/API";
+import Button from "../components/Button";
 
 type TransactionType = {
   date: string;
@@ -62,7 +63,12 @@ function Transactions() {
               <td className="table-cell">{transaction.transaction_id}</td>
               <td className="table-cell">{transaction.email}</td>
               <td className="table-cell">{transaction.category}</td>
-              <td className="table-cell">{transaction.type}</td>
+              <td className="table-cell">
+                <Button
+                  title={transaction.type}
+                  className={`tag-button ${transaction.type}`}
+                />
+              </td>
               <td className="table-cell">{transaction.detail}</td>
               <td className="table-cell">{transaction.amount}</td>
             </tr>

@@ -1,1 +1,6 @@
 @use "../utils/variables" as *;
+
+.add-transaction__form {
+  flex-direction: column;
+  justify-content: center;
+}
