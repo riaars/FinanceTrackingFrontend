@@ -14,10 +14,11 @@ function App() {
   const Layout = ({ children }: any) => {
     const location = useLocation();
     const hideAppBarRoutes = ["/login", "/signup"];
+    const token = localStorage.getItem("token");
 
     return (
       <>
-        {!hideAppBarRoutes.includes(location.pathname) ? (
+        {token && !hideAppBarRoutes.includes(location.pathname) ? (
           <div className="app">
             <div className="sidebar">
               <Sidebar />

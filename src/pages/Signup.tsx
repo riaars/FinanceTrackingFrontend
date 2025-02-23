@@ -58,6 +58,7 @@ function Signup() {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
+      localStorage.setItem("email", data.email);
     } catch (error) {
       console.error("error");
     }

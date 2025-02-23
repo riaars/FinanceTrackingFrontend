@@ -49,6 +49,7 @@ function Login() {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
+      localStorage.setItem("email", data.email);
 
       console.log(data);
     } catch (error) {
