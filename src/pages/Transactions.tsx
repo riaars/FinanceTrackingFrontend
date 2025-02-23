@@ -1,55 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { API_URL } from "../config/API";
+import React from "react";
 import Button from "../components/Button";
+import { useGetAllTransactions } from "../hooks/getAllTransactions";
 
-type TransactionType = {
-  date: string;
-  transaction_id: string;
-  email: string;
-  category: string;
-  type: string;
-  detail: string;
-  amount: number;
-};
 function Transactions() {
-  const token = localStorage.getItem("token");
-
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
-
-  const getAllTransactions = async () => {
-    const url = `${API_URL}/getAllTransactions`;
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setTransactions(data);
-    } catch (error) {
-      console.error("error");
-    }
-  };
-  useEffect(() => {
-    getAllTransactions();
-  }, []);
+  const { transactions } = useGetAllTransactions();
 
   return (
     <div>
       <h1>List of Transactions</h1>
       <table className="transaction-table">
         <thead>
-          <tr>
+          <tr className="table-row">
             <td className="table-cell">Date</td>
             <td className="table-cell">Transaction ID</td>
-            <td className="table-cell">Email</td>
             <td className="table-cell">Category</td>
             <td className="table-cell">Type</td>
             <td className="table-cell">Detail</td>
@@ -58,10 +21,9 @@ function Transactions() {
         </thead>
         <tbody>
           {transactions?.map((transaction) => (
-            <tr>
+            <tr className="table-row">
               <td className="table-cell">{transaction.date}</td>
               <td className="table-cell">{transaction.transaction_id}</td>
-              <td className="table-cell">{transaction.email}</td>
               <td className="table-cell">{transaction.category}</td>
               <td className="table-cell">
                 <Button
