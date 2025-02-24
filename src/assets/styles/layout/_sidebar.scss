@@ -16,3 +16,10 @@
   padding: 1rem;
   color: $text-color;
 }
+
+.sidebar-container__item.active,
+.sidebar-container__item:hover {
+  font-weight: bold;
+  font-size: large;
+  color: $text-color;
+}
