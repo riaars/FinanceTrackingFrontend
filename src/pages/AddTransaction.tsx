@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { API_URL } from "../config/API";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import Dropdown from "../components/Dropdown";
 
 type AddTransactionType = {
   category: string;
@@ -62,9 +63,19 @@ function AddTransaction() {
       console.error("error");
     }
   };
+
+  const CategoryOptions = [
+    "Food",
+    "Transport",
+    "Rent",
+    "Entertainment",
+    "Salary",
+    "Others",
+  ];
+
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1>Add Transaction</h1>
       <form
         action="submit"
         className="container add-transaction__form"
@@ -84,6 +95,7 @@ function AddTransaction() {
           value={form.category}
           onChange={handleChange}
         />
+        {/* <Dropdown options={CategoryOptions} /> */}
 
         <Input
           type="text"

@@ -9,17 +9,6 @@ type SignupInputType = {
   repassword: string;
 };
 
-type UserType = {
-  id: string;
-  email: string;
-};
-
-type SignupResponseType = {
-  message: string;
-  token: string;
-  user: UserType;
-};
-
 function Signup() {
   const [form, setForm] = useState({
     email: "",

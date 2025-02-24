@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { API_URL } from "../config/API";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { useNavigate } from "react-router-dom";
+import * as PATH from "../config/Path";
 
 type LoginInputType = {
   email: string;
   password: string;
 };
 
-type LoginOutputType = {
-  message: string;
-  token: string;
-};
 function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  const [login, setLogin] = useState({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,10 +51,11 @@ function Login() {
       }
 
       const data = await response.json();
+      setLogin(data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", data.email);
 
-      console.log(data);
+      navigate(PATH.DASHBOARD);
     } catch (error) {
       console.error("error");
     }
