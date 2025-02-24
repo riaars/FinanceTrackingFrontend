@@ -111,7 +111,7 @@ function AddTransaction() {
 
         <Button
           title="Add Transaction"
-          className="action-button"
+          className="primary-button"
           disabled={!isFormValid()}
         />
       </form>

@@ -1,7 +1,14 @@
 @use "../utils/variables" as *;
 
-.action-button {
+.primary-button {
   background-color: $secondary-color;
+  padding: 12px;
+  border-radius: 0.5rem;
+  border-width: 0px;
+  margin: 0.5rem;
+}
+
+.secondary-button {
   padding: 12px;
   border-radius: 0.5rem;
   border-width: 0px;

@@ -7,7 +7,7 @@ function Settings() {
     <div>
       <h1>Settings</h1>
       <p>email: {loggedInUser}</p>
-      <Button title="Logout" className="action-button" />
+      <Button title="Logout" className="primary-button" />
     </div>
   );
 }

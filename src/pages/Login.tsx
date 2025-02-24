@@ -87,7 +87,7 @@ function Login() {
         <div className="login__form__field">
           <Button
             title="Login"
-            className="action-button"
+            className="primary-button"
             disabled={!isFormValid()}
           />
         </div>
