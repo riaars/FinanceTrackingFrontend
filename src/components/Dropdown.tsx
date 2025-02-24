@@ -1,36 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { RiArrowDropUpLine } from "react-icons/ri";
 
-const Dropdown = ({ options }: any) => {
+type DropdownType = {
+  options: string[];
+  name: string;
+  value?: string;
+  onChange: (name: string, value: string) => void;
+};
+const Dropdown = ({ options, name, value, onChange }: DropdownType) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Select a category");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div style={{ position: "relative", minWidth: "240px" }}>
-      <button onClick={() => setIsOpen(!isOpen)} className="input-field">
-        {selected} ▼
+    <div ref={dropdownRef} className="dropdown">
+      <button onClick={() => setIsOpen(!isOpen)} className="dropdown__button">
+        <div className="dropdown__button__selected-item">
+          {value}
+          {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
+        </div>
       </button>
 
       {isOpen && (
-        <ul
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            width: "100%",
-            border: "1px solid #ccc",
-            background: "white",
-            listStyle: "none",
-            padding: 0,
-          }}
-        >
+        <ul className="dropdown__list">
           {options.map((option: string) => (
             <li
+              className="dropdown__list__item"
               key={option}
               onClick={() => {
-                setSelected(option);
+                onChange(name, option);
                 setIsOpen(false);
               }}
-              style={{ padding: "10px", cursor: "pointer" }}
             >
               {option}
             </li>

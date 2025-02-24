@@ -14,14 +14,13 @@ type AddTransactionType = {
 function AddTransaction() {
   const token = localStorage.getItem("token");
   const [form, setForm] = useState({
-    category: "",
+    category: "Select a category",
     type: "",
     detail: "",
     amount: 0,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
   };
 
@@ -84,32 +83,31 @@ function AddTransaction() {
         <Input
           type="text"
           name="type"
-          placeholder="type"
+          placeholder="Type"
           value={form.type}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
-        <Input
-          type="text"
+
+        <Dropdown
+          options={CategoryOptions}
           name="category"
-          placeholder="category"
           value={form.category}
           onChange={handleChange}
         />
-        {/* <Dropdown options={CategoryOptions} /> */}
 
         <Input
           type="text"
           name="detail"
-          placeholder="detail"
+          placeholder="Detail"
           value={form.detail}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
         <Input
           type="text"
           name="amount"
-          placeholder="amount"
+          placeholder="Amount"
           value={form.amount}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
 
         <Button

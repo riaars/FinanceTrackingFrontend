@@ -8,10 +8,7 @@ function Sidebar() {
   const location = useLocation();
 
   const sideMenus = [
-    {
-      title: "Dashboard",
-      path: PATH.DASHBOARD,
-    },
+    { title: "Dashboard", path: PATH.DASHBOARD },
     { title: "Add Transaction", path: PATH.ADD_NEW_TRANSACTION },
     { title: "Transaction", path: PATH.TRANSACTIONS },
     { title: "Settings", path: PATH.SETTINGS },

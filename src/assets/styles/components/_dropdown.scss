@@ -1,0 +1,37 @@
+@use "../utils/variables" as *;
+
+.dropdown {
+  position: relative;
+  min-width: 240px;
+  border: 1px solid;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: $primary-color;
+}
+
+.dropdown__button {
+  border-width: 0px;
+  background-color: $primary-color;
+  min-width: 240px;
+}
+
+.dropdown__button__selected-item {
+  display: flex;
+  justify-content: space-between;
+}
+.dropdown__list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  background-color: $primary-color;
+  list-style: none;
+  padding: 0;
+  position: "absolute";
+}
+
+.dropdown__list__item {
+  padding: 0.75rem;
+  cursor: pointer;
+}
