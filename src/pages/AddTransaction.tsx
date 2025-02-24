@@ -14,8 +14,8 @@ type AddTransactionType = {
 function AddTransaction() {
   const token = localStorage.getItem("token");
   const [form, setForm] = useState({
-    category: "Select a category",
-    type: "",
+    category: "Select transaction category",
+    type: "Select transaction type",
     detail: "",
     amount: 0,
   });
@@ -62,7 +62,7 @@ function AddTransaction() {
       console.error("error");
     }
   };
-
+  const TypeOptions = ["Expense", "Income"];
   const CategoryOptions = [
     "Food",
     "Transport",
@@ -80,12 +80,11 @@ function AddTransaction() {
         className="container add-transaction__form"
         onSubmit={handleSubmit}
       >
-        <Input
-          type="text"
+        <Dropdown
+          options={TypeOptions}
           name="type"
-          placeholder="Type"
           value={form.type}
-          onChange={(e) => handleChange(e.target.name, e.target.value)}
+          onChange={handleChange}
         />
 
         <Dropdown
