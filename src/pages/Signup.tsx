@@ -85,7 +85,7 @@ function Signup() {
 
       <Button
         title="Signup"
-        className="action-button"
+        className="primary-button"
         disabled={!isFormValid()}
       />
     </form>

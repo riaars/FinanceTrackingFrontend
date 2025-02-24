@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 
 type DialogType = {
   title: string;
-  content: string;
+  children: any;
   handleCloseDialog: () => void;
 };
-function Dialog({ title, content, handleCloseDialog }: DialogType) {
+function Dialog({ title, handleCloseDialog, children }: DialogType) {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,15 +25,7 @@ function Dialog({ title, content, handleCloseDialog }: DialogType) {
     <div className="dialog-overlay" ref={dialogRef}>
       <div className="dialog">
         <div className="dialog__title">{title}</div>
-        <div className="dialog__content">{content}</div>
-        <div className="dialog__actions">
-          <button className="secondary-button" onClick={handleCloseDialog}>
-            Close
-          </button>
-          <button className="primary-button" onClick={handleCloseDialog}>
-            Done
-          </button>
-        </div>
+        {children}
       </div>
     </div>
   );

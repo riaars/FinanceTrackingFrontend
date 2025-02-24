@@ -5,6 +5,7 @@ import Dropdown from "../components/Dropdown";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { transactionCreators } from "../redux";
+import { CategoryOptions, TypeOptions } from "../utils/Constant";
 
 function AddTransaction() {
   const dispatch = useDispatch();
@@ -40,16 +41,6 @@ function AddTransaction() {
       ? false
       : true;
   };
-
-  const TypeOptions = ["Expense", "Income"];
-  const CategoryOptions = [
-    "Food",
-    "Transport",
-    "Rent",
-    "Entertainment",
-    "Salary",
-    "Others",
-  ];
 
   return (
     <div>

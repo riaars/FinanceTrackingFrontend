@@ -42,6 +42,7 @@ function Dashboard() {
     transactionCreators,
     dispatch
   );
+
   const { transactions } = useSelector((state: State) => state.transaction);
 
   const expenses = transactions.filter(
