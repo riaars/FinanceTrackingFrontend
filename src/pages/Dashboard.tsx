@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import {
-  TransactionType,
-  useGetAllTransactions,
-} from "../hooks/getAllTransactions";
+import { useDispatch, useSelector } from "react-redux";
+import { State, transactionCreators } from "../redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { TransactionType } from "./Transactions";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -37,14 +37,19 @@ const PieChart = ({ chartData }: any) => {
 };
 
 function Dashboard() {
-  const { transactions } = useGetAllTransactions();
+  const dispatch = useDispatch();
+  const { getAllTransactions } = bindActionCreators(
+    transactionCreators,
+    dispatch
+  );
+  const { transactions } = useSelector((state: State) => state.transaction);
 
   const expenses = transactions.filter(
-    (transaction) => transaction.type !== "income"
+    (transaction: any) => transaction?.type?.toLowerCase() !== "income"
   );
 
   const income = transactions.filter(
-    (transaction) => transaction.type === "income"
+    (transaction: any) => transaction?.type?.toLowerCase() === "income"
   );
 
   const getChartData = (data: TransactionType[]) => {
@@ -61,6 +66,10 @@ function Dashboard() {
       amountData,
     };
   };
+
+  useEffect(() => {
+    getAllTransactions();
+  }, []);
 
   return (
     <div>

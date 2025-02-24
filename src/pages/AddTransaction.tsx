@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { API_URL } from "../config/API";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -7,24 +6,16 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { transactionCreators } from "../redux";
 
-type AddTransactionType = {
-  category: string;
-  type: string;
-  detail: string;
-  amount: Number;
-};
-
 function AddTransaction() {
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const { addTransaction } = bindActionCreators(transactionCreators, dispatch);
+
   const [form, setForm] = useState({
     category: "Select transaction category",
     type: "Select transaction type",
     detail: "",
     amount: 0,
   });
-
-  const dispatch = useDispatch();
-  const { addTransaction } = bindActionCreators(transactionCreators, dispatch);
 
   const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
