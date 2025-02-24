@@ -3,6 +3,9 @@ import { API_URL } from "../config/API";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { transactionCreators } from "../redux";
 
 type AddTransactionType = {
   category: string;
@@ -20,48 +23,33 @@ function AddTransaction() {
     amount: 0,
   });
 
+  const dispatch = useDispatch();
+  const { addTransaction } = bindActionCreators(transactionCreators, dispatch);
+
   const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isFormValid()) {
       try {
-        await addTransaction(form);
+        addTransaction(form);
       } catch (error) {
-        console.log("something wrong");
+        console.log("Something wrong");
       }
     }
   };
 
   const isFormValid = () => {
-    return true;
+    return form.type === "Select transaction type" ||
+      form.category === "Select transaction category" ||
+      form.detail === "" ||
+      form.amount === 0
+      ? false
+      : true;
   };
 
-  const addTransaction = async (form: AddTransactionType) => {
-    const url = `${API_URL}/addTransaction`;
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      localStorage.set("token", data);
-    } catch (error) {
-      console.error("error");
-    }
-  };
   const TypeOptions = ["Expense", "Income"];
   const CategoryOptions = [
     "Food",
@@ -78,7 +66,7 @@ function AddTransaction() {
       <form
         action="submit"
         className="container add-transaction__form"
-        onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(e)}
       >
         <Dropdown
           options={TypeOptions}

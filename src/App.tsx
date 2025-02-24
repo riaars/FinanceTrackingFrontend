@@ -9,6 +9,8 @@ import Sidebar from "./layout/Sidebar";
 import Transactions from "./pages/Transactions";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 function App() {
   const Layout = ({ children }: any) => {
@@ -36,18 +38,23 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path={PATH.SIGNUP} element={<Signup />} />
-          <Route path={PATH.LOGIN} element={<Login />} />
-          <Route path={PATH.DASHBOARD} element={<Dashboard />} />
-          <Route path={PATH.ADD_NEW_TRANSACTION} element={<AddTransaction />} />
-          <Route path={PATH.TRANSACTIONS} element={<Transactions />} />
-          <Route path={PATH.SETTINGS} element={<Settings />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path={PATH.SIGNUP} element={<Signup />} />
+            <Route path={PATH.LOGIN} element={<Login />} />
+            <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+            <Route
+              path={PATH.ADD_NEW_TRANSACTION}
+              element={<AddTransaction />}
+            />
+            <Route path={PATH.TRANSACTIONS} element={<Transactions />} />
+            <Route path={PATH.SETTINGS} element={<Settings />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

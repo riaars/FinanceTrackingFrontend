@@ -14,7 +14,7 @@ function Dialog({ title, content, handleCloseDialog }: DialogType) {
         dialogRef.current &&
         !dialogRef.current.contains(event.target as Node)
       ) {
-        handleCloseDialog();
+        return handleCloseDialog;
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
