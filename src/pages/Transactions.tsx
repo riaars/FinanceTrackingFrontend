@@ -26,32 +26,34 @@ function Transactions() {
   const token = localStorage.getItem("token");
 
   const dispatch = useDispatch();
-  const { deleteTransaction, getAllTransactions } = bindActionCreators(
-    transactionCreators,
-    dispatch
+  const { deleteTransaction, getAllTransactions, updateTransaction } =
+    bindActionCreators(transactionCreators, dispatch);
+
+  const { transactions, updateTransactionResult } = useSelector(
+    (state: State) => state.transaction
   );
 
-  const { transactions } = useSelector((state: State) => state.transaction);
-
   const [selectedTransaction, setSelectedTransaction] =
-    useState<TransactionType>();
+    useState<TransactionType>({
+      date: "",
+      transaction_id: "",
+      email: "",
+      category: "",
+      type: "",
+      detail: "",
+      amount: 0,
+    });
+
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
   const handleChange = (name: string, value: string) => {
-    setForm({ ...form, [name]: value });
+    setSelectedTransaction({ ...selectedTransaction, [name]: value });
   };
-
-  const [form, setForm] = useState({
-    category: "Select transaction category",
-    type: "Select transaction type",
-    detail: "",
-    amount: 0,
-  });
 
   useEffect(() => {
     if (token) getAllTransactions(token);
-  }, [token]);
+  }, [token, JSON.stringify(updateTransactionResult)]);
 
   return (
     <div>
@@ -99,9 +101,6 @@ function Transactions() {
                   className="table-cell__icon delete"
                   onClick={() => {
                     setSelectedTransaction(transaction);
-                    if (token) {
-                      deleteTransaction(transaction?.transaction_id, token);
-                    }
                     setIsDelete(!isDelete);
                   }}
                 />
@@ -115,40 +114,47 @@ function Transactions() {
         <Dialog
           title="Update Transaction"
           handleCloseDialog={() => setIsEdit(!isEdit)}
-          // content={`Edit transaction with id ${selectedTransaction?.transaction_id}`}
         >
           <div className="dialog__content">
-            <div style={{ textAlign: "center", fontWeight: "bold" }}>
+            <div style={{ fontWeight: "bold" }}>
               {selectedTransaction?.transaction_id}
             </div>
-            <Dropdown
-              options={TypeOptions}
-              name="type"
-              value={selectedTransaction?.type}
-              onChange={handleChange}
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <Dropdown
+                options={TypeOptions}
+                name="type"
+                value={selectedTransaction?.type || ""}
+                onChange={handleChange}
+              />
 
-            <Dropdown
-              options={CategoryOptions}
-              name="category"
-              value={selectedTransaction?.category}
-              onChange={handleChange}
-            />
+              <Dropdown
+                options={CategoryOptions}
+                name="category"
+                value={selectedTransaction?.category || ""}
+                onChange={handleChange}
+              />
 
-            <Input
-              type="text"
-              name="detail"
-              placeholder="Detail"
-              value={selectedTransaction?.detail}
-              onChange={(e) => handleChange(e.target.name, e.target.value)}
-            />
-            <Input
-              type="text"
-              name="amount"
-              placeholder="Amount"
-              value={selectedTransaction?.amount}
-              onChange={(e) => handleChange(e.target.name, e.target.value)}
-            />
+              <Input
+                type="text"
+                name="detail"
+                placeholder="Detail"
+                value={selectedTransaction?.detail || ""}
+                onChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+              <Input
+                type="text"
+                name="amount"
+                placeholder="Amount"
+                value={selectedTransaction?.amount || ""}
+                onChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+            </div>
           </div>
           <div className="dialog__actions">
             <button
@@ -159,7 +165,12 @@ function Transactions() {
             </button>
             <button
               className="primary-button"
-              onClick={() => setIsEdit(!isEdit)}
+              onClick={() => {
+                if (token && selectedTransaction) {
+                  updateTransaction(selectedTransaction, token);
+                  setIsEdit(!isEdit);
+                }
+              }}
             >
               Update
             </button>
@@ -172,16 +183,24 @@ function Transactions() {
           title="Delete Transaction"
           handleCloseDialog={() => setIsDelete(!isDelete)}
         >
+          <div className="dialog__content">
+            <p>Are you sure want to delete this transaction?</p>
+          </div>
           <div className="dialog__actions">
             <button
               className="secondary-button"
-              onClick={() => setIsEdit(!isEdit)}
+              onClick={() => setIsDelete(!isDelete)}
             >
               Cancel
             </button>
             <button
               className="primary-button"
-              onClick={() => setIsEdit(!isEdit)}
+              onClick={() => {
+                if (token && selectedTransaction) {
+                  deleteTransaction(selectedTransaction?.transaction_id, token);
+                  setIsDelete(!isDelete);
+                }
+              }}
             >
               Delete
             </button>

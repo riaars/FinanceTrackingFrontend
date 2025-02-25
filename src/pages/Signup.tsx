@@ -45,14 +45,14 @@ function Signup() {
         onChange={handleChange}
       />
       <Input
-        type="text"
+        type="password"
         name="password"
         placeholder="password"
         value={form.password}
         onChange={handleChange}
       />
       <Input
-        type="text"
+        type="password"
         name="repassword"
         placeholder="re-password"
         value={form.repassword}

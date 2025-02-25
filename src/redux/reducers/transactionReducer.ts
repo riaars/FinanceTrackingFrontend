@@ -4,6 +4,9 @@ const initialState = {
   addTransactionRequest: false,
   addTransactionResult: null,
   addTransactionError: null,
+  updateTransactionRequest: false,
+  updateTransactionResult: null,
+  updateTransactionError: null,
   getAllTransactionsRequest: false,
   transactions: [{} as any],
   getAllTransactionsError: null,
@@ -30,6 +33,25 @@ const transactionReducer = (state = initialState, action: any) => {
       return {
         ...state,
         addTransactionError: action.payload,
+      };
+    }
+
+    case ActionTypes.UPDATE_TRANSACTION_REQUEST: {
+      return {
+        ...state,
+        updateTransactionRequest: true,
+      };
+    }
+    case ActionTypes.UPDATE_TRANSACTION_RESULT: {
+      return {
+        ...state,
+        updateTransactionResult: action.payload,
+      };
+    }
+    case ActionTypes.UPDATE_TRANSACTION_ERROR: {
+      return {
+        ...state,
+        updateTransactionError: action.payload,
       };
     }
 

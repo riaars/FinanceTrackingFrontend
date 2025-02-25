@@ -45,6 +45,42 @@ export const addTransaction =
     }
   };
 
+export const updateTransaction =
+  (request: AddTransactionType, storedToken: string) =>
+  async (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionTypes.UPDATE_TRANSACTION_REQUEST,
+    });
+    try {
+      const response = await fetch(`${API_URL}/updateTransaction`, {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data) {
+        dispatch({
+          type: ActionTypes.UPDATE_TRANSACTION_RESULT,
+          payload: data,
+        });
+      }
+    } catch (error) {
+      console.error("error");
+      dispatch({
+        type: ActionTypes.UPDATE_TRANSACTION_ERROR,
+        payload: error,
+      });
+    }
+  };
+
 export const getAllTransactions =
   (storedToken: string) => async (dispatch: Dispatch<Action>) => {
     dispatch({
