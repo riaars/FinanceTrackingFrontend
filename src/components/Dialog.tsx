@@ -14,16 +14,16 @@ function Dialog({ title, handleCloseDialog, children }: DialogType) {
         dialogRef.current &&
         !dialogRef.current.contains(event.target as Node)
       ) {
-        return handleCloseDialog;
+        handleCloseDialog();
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [handleCloseDialog]);
 
   return (
-    <div className="dialog-overlay" ref={dialogRef}>
-      <div className="dialog">
+    <div className="dialog-overlay">
+      <div className="dialog" ref={dialogRef}>
         <div className="dialog__title">{title}</div>
         {children}
       </div>

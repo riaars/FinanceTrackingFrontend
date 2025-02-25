@@ -2,6 +2,7 @@ import React from "react";
 
 interface ButtonProps {
   title: string;
+  type?: "submit" | "reset" | "button";
   disabled?: boolean;
   className: string;
   onClick?: (e: any) => void;
@@ -9,6 +10,7 @@ interface ButtonProps {
 function Button(props: ButtonProps) {
   return (
     <button
+      type={props.type}
       className={props.className}
       disabled={props.disabled}
       onClick={props.onClick}

@@ -167,7 +167,6 @@ function Transactions() {
         <Dialog
           title="Delete Transaction"
           handleCloseDialog={() => setIsDelete(!isDelete)}
-          // content={`Are you sure want to delete this ${selectedTransaction?.transaction_id} transaction`}
         >
           <div className="dialog__actions">
             <button
