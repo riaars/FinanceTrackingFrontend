@@ -75,7 +75,7 @@ function Transactions() {
             <tr key={transaction?.transaction_id} className="table-row">
               <td className="table-cell">{formattedDate(transaction.date)}</td>
               <td className="table-cell">
-                <a href="" style={{ color: "#ffd000" }}>
+                <a href="" className="link">
                   {transaction.transaction_id}
                 </a>
               </td>
@@ -116,16 +116,10 @@ function Transactions() {
           handleCloseDialog={() => setIsEdit(!isEdit)}
         >
           <div className="dialog__content">
-            <div style={{ fontWeight: "bold" }}>
+            <div className="dialog__content__header">
               {selectedTransaction?.transaction_id}
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
+            <div className="dialog__content__body">
               <Dropdown
                 options={TypeOptions}
                 name="type"

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-import { transactionCreators } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
+import { State, transactionCreators } from "../redux";
 import { CategoryOptions, TypeOptions } from "../utils/Constant";
 import Dialog from "../components/Dialog";
+import { useNavigate } from "react-router-dom";
+import * as PATH from "../config/Path";
 
 type TransactionErrorsFormType = {
   category: string;
@@ -20,6 +22,12 @@ function AddTransaction() {
 
   const dispatch = useDispatch();
   const { addTransaction } = bindActionCreators(transactionCreators, dispatch);
+
+  const { addTransactionResult } = useSelector(
+    (state: State) => state.transaction
+  );
+
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     category: "Select transaction category",
@@ -36,6 +44,7 @@ function AddTransaction() {
   });
   const [isFormValid, setIsFormValid] = useState(true);
   const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
+  const [transactionSubmit, setTransactionSubmit] = useState(false);
 
   const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
@@ -43,13 +52,15 @@ function AddTransaction() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (isFormTransactionValid()) {
       try {
         if (token) {
           addTransaction(form, token);
+          setTransactionSubmit(true);
         }
       } catch (error) {
-        console.log("Something wrong");
+        console.log("Something went wrong");
       }
     } else {
       setOpenUserInputDialog(!openUserInputDialog);
@@ -79,6 +90,12 @@ function AddTransaction() {
 
     return Object.keys(newErrors).length === 0;
   };
+
+  useEffect(() => {
+    if (addTransactionResult && transactionSubmit) {
+      navigate(PATH.TRANSACTIONS);
+    }
+  }, [JSON.stringify(addTransactionResult)]);
 
   return (
     <div>
