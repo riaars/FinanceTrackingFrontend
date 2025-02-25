@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { API_URL } from "../config/API";
+import React, { useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
-import * as PATH from "../config/Path";
-
-type LoginInputType = {
-  email: string;
-  password: string;
-};
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { authCreators } from "../redux";
 
 function Login() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { signIn } = bindActionCreators(authCreators, dispatch);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
-  const [login, setLogin] = useState({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,32 +29,6 @@ function Login() {
 
   const isFormValid = () => {
     return true;
-  };
-
-  const signIn = async (form: LoginInputType) => {
-    const url = `${API_URL}/signIn`;
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setLogin(data);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("email", data.email);
-
-      navigate(PATH.DASHBOARD);
-    } catch (error) {
-      console.error("error");
-    }
   };
 
   return (

@@ -1,4 +1,3 @@
-import Transactions from "../../pages/Transactions";
 import { ActionTypes } from "../actions/action-types";
 
 const initialState = {

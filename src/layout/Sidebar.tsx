@@ -23,6 +23,7 @@ function Sidebar() {
       <ul>
         {sideMenus.map((sideMenu) => (
           <li
+            key={sideMenu.title}
             className={`sidebar-container__item ${activeMenu(sideMenu.path)}`}
             onClick={() => navigate(sideMenu.path)}
           >
