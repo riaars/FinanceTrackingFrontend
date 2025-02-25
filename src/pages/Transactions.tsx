@@ -23,6 +23,8 @@ export type TransactionType = {
 };
 
 function Transactions() {
+  const token = localStorage.getItem("token");
+
   const dispatch = useDispatch();
   const { deleteTransaction, getAllTransactions } = bindActionCreators(
     transactionCreators,
@@ -48,8 +50,8 @@ function Transactions() {
   });
 
   useEffect(() => {
-    getAllTransactions();
-  }, []);
+    if (token) getAllTransactions(token);
+  }, [token]);
 
   return (
     <div>
@@ -97,7 +99,9 @@ function Transactions() {
                   className="table-cell__icon delete"
                   onClick={() => {
                     setSelectedTransaction(transaction);
-                    deleteTransaction(transaction?.transaction_id);
+                    if (token) {
+                      deleteTransaction(transaction?.transaction_id, token);
+                    }
                     setIsDelete(!isDelete);
                   }}
                 />

@@ -1,5 +1,5 @@
 import Login from "./pages/Login";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
 
 import * as PATH from "./config/Path";
@@ -11,48 +11,65 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const Layout = ({ children }: any) => {
-    const location = useLocation();
-    const hideAppBarRoutes = ["/login", "/signup"];
-    const token = localStorage.getItem("token");
-
     return (
-      <>
-        {token && !hideAppBarRoutes.includes(location.pathname) ? (
-          <div className="app">
-            <div className="sidebar">
-              <Sidebar />
-            </div>
-            <div className="content">
-              <Header />
-              <div>{children}</div>
-            </div>
-          </div>
-        ) : (
+      <div className="app">
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+        <div className="content">
+          <Header />
           <div>{children}</div>
-        )}
-      </>
+        </div>
+      </div>
     );
   };
 
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path={PATH.SIGNUP} element={<Signup />} />
-            <Route path={PATH.LOGIN} element={<Login />} />
-            <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+        <Routes>
+          <Route path={PATH.SIGNUP} element={<Signup />} />
+          <Route path={PATH.LOGIN} element={<Login />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route
+              path={PATH.DASHBOARD}
+              element={
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              }
+            />
             <Route
               path={PATH.ADD_NEW_TRANSACTION}
-              element={<AddTransaction />}
+              element={
+                <Layout>
+                  <AddTransaction />
+                </Layout>
+              }
             />
-            <Route path={PATH.TRANSACTIONS} element={<Transactions />} />
-            <Route path={PATH.SETTINGS} element={<Settings />} />
-          </Routes>
-        </Layout>
+            <Route
+              path={PATH.TRANSACTIONS}
+              element={
+                <Layout>
+                  <Transactions />
+                </Layout>
+              }
+            />
+            <Route
+              path={PATH.SETTINGS}
+              element={
+                <Layout>
+                  <Settings />
+                </Layout>
+              }
+            />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </Provider>
   );

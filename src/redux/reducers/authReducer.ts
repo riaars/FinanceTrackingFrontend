@@ -3,6 +3,8 @@ import { ActionTypes } from "../actions/action-types";
 const initialState = {
   loginRequest: false,
   loginResponse: null,
+  token: localStorage.getItem("token"),
+  email: null,
   loginError: null,
   signupRequest: false,
   signupResponse: null,
@@ -18,9 +20,13 @@ const authReducer = (state = initialState, action: any) => {
       };
     }
     case ActionTypes.LOGIN_RESULT: {
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("email", action.payload.email);
       return {
         ...state,
         loginResponse: action.payload,
+        token: action.payload.token,
+        email: action.payload.email,
       };
     }
 
@@ -37,6 +43,8 @@ const authReducer = (state = initialState, action: any) => {
       };
     }
     case ActionTypes.SIGNUP_RESULT: {
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("email", action.payload.email);
       return {
         ...state,
         signupResponse: action.payload,
@@ -47,6 +55,15 @@ const authReducer = (state = initialState, action: any) => {
       return {
         ...state,
         signupError: action.payload,
+      };
+    }
+
+    case ActionTypes.SIGNOUT_RESULT: {
+      localStorage.removeItem("token");
+      localStorage.removeItem("email");
+      return {
+        ...state,
+        loginResponse: null,
       };
     }
 

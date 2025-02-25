@@ -37,8 +37,6 @@ export const signIn =
           type: ActionTypes.LOGIN_RESULT,
           payload: data,
         });
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("email", data.email);
       }
     } catch (error) {
       console.error("error");
@@ -74,8 +72,6 @@ export const signUp =
           payload: data,
         });
       }
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("email", data.email);
     } catch (error) {
       console.error("error");
       dispatch({
@@ -84,3 +80,9 @@ export const signUp =
       });
     }
   };
+
+export const signOut = () => async (dispatch: Dispatch<Action>) => {
+  dispatch({
+    type: ActionTypes.SIGNOUT_RESULT,
+  });
+};

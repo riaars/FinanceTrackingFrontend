@@ -37,6 +37,8 @@ const PieChart = ({ chartData }: any) => {
 };
 
 function Dashboard() {
+  const token = localStorage.getItem("token");
+
   const dispatch = useDispatch();
   const { getAllTransactions } = bindActionCreators(
     transactionCreators,
@@ -69,8 +71,10 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    getAllTransactions();
-  }, []);
+    if (token) {
+      getAllTransactions(token);
+    }
+  }, [token]);
 
   return (
     <div>

@@ -16,6 +16,8 @@ type TransactionErrorsFormType = {
 };
 
 function AddTransaction() {
+  const token = localStorage.getItem("token");
+
   const dispatch = useDispatch();
   const { addTransaction } = bindActionCreators(transactionCreators, dispatch);
 
@@ -43,7 +45,9 @@ function AddTransaction() {
     e.preventDefault();
     if (isFormTransactionValid()) {
       try {
-        addTransaction(form);
+        if (token) {
+          addTransaction(form, token);
+        }
       } catch (error) {
         console.log("Something wrong");
       }

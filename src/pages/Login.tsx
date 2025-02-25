@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { authCreators } from "../redux";
+import { authCreators, State } from "../redux";
+import * as PATH from "../config/Path";
 
 function Login() {
   const dispatch = useDispatch();
   const { signIn } = bindActionCreators(authCreators, dispatch);
+  const { loginResponse } = useSelector((state: State) => state.auth);
+  const token = localStorage.getItem("token");
+
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
@@ -28,16 +33,18 @@ function Login() {
   };
 
   const isFormValid = () => {
-    return true;
+    return form.email !== "" && form.password !== "";
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate(PATH.DASHBOARD);
+    }
+  }, [loginResponse, navigate]);
 
   return (
     <div>
-      <form
-        action="submit"
-        className="container login__form"
-        onSubmit={handleSubmit}
-      >
+      <div className="container login__form">
         <Input
           type="text"
           name="email"
@@ -47,7 +54,7 @@ function Login() {
         />
 
         <Input
-          type="text"
+          type="password"
           name="password"
           placeholder="password"
           value={form.password}
@@ -59,9 +66,10 @@ function Login() {
             title="Login"
             className="primary-button"
             disabled={!isFormValid()}
+            onClick={(e) => handleSubmit(e)}
           />
         </div>
-      </form>
+      </div>
     </div>
   );
 }
