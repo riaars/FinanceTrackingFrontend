@@ -30,20 +30,20 @@ const authReducer = (state = initialState, action: any) => {
         loginError: action.payload,
       };
     }
-    case ActionTypes.LOGIN_REQUEST: {
+    case ActionTypes.SIGNUP_REQUEST: {
       return {
         ...state,
         signupRequest: true,
       };
     }
-    case ActionTypes.LOGIN_RESULT: {
+    case ActionTypes.SIGNUP_RESULT: {
       return {
         ...state,
         signupResponse: action.payload,
       };
     }
 
-    case ActionTypes.LOGIN_ERROR: {
+    case ActionTypes.SIGNUP_ERROR: {
       return {
         ...state,
         signupError: action.payload,

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { API_URL } from "../config/API";
 import Button from "../components/Button";
 import Input from "../components/Input";
-
-type SignupInputType = {
-  email: string;
-  password: string;
-  repassword: string;
-};
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { authCreators } from "../redux";
 
 function Signup() {
+  const dispatch = useDispatch();
+  const { signUp } = bindActionCreators(authCreators, dispatch);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -30,29 +29,6 @@ function Signup() {
 
   const isFormValid = () => {
     return true;
-  };
-
-  const signUp = async (form: SignupInputType) => {
-    const url = `${API_URL}/signUp`;
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(form),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("email", data.email);
-    } catch (error) {
-      console.error("error");
-    }
   };
 
   return (
