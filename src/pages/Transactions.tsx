@@ -72,7 +72,7 @@ function Transactions() {
         </thead>
         <tbody>
           {transactions?.map((transaction: any) => (
-            <tr key={transaction?.transaction_id} className="table-row">
+            <tr key={transaction.transaction_id} className="table-row">
               <td className="table-cell">{formattedDate(transaction.date)}</td>
               <td className="table-cell">
                 <a href="" className="link">

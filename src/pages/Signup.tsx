@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { authCreators } from "../redux";
+import { authCreators, State } from "../redux";
+import * as PATH from "../config/Path";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const token = localStorage.getItem("token");
+
   const dispatch = useDispatch();
   const { signUp } = bindActionCreators(authCreators, dispatch);
+  const { signupResponse } = useSelector((state: State) => state.auth);
+
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
@@ -30,6 +37,12 @@ function Signup() {
   const isFormValid = () => {
     return true;
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate(PATH.DASHBOARD);
+    }
+  }, [signupResponse, navigate]);
 
   return (
     <form
