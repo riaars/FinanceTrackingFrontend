@@ -6,6 +6,13 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { authCreators, State } from "../redux";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
+import { isEmailValid } from "../utils/helpers";
+
+type SignupErrorsFormType = {
+  email: string;
+  password: string;
+  repassword: string;
+};
 
 function Signup() {
   const token = localStorage.getItem("token");
@@ -22,6 +29,14 @@ function Signup() {
     repassword: "",
   });
 
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+    repassword: "",
+  });
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -29,13 +44,32 @@ function Signup() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isFormValid()) {
+    if (validateSignupForm()) {
       signUp(form);
+    } else {
     }
   };
 
-  const isFormValid = () => {
-    return true;
+  const validateSignupForm = () => {
+    const newErrors: SignupErrorsFormType = {} as SignupErrorsFormType;
+    if (form.email === "") {
+      newErrors.email = "Email is required";
+    } else if (!isEmailValid(form.email)) {
+      newErrors.email = "Email is not valid";
+    }
+
+    if (form.password.length < 6) {
+      newErrors.password = "Password is too short";
+    }
+
+    if (form.password !== form.repassword) {
+      newErrors.repassword = "Password is not match";
+    }
+
+    setFormErrors(newErrors);
+    setIsFormValid(Object.keys(newErrors).length === 0);
+
+    return Object.keys(newErrors).length === 0;
   };
 
   useEffect(() => {
@@ -45,11 +79,7 @@ function Signup() {
   }, [signupResponse, navigate]);
 
   return (
-    <form
-      action="submit"
-      className="container signup__form"
-      onSubmit={handleSubmit}
-    >
+    <div className="container signup__form">
       <Input
         type="text"
         name="email"
@@ -75,9 +105,9 @@ function Signup() {
       <Button
         title="Signup"
         className="primary-button"
-        disabled={!isFormValid()}
+        onClick={(e) => handleSubmit(e)}
       />
-    </form>
+    </div>
   );
 }
 
