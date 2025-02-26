@@ -7,6 +7,7 @@ import { authCreators, State } from "../redux";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
 import { isEmailValid } from "../utils/helpers";
+import Dialog from "../components/Dialog";
 
 type SignupErrorsFormType = {
   email: string;
@@ -19,7 +20,9 @@ function Signup() {
 
   const dispatch = useDispatch();
   const { signUp } = bindActionCreators(authCreators, dispatch);
-  const { signupResponse } = useSelector((state: State) => state.auth);
+  const { signupResponse, signupError } = useSelector(
+    (state: State) => state.auth
+  );
 
   const navigate = useNavigate();
 
@@ -36,6 +39,8 @@ function Signup() {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
+  const [openSignupErrorDialog, setOpenSignupErrorDialog] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,7 +51,9 @@ function Signup() {
     e.preventDefault();
     if (validateSignupForm()) {
       signUp(form);
+      setOpenSignupErrorDialog(true);
     } else {
+      setOpenUserInputDialog(true);
     }
   };
 
@@ -60,9 +67,7 @@ function Signup() {
 
     if (form.password.length < 6) {
       newErrors.password = "Password is too short";
-    }
-
-    if (form.password !== form.repassword) {
+    } else if (form.password !== form.repassword) {
       newErrors.repassword = "Password is not match";
     }
 
@@ -107,6 +112,58 @@ function Signup() {
         className="primary-button"
         onClick={(e) => handleSubmit(e)}
       />
+
+      {!isFormValid && openUserInputDialog && (
+        <Dialog
+          title="Incomplete Request"
+          handleCloseDialog={() => setOpenUserInputDialog(!openUserInputDialog)}
+        >
+          <div className="dialog__content">
+            <p>
+              Oops! We couldn’t register because some required fields are
+              missing. Please fill in the following:
+            </p>
+            <ul>
+              {Object.entries(formErrors).map(([key, value]) => (
+                <li key={key}>{value}</li>
+              ))}
+            </ul>
+            <p>
+              Make sure all required fields are completed before submitting.
+            </p>
+          </div>
+          <div className="dialog__actions">
+            <button
+              className="primary-button"
+              onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
+            >
+              OK
+            </button>
+          </div>
+        </Dialog>
+      )}
+
+      {signupError && openSignupErrorDialog && (
+        <Dialog
+          title="Registration Failed"
+          handleCloseDialog={() =>
+            setOpenSignupErrorDialog(!openSignupErrorDialog)
+          }
+        >
+          <div className="dialog__content">
+            <p>Oops! Something went wrong on registering the user.</p>
+            {/* {signupError.message} */}
+          </div>
+          <div className="dialog__actions">
+            <button
+              className="primary-button"
+              onClick={() => setOpenSignupErrorDialog(!openSignupErrorDialog)}
+            >
+              OK
+            </button>
+          </div>
+        </Dialog>
+      )}
     </div>
   );
 }

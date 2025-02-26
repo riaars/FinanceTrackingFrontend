@@ -62,7 +62,9 @@ export const signUp =
       });
 
       if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
+        const errorData = await response.json();
+        const errorMessage = errorData.message || "Something went wrong";
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
@@ -72,8 +74,8 @@ export const signUp =
           payload: data,
         });
       }
-    } catch (error) {
-      console.error("error");
+    } catch (error: any) {
+      console.error(error);
       dispatch({
         type: ActionTypes.SIGNUP_ERROR,
         payload: error,
