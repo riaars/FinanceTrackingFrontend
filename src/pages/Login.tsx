@@ -6,11 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { authCreators, State } from "../redux";
 import * as PATH from "../config/Path";
+import Dialog from "../components/Dialog";
 
 function Login() {
   const dispatch = useDispatch();
   const { signIn } = bindActionCreators(authCreators, dispatch);
-  const { loginResponse } = useSelector((state: State) => state.auth);
+  const { loginResponse, loginError } = useSelector(
+    (state: State) => state.auth
+  );
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -19,6 +22,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [openLoginErrorDialog, setOpenLoginError] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +33,7 @@ function Login() {
     e.preventDefault();
     if (isFormValid()) {
       signIn(form);
+      setOpenLoginError(true);
     }
   };
 
@@ -70,6 +75,26 @@ function Login() {
           />
         </div>
       </div>
+
+      {loginError && openLoginErrorDialog && (
+        <Dialog
+          title="Login Failed"
+          handleCloseDialog={() => setOpenLoginError(!openLoginErrorDialog)}
+        >
+          <div className="dialog__content">
+            <p>Oops! Something went wrong on logging in the user.</p>
+            {loginError.message}
+          </div>
+          <div className="dialog__actions">
+            <button
+              className="primary-button"
+              onClick={() => setOpenLoginError(!openLoginErrorDialog)}
+            >
+              OK
+            </button>
+          </div>
+        </Dialog>
+      )}
     </div>
   );
 }

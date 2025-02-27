@@ -152,7 +152,7 @@ function Signup() {
         >
           <div className="dialog__content">
             <p>Oops! Something went wrong on registering the user.</p>
-            {/* {signupError.message} */}
+            {signupError.message}
           </div>
           <div className="dialog__actions">
             <button
