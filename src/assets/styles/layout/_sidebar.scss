@@ -4,10 +4,13 @@
   width: 20%;
   background-color: $background-color;
 }
+
 .sidebar-container {
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
 }
 
 .sidebar-container__item {
@@ -22,4 +25,32 @@
   font-weight: bold;
   font-size: large;
   color: $text-color;
+}
+
+.sidebar-collapse-menu {
+  padding: 1rem;
+  display: none;
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .sidebar {
+    position: fixed;
+    z-index: 10;
+    width: 200px;
+  }
+
+  .sidebar-container.open {
+    display: block;
+    width: 100%;
+    z-index: 10;
+    border: solid 1px #ebebeb;
+  }
+  .sidebar-container.close {
+    display: none;
+  }
+
+  .sidebar-collapse-menu {
+    display: block;
+    width: 100px;
+  }
 }

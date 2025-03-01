@@ -30,8 +30,8 @@ function AddTransaction() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    category: "Select transaction category",
-    type: "Select transaction type",
+    category: "Select category",
+    type: "Select type",
     detail: "",
     amount: 0,
   });
@@ -70,19 +70,19 @@ function AddTransaction() {
   const isFormTransactionValid = () => {
     const newErrors: TransactionErrorsFormType =
       {} as TransactionErrorsFormType;
-    if (form.type === "Select transaction type") {
-      newErrors.type = "Transaction type is required";
+    if (form.type === "Select type") {
+      newErrors.type = "Type is required";
     }
-    if (form.category === "Select transaction category") {
+    if (form.category === "Select category") {
       newErrors.category = "Category is required";
     }
 
     if (form.detail === "") {
-      newErrors.detail = "Detail of transaction is required";
+      newErrors.detail = "Detail is required";
     }
 
     if (form.amount === 0) {
-      newErrors.amount = "Amount of transaction is required";
+      newErrors.amount = "Amount is required";
     }
 
     setFormErrors(newErrors);
@@ -98,8 +98,8 @@ function AddTransaction() {
   }, [JSON.stringify(addTransactionResult)]);
 
   return (
-    <div>
-      <h1>Add Transaction</h1>
+    <>
+      <div className="page_title">Add Transaction</div>
       <div className="container add-transaction__form">
         <Dropdown
           options={TypeOptions}
@@ -117,16 +117,17 @@ function AddTransaction() {
 
         <Input
           type="text"
-          name="detail"
-          placeholder="Detail"
-          value={form.detail}
-          onChange={(e) => handleChange(e.target.name, e.target.value)}
-        />
-        <Input
-          type="text"
           name="amount"
           placeholder="Amount"
           value={form.amount}
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
+        />
+
+        <Input
+          type="text"
+          name="detail"
+          placeholder="Detail"
+          value={form.detail}
           onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
 
@@ -145,7 +146,7 @@ function AddTransaction() {
           <div className="dialog__content">
             <p>
               Oops! We couldn’t submit your transaction because some required
-              fields are missing. Please fill in the following:
+              fields are missing:
             </p>
             <ul>
               {Object.entries(formErrors).map(([key, value]) => (
@@ -166,7 +167,7 @@ function AddTransaction() {
           </div>
         </Dialog>
       )}
-    </div>
+    </>
   );
 }
 

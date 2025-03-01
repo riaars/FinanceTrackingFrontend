@@ -3,10 +3,19 @@
 .content {
   width: 80%;
   background-color: $background-color;
+  padding: 1.5rem;
+  min-height: 100vh;
 }
 
 .content__container {
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .content {
+    width: 100%;
+    overflow-y: auto;
+  }
 }

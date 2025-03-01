@@ -57,7 +57,7 @@ function Transactions() {
 
   return (
     <div>
-      <h1>Transactions</h1>
+      <div className="page_title">Transactions</div>
       <table className="transaction-table">
         <thead className="table-head">
           <tr className="table-row">
@@ -65,8 +65,8 @@ function Transactions() {
             <td className="table-cell">Transaction ID</td>
             <td className="table-cell">Type</td>
             <td className="table-cell">Category</td>
-            <td className="table-cell">Detail</td>
             <td className="table-cell">Amount</td>
+            <td className="table-cell">Detail</td>
             <td className="table-cell">Actions</td>
           </tr>
         </thead>
@@ -87,8 +87,8 @@ function Transactions() {
                 />
               </td>
               <td className="table-cell">{transaction.category}</td>
-              <td className="table-cell">{transaction.detail}</td>
               <td className="table-cell">{transaction.amount}</td>
+              <td className="table-cell">{transaction.detail}</td>
               <td className="table-cell">
                 <MdEdit
                   className="table-cell__icon edit"
@@ -136,16 +136,17 @@ function Transactions() {
 
               <Input
                 type="text"
-                name="detail"
-                placeholder="Detail"
-                value={selectedTransaction?.detail || ""}
-                onChange={(e) => handleChange(e.target.name, e.target.value)}
-              />
-              <Input
-                type="text"
                 name="amount"
                 placeholder="Amount"
                 value={selectedTransaction?.amount || ""}
+                onChange={(e) => handleChange(e.target.name, e.target.value)}
+              />
+
+              <Input
+                type="text"
+                name="detail"
+                placeholder="Detail"
+                value={selectedTransaction?.detail || ""}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
               />
             </div>

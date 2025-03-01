@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import PrivateRoute from "./components/PrivateRoute";
+import { useState } from "react";
 
 function App() {
   const Layout = ({ children }: any) => {
@@ -20,6 +21,7 @@ function App() {
         <div className="sidebar">
           <Sidebar />
         </div>
+
         <div className="content">
           <Header />
           <div>{children}</div>

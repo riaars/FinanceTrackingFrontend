@@ -77,8 +77,8 @@ function Dashboard() {
   }, [token]);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <>
+      <div className="page_title">Dashboard</div>
       <div className="dashboard">
         <div>
           <p>Expenses Chart</p>
@@ -89,7 +89,7 @@ function Dashboard() {
           <PieChart chartData={getChartData(income)} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

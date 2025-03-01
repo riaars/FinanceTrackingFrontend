@@ -26,15 +26,17 @@ function Settings() {
   }, [navigate]);
 
   return (
-    <div>
-      <h1>Settings</h1>
-      <p>Email: {loggedInUser}</p>
-      <Button
-        title="Logout"
-        className="primary-button"
-        onClick={handleSignOut}
-      />
-    </div>
+    <>
+      <div className="page_title">Settings</div>
+      <div>
+        <p>Email: {loggedInUser}</p>
+        <Button
+          title="Logout"
+          className="primary-button"
+          onClick={handleSignOut}
+        />
+      </div>
+    </>
   );
 }
 
