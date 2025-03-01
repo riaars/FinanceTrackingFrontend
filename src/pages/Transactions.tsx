@@ -86,7 +86,13 @@ function Transactions() {
                   className={`tag-button ${transaction?.type?.toLowerCase()}`}
                 />
               </td>
-              <td className="table-cell">{transaction.category}</td>
+              <td className="table-cell">
+                {/* <Button
+                  title={transaction?.category?.toLowerCase()}
+                  className={`tag-button ${transaction?.category?.toLowerCase()}`}
+                /> */}
+                {transaction.category}
+              </td>
               <td className="table-cell">{transaction.amount}</td>
               <td className="table-cell">{transaction.detail}</td>
               <td className="table-cell">

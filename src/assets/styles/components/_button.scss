@@ -6,6 +6,7 @@
   border-radius: 0.5rem;
   border-width: 0px;
   margin: 0.5rem;
+  color: $text-button-color;
 }
 
 .secondary-button {
@@ -21,7 +22,7 @@
   border-width: 0;
   margin: 0.5rem;
   color: white;
-  font-size: 0.5rem;
+  font-size: 0.75rem;
 }
 .income {
   background-color: $positive-color;
@@ -29,4 +30,23 @@
 
 .expense {
   background-color: $negative-color;
+}
+.transport,
+.salary {
+  background-color: #ff6384;
+}
+
+.rent {
+  background-color: #36a2eb;
+}
+
+.others {
+  background-color: #ffce56;
+}
+.food {
+  background-color: #4caf50;
+}
+
+.entertainment {
+  background-color: #9966ff;
 }
