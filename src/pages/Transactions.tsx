@@ -3,6 +3,7 @@ import Button from "../components/Button";
 
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+
 import Dialog from "../components/Dialog";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
@@ -49,6 +50,7 @@ function Transactions() {
   const [filtered, setFiltered] = useState({
     type: "Select Type",
     category: "Select Category",
+    detail: "",
   });
 
   const handleChange = (name: string, value: string) => {
@@ -64,20 +66,32 @@ function Transactions() {
 
     if (
       filtered.type === "Select Type" &&
-      filtered.category === "Select Category"
+      filtered.category === "Select Category" &&
+      filtered.detail === ""
     ) {
       return transactionList;
     }
 
     return transactions.filter(
-      (transaction: { type: string; category: string }) => {
+      (transaction: {
+        type: string;
+        category: string;
+        transaction_id: string;
+        detail: string;
+      }) => {
+        const matchTransactionIDDetails =
+          filtered.detail === "" ||
+          transaction.transaction_id.includes(filtered.detail) ||
+          transaction.detail
+            .toLowerCase()
+            .includes(filtered.detail.toLowerCase());
         const matchType =
           filtered.type === "Select Type" || transaction.type === filtered.type;
         const matchCategory =
           filtered.category === "Select Category" ||
           transaction.category === filtered.category;
 
-        return matchType && matchCategory;
+        return matchTransactionIDDetails && matchType && matchCategory;
       }
     );
   };
@@ -90,6 +104,14 @@ function Transactions() {
     <div>
       <div className="page_title">Transactions</div>
       <div className="transaction-filter">
+        <Input
+          type="text"
+          name="detail"
+          placeholder="Search by transaction ID or details"
+          value={filtered.detail}
+          onChange={(e) => handleFilterChange(e.target.name, e.target.value)}
+        />
+
         <Dropdown
           options={TypeOptions}
           name="type"
@@ -132,13 +154,7 @@ function Transactions() {
                   className={`tag-button ${transaction?.type?.toLowerCase()}`}
                 />
               </td>
-              <td className="table-cell">
-                {/* <Button
-                  title={transaction?.category?.toLowerCase()}
-                  className={`tag-button ${transaction?.category?.toLowerCase()}`}
-                /> */}
-                {transaction.category}
-              </td>
+              <td className="table-cell">{transaction.category}</td>
               <td className="table-cell">{transaction.amount}</td>
               <td className="table-cell">{transaction.detail}</td>
               <td className="table-cell">
