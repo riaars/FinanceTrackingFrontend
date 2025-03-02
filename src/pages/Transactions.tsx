@@ -23,6 +23,12 @@ export type TransactionType = {
   amount: number;
 };
 
+const initialFiltered = {
+  type: "Select Type",
+  category: "Select Category",
+  detail: "",
+};
+
 function Transactions() {
   const token = localStorage.getItem("token");
 
@@ -47,11 +53,7 @@ function Transactions() {
 
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const [filtered, setFiltered] = useState({
-    type: "Select Type",
-    category: "Select Category",
-    detail: "",
-  });
+  const [filtered, setFiltered] = useState(initialFiltered);
 
   const handleChange = (name: string, value: string) => {
     setSelectedTransaction({ ...selectedTransaction, [name]: value });
@@ -121,10 +123,16 @@ function Transactions() {
         />
         <Dropdown
           className="small"
-          options={CategoryOptions}
           name="category"
+          options={CategoryOptions}
           value={filtered.category}
           onChange={handleFilterChange}
+        />
+        <Button
+          title="Reset"
+          type="button"
+          className="primary-button"
+          onClick={() => setFiltered(initialFiltered)}
         />
       </div>
 
