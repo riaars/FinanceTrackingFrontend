@@ -20,3 +20,10 @@
   flex-direction: row;
   padding: 1rem 0rem;
 }
+
+.transaction-filtered-count {
+  text-align: right;
+  font-size: $font-medium;
+  margin-right: 3rem;
+  margin-bottom: 2rem;
+}

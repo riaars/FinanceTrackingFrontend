@@ -7,8 +7,15 @@ type DropdownType = {
   name: string;
   value?: string;
   onChange: (name: string, value: string) => void;
+  className?: string;
 };
-const Dropdown = ({ options, name, value, onChange }: DropdownType) => {
+const Dropdown = ({
+  options,
+  name,
+  value,
+  onChange,
+  className,
+}: DropdownType) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +34,10 @@ const Dropdown = ({ options, name, value, onChange }: DropdownType) => {
 
   return (
     <div ref={dropdownRef} className="dropdown">
-      <button onClick={() => setIsOpen(!isOpen)} className="dropdown__button">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`dropdown__button ${className}`}
+      >
         <div className="dropdown__button__selected-item">
           {value}
           {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}

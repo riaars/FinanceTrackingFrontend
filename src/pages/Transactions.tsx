@@ -113,18 +113,24 @@ function Transactions() {
         />
 
         <Dropdown
+          className="small"
           options={TypeOptions}
           name="type"
           value={filtered.type}
           onChange={handleFilterChange}
         />
         <Dropdown
+          className="small"
           options={CategoryOptions}
           name="category"
           value={filtered.category}
           onChange={handleFilterChange}
         />
       </div>
+
+      <div className="transaction-filtered-count">{`${
+        filteredTransactions().length
+      } of ${transactions.length} transactions `}</div>
 
       <table className="transaction-table">
         <thead className="table-head">
