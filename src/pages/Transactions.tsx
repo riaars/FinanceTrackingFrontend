@@ -46,9 +46,40 @@ function Transactions() {
 
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [filtered, setFiltered] = useState({
+    type: "Select Type",
+    category: "Select Category",
+  });
 
   const handleChange = (name: string, value: string) => {
     setSelectedTransaction({ ...selectedTransaction, [name]: value });
+  };
+
+  const handleFilterChange = (name: string, value: string) => {
+    setFiltered({ ...filtered, [name]: value });
+  };
+
+  const filteredTransactions = () => {
+    let transactionList = transactions;
+
+    if (
+      filtered.type === "Select Type" &&
+      filtered.category === "Select Category"
+    ) {
+      return transactionList;
+    }
+
+    return transactions.filter(
+      (transaction: { type: string; category: string }) => {
+        const matchType =
+          filtered.type === "Select Type" || transaction.type === filtered.type;
+        const matchCategory =
+          filtered.category === "Select Category" ||
+          transaction.category === filtered.category;
+
+        return matchType && matchCategory;
+      }
+    );
   };
 
   useEffect(() => {
@@ -58,6 +89,21 @@ function Transactions() {
   return (
     <div>
       <div className="page_title">Transactions</div>
+      <div className="transaction-filter">
+        <Dropdown
+          options={TypeOptions}
+          name="type"
+          value={filtered.type}
+          onChange={handleFilterChange}
+        />
+        <Dropdown
+          options={CategoryOptions}
+          name="category"
+          value={filtered.category}
+          onChange={handleFilterChange}
+        />
+      </div>
+
       <table className="transaction-table">
         <thead className="table-head">
           <tr className="table-row">
@@ -71,7 +117,7 @@ function Transactions() {
           </tr>
         </thead>
         <tbody>
-          {transactions?.map((transaction: any) => (
+          {filteredTransactions()?.map((transaction: any) => (
             <tr key={transaction.transaction_id} className="table-row">
               <td className="table-cell">{formattedDate(transaction.date)}</td>
               <td className="table-cell">
@@ -115,7 +161,6 @@ function Transactions() {
           ))}
         </tbody>
       </table>
-
       {isEdit && (
         <Dialog
           title="Update Transaction"
@@ -178,7 +223,6 @@ function Transactions() {
           </div>
         </Dialog>
       )}
-
       {isDelete && (
         <Dialog
           title="Delete Transaction"

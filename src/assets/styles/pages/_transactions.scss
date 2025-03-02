@@ -14,3 +14,9 @@
 .link {
   color: $secondary-color;
 }
+
+.transaction-filter {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+}
