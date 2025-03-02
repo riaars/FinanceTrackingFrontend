@@ -3,8 +3,14 @@
 .input-field {
   padding: 12px;
   border-radius: 8px;
-  border-width: 1px;
+  border: 1px solid;
   min-width: 240px;
   margin: 0.5rem;
   background-color: $primary-color;
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .input-field {
+    padding: 12px 0px 12px 12px;
+  }
 }

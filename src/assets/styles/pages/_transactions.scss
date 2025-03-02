@@ -47,6 +47,11 @@
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
+  .transaction-filter {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0rem;
+  }
   .empty-transactions {
     justify-content: center;
     width: 90vw;
