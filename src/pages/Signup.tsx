@@ -10,6 +10,7 @@ import { isEmailValid } from "../utils/helpers";
 import Dialog from "../components/Dialog";
 
 type SignupErrorsFormType = {
+  username: string;
   email: string;
   password: string;
   repassword: string;
@@ -27,12 +28,14 @@ function Signup() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
+    username: "",
     email: "",
     password: "",
     repassword: "",
   });
 
   const [formErrors, setFormErrors] = useState({
+    username: "",
     email: "",
     password: "",
     repassword: "",
@@ -59,6 +62,9 @@ function Signup() {
 
   const validateSignupForm = () => {
     const newErrors: SignupErrorsFormType = {} as SignupErrorsFormType;
+    if (form.username === "") {
+      newErrors.username = "Username is required";
+    }
     if (form.email === "") {
       newErrors.email = "Email is required";
     } else if (!isEmailValid(form.email)) {
@@ -85,6 +91,13 @@ function Signup() {
 
   return (
     <div className="container signup__form">
+      <Input
+        type="text"
+        name="username"
+        placeholder="username"
+        value={form.username}
+        onChange={handleChange}
+      />
       <Input
         type="text"
         name="email"

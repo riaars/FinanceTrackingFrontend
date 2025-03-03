@@ -22,11 +22,13 @@ const authReducer = (state = initialState, action: any) => {
     case ActionTypes.LOGIN_RESULT: {
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("email", action.payload.email);
+      localStorage.setItem("username", action.payload.username);
       return {
         ...state,
         loginResponse: action.payload,
         token: action.payload.token,
         email: action.payload.email,
+        username: action.payload.username,
       };
     }
 
@@ -45,6 +47,9 @@ const authReducer = (state = initialState, action: any) => {
     case ActionTypes.SIGNUP_RESULT: {
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("email", action.payload.email);
+
+      localStorage.setItem("username", action.payload.username);
+
       return {
         ...state,
         signupResponse: action.payload,
