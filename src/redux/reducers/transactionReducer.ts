@@ -1,3 +1,4 @@
+import Transactions from "../../pages/Transactions";
 import { ActionTypes } from "../actions/action-types";
 
 const initialState = {
@@ -27,6 +28,7 @@ const transactionReducer = (state = initialState, action: any) => {
       return {
         ...state,
         addTransactionResult: action.payload,
+        transactions: [state.transactions, action.payload],
       };
     }
     case ActionTypes.ADD_TRANSACTION_ERROR: {

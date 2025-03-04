@@ -91,16 +91,15 @@ function AddTransaction() {
     return Object.keys(newErrors).length === 0;
   };
 
-  useEffect(() => {
-    if (addTransactionResult && transactionSubmit) {
-      navigate(PATH.TRANSACTIONS);
-    }
-  }, [JSON.stringify(addTransactionResult)]);
+  // useEffect(() => {
+  //   if (addTransactionResult && transactionSubmit) {
+  //     navigate(PATH.TRANSACTIONS);
+  //   }
+  // }, [JSON.stringify(addTransactionResult)]);
 
   return (
-    <>
-      <div className="page_title">Add Transaction</div>
-      <div className="container add-transaction__form">
+    <div className="add-transaction__dialog">
+      <div className=" add-transaction__form">
         <Dropdown
           options={TypeOptions}
           name="type"
@@ -130,44 +129,8 @@ function AddTransaction() {
           value={form.detail}
           onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
-
-        <Button
-          title="Add Transaction"
-          className="primary-button"
-          onClick={(e) => handleSubmit(e)}
-        />
       </div>
-
-      {!isFormValid && openUserInputDialog && (
-        <Dialog
-          title="Incomplete Request"
-          handleCloseDialog={() => setOpenUserInputDialog(!openUserInputDialog)}
-        >
-          <div className="dialog__content">
-            <p>
-              Oops! We couldn’t submit your transaction because some required
-              fields are missing:
-            </p>
-            <ul>
-              {Object.entries(formErrors).map(([key, value]) => (
-                <li key={key}>{value}</li>
-              ))}
-            </ul>
-            <p>
-              Make sure all required fields are completed before submitting.
-            </p>
-          </div>
-          <div className="dialog__actions">
-            <button
-              className="primary-button"
-              onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
-            >
-              OK
-            </button>
-          </div>
-        </Dialog>
-      )}
-    </>
+    </div>
   );
 }
 

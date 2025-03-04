@@ -82,8 +82,10 @@ function Login() {
           handleCloseDialog={() => setOpenLoginError(!openLoginErrorDialog)}
         >
           <div className="dialog__content">
-            <p>Oops! Something went wrong on logging in the user.</p>
-            {loginError.message}
+            <p>Oops! Something went wrong on executing your request.</p>
+            <span>
+              Details:<i>{loginError.message}</i>
+            </span>
           </div>
           <div className="dialog__actions">
             <button

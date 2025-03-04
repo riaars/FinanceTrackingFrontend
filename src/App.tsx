@@ -12,7 +12,6 @@ import Settings from "./pages/Settings";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import PrivateRoute from "./components/PrivateRoute";
-import { useState } from "react";
 
 function App() {
   const Layout = ({ children }: any) => {

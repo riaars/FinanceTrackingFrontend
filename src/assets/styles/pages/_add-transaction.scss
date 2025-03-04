@@ -1,6 +1,8 @@
 @use "../utils/variables" as *;
 
+.add-transaction__dialog {
+  max-height: 50%;
+}
 .add-transaction__form {
   flex-direction: column;
-  justify-content: center;
 }
