@@ -141,7 +141,7 @@ function AddTransaction({
           <Input
             type="text"
             name="detail"
-            placeholder="Detail"
+            placeholder="Details"
             value={form.detail}
             onChange={(e) =>
               handleTransactionChange(e.target.name, e.target.value)

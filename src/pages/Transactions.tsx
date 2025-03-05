@@ -236,7 +236,7 @@ function Transactions() {
               title=" + Add Transaction"
               type="button"
               className="primary-button add-button-transaction"
-              onClick={() => navigate(PATH.ADD_NEW_TRANSACTION)}
+              onClick={() => setOpenAddTransactionDialog(true)}
             />
           </div>
           <div className="transaction-filtered-count">{`${
