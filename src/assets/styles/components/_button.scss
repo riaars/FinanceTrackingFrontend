@@ -17,6 +17,7 @@
   border: 1px solid $secondary-color;
   background-color: $hover-color;
   color: $secondary-color;
+  font-weight: bold;
 }
 
 .tag-button {
@@ -58,4 +59,10 @@
 
 .entertainment {
   background-color: #9966ff;
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .add-button-transaction {
+    margin-left: 0.5rem;
+  }
 }

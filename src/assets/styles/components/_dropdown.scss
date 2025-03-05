@@ -46,6 +46,7 @@
   .dropdown__button {
     &.small {
       min-width: 240px;
+      border-radius: 0.5rem;
     }
   }
 }

@@ -233,7 +233,7 @@ function Transactions() {
               onClick={() => setFiltered(initialFiltered)}
             />
             <Button
-              title=" + Add new transactions"
+              title=" + Add Transaction"
               type="button"
               className="primary-button add-button-transaction"
               onClick={() => navigate(PATH.ADD_NEW_TRANSACTION)}
