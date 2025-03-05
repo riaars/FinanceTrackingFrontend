@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as PATH from "../config/Path";
 import { MdMenu } from "react-icons/md";
+import { MdOutlineFormatListBulleted } from "react-icons/md";
+import { IoBarChartOutline } from "react-icons/io5";
+import { LuSettings } from "react-icons/lu";
+import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
+import { AiOutlineTransaction } from "react-icons/ai";
 
 function Sidebar() {
+  const loggedInUser = localStorage.getItem("username");
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -11,10 +18,17 @@ function Sidebar() {
   const [openSidebar, setOpenSidebar] = useState(false);
 
   const sideMenus = [
-    { title: "Dashboard", path: PATH.DASHBOARD },
-    { title: "Add Transaction", path: PATH.ADD_NEW_TRANSACTION },
-    { title: "Transaction", path: PATH.TRANSACTIONS },
-    { title: "Settings", path: PATH.SETTINGS },
+    {
+      title: "Dashboard",
+      path: PATH.DASHBOARD,
+      icon: <LuChartNoAxesColumnIncreasing />,
+    },
+    {
+      title: "Transactions",
+      path: PATH.TRANSACTIONS,
+      icon: <AiOutlineTransaction />,
+    },
+    { title: "Settings", path: PATH.SETTINGS, icon: <LuSettings /> },
   ];
 
   const activeMenu = (menu_path: string) => {
@@ -22,7 +36,7 @@ function Sidebar() {
   };
 
   return (
-    <>
+    <div className="sidebar">
       <div
         className="sidebar-collapse-menu"
         onClick={() => {
@@ -33,6 +47,7 @@ function Sidebar() {
       </div>
       <div className={`sidebar-container ${openSidebar ? "open" : "close"}`}>
         <ul className={`sidebar-container__menu`}>
+          <div className="sidebar-container__header">{loggedInUser}</div>
           {sideMenus.map((sideMenu) => (
             <li
               key={sideMenu.title}
@@ -42,12 +57,12 @@ function Sidebar() {
                 navigate(sideMenu.path);
               }}
             >
-              {sideMenu.title}
+              {sideMenu.icon} {sideMenu.title}
             </li>
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 }
 

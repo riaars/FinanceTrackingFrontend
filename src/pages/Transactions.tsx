@@ -14,6 +14,7 @@ import { CategoryOptions, TypeOptions } from "../utils/Constant";
 import { formattedDate } from "../utils/helpers";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
+import AddTransaction from "./AddTransaction";
 
 export type TransactionType = {
   date: string;
@@ -22,7 +23,7 @@ export type TransactionType = {
   category: string;
   type: string;
   detail: string;
-  amount: number;
+  amount: string;
 };
 
 type TransactionErrorsFormType = {
@@ -60,7 +61,7 @@ function Transactions() {
       category: "",
       type: "",
       detail: "",
-      amount: 0,
+      amount: "",
     });
 
   const [isEdit, setIsEdit] = useState(false);
@@ -76,7 +77,7 @@ function Transactions() {
     category: "Select category",
     type: "Select type",
     detail: "",
-    amount: 0,
+    amount: "",
   });
 
   const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
@@ -123,7 +124,7 @@ function Transactions() {
       newErrors.detail = "Detail is required";
     }
 
-    if (form.amount === 0) {
+    if (parseInt(form.amount) === 0) {
       newErrors.amount = "Amount is required";
     }
 
@@ -178,7 +179,11 @@ function Transactions() {
 
   useEffect(() => {
     if (token) getAllTransactions(token);
-  }, [token, JSON.stringify(updateTransactionResult)]);
+  }, [
+    token,
+    JSON.stringify(updateTransactionResult),
+    JSON.stringify(addTransactionResult),
+  ]);
 
   return (
     <div>
@@ -320,7 +325,7 @@ function Transactions() {
                 />
 
                 <Input
-                  type="text"
+                  type="number"
                   name="amount"
                   placeholder="Amount"
                   value={selectedTransaction?.amount || ""}
@@ -397,89 +402,12 @@ function Transactions() {
               setOpenAddTransactionDialog(!openAddTransactionDialog)
             }
           >
-            <div className=" add-transaction__form">
-              <Dropdown
-                options={TypeOptions}
-                name="type"
-                value={form.type}
-                onChange={handleTransactionChange}
-              />
-
-              <Dropdown
-                options={CategoryOptions}
-                name="category"
-                value={form.category}
-                onChange={handleTransactionChange}
-              />
-
-              <Input
-                type="text"
-                name="amount"
-                placeholder="Amount"
-                value={form.amount}
-                onChange={(e) =>
-                  handleTransactionChange(e.target.name, e.target.value)
-                }
-              />
-
-              <Input
-                type="text"
-                name="detail"
-                placeholder="Detail"
-                value={form.detail}
-                onChange={(e) =>
-                  handleTransactionChange(e.target.name, e.target.value)
-                }
-              />
-            </div>
-
-            <div className="dialog__actions">
-              <button
-                className="secondary-button"
-                onClick={() =>
-                  setOpenAddTransactionDialog(!openAddTransactionDialog)
-                }
-              >
-                Cancel
-              </button>
-              <Button
-                title="Add Transaction"
-                className="primary-button"
-                onClick={(e) => handleSubmit(e)}
-              ></Button>
-            </div>
-          </Dialog>
-        )}
-
-        {!isFormValid && openUserInputDialog && (
-          <Dialog
-            title="Incomplete Request"
-            handleCloseDialog={() =>
-              setOpenUserInputDialog(!openUserInputDialog)
-            }
-          >
-            <div className="dialog__content">
-              <p>
-                Oops! We couldn’t submit your transaction because some required
-                fields are missing:
-              </p>
-              <ul>
-                {Object.entries(formErrors).map(([key, value]) => (
-                  <li key={key}>{value}</li>
-                ))}
-              </ul>
-              <p>
-                Make sure all required fields are completed before submitting.
-              </p>
-            </div>
-            <div className="dialog__actions">
-              <button
-                className="primary-button"
-                onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
-              >
-                OK
-              </button>
-            </div>
+            <AddTransaction
+              openAddTransactionDialog={openAddTransactionDialog}
+              setOpenAddTransactionDialog={setOpenAddTransactionDialog}
+              openUserInputDialog={openUserInputDialog}
+              setOpenUserInputDialog={setOpenUserInputDialog}
+            />
           </Dialog>
         )}
       </div>

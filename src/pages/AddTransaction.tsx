@@ -17,7 +17,19 @@ type TransactionErrorsFormType = {
   amount: string;
 };
 
-function AddTransaction() {
+type AddTransactionDialogProps = {
+  openAddTransactionDialog: boolean;
+  setOpenAddTransactionDialog: (e: boolean) => void;
+  openUserInputDialog: boolean;
+  setOpenUserInputDialog: (e: boolean) => void;
+};
+
+function AddTransaction({
+  openAddTransactionDialog,
+  setOpenAddTransactionDialog,
+  openUserInputDialog,
+  setOpenUserInputDialog,
+}: AddTransactionDialogProps) {
   const token = localStorage.getItem("token");
 
   const dispatch = useDispatch();
@@ -33,7 +45,7 @@ function AddTransaction() {
     category: "Select category",
     type: "Select type",
     detail: "",
-    amount: 0,
+    amount: "",
   });
 
   const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
@@ -43,10 +55,10 @@ function AddTransaction() {
     amount: "",
   });
   const [isFormValid, setIsFormValid] = useState(true);
-  const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
+  // const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
   const [transactionSubmit, setTransactionSubmit] = useState(false);
 
-  const handleChange = (name: string, value: string) => {
+  const handleTransactionChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
   };
 
@@ -58,6 +70,7 @@ function AddTransaction() {
         if (token) {
           addTransaction(form, token);
           setTransactionSubmit(true);
+          setOpenAddTransactionDialog(false);
         }
       } catch (error) {
         console.log("Something went wrong");
@@ -81,7 +94,7 @@ function AddTransaction() {
       newErrors.detail = "Detail is required";
     }
 
-    if (form.amount === 0) {
+    if (parseInt(form.amount) === 0) {
       newErrors.amount = "Amount is required";
     }
 
@@ -100,36 +113,87 @@ function AddTransaction() {
   return (
     <div className="add-transaction__dialog">
       <div className=" add-transaction__form">
-        <Dropdown
-          options={TypeOptions}
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-        />
+        <div className="dialog__content__body">
+          <Dropdown
+            options={TypeOptions}
+            name="type"
+            value={form.type}
+            onChange={handleTransactionChange}
+          />
 
-        <Dropdown
-          options={CategoryOptions}
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-        />
+          <Dropdown
+            options={CategoryOptions}
+            name="category"
+            value={form.category}
+            onChange={handleTransactionChange}
+          />
 
-        <Input
-          type="text"
-          name="amount"
-          placeholder="Amount"
-          value={form.amount}
-          onChange={(e) => handleChange(e.target.name, e.target.value)}
-        />
+          <Input
+            type="number"
+            name="amount"
+            placeholder="Amount"
+            value={form.amount}
+            onChange={(e) =>
+              handleTransactionChange(e.target.name, e.target.value)
+            }
+          />
 
-        <Input
-          type="text"
-          name="detail"
-          placeholder="Detail"
-          value={form.detail}
-          onChange={(e) => handleChange(e.target.name, e.target.value)}
-        />
+          <Input
+            type="text"
+            name="detail"
+            placeholder="Detail"
+            value={form.detail}
+            onChange={(e) =>
+              handleTransactionChange(e.target.name, e.target.value)
+            }
+          />
+        </div>
+        <div className="dialog__actions">
+          <button
+            className="secondary-button"
+            onClick={() =>
+              setOpenAddTransactionDialog(!openAddTransactionDialog)
+            }
+          >
+            Cancel
+          </button>
+          <Button
+            title="Add Transaction"
+            className="primary-button"
+            onClick={(e) => handleSubmit(e)}
+          ></Button>
+        </div>
       </div>
+
+      {!isFormValid && openUserInputDialog && (
+        <Dialog
+          title="Incomplete Request"
+          handleCloseDialog={() => setOpenUserInputDialog(!openUserInputDialog)}
+        >
+          <div className="dialog__content">
+            <p>
+              Oops! We couldn’t submit your transaction because some required
+              fields are missing:
+            </p>
+            <ul>
+              {Object.entries(formErrors).map(([key, value]) => (
+                <li key={key}>{value}</li>
+              ))}
+            </ul>
+            <p>
+              Make sure all required fields are completed before submitting.
+            </p>
+          </div>
+          <div className="dialog__actions">
+            <button
+              className="primary-button"
+              onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
+            >
+              OK
+            </button>
+          </div>
+        </Dialog>
+      )}
     </div>
   );
 }

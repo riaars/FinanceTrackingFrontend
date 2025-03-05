@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
 
 import * as PATH from "./config/Path";
-import AddTransaction from "./pages/AddTransaction";
 import Header from "./layout/Header";
 import Sidebar from "./layout/Sidebar";
 import Transactions from "./pages/Transactions";
@@ -17,10 +16,7 @@ function App() {
   const Layout = ({ children }: any) => {
     return (
       <div className="app">
-        <div className="sidebar">
-          <Sidebar />
-        </div>
-
+        <Sidebar />
         <div className="content">
           <Header />
           <div>{children}</div>
@@ -45,14 +41,7 @@ function App() {
                 </Layout>
               }
             />
-            <Route
-              path={PATH.ADD_NEW_TRANSACTION}
-              element={
-                <Layout>
-                  <AddTransaction />
-                </Layout>
-              }
-            />
+
             <Route
               path={PATH.TRANSACTIONS}
               element={

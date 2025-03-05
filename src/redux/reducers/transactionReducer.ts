@@ -28,7 +28,7 @@ const transactionReducer = (state = initialState, action: any) => {
       return {
         ...state,
         addTransactionResult: action.payload,
-        transactions: [state.transactions, action.payload],
+        transactions: [...state.transactions, action.payload],
       };
     }
     case ActionTypes.ADD_TRANSACTION_ERROR: {

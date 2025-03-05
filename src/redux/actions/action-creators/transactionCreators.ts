@@ -6,7 +6,7 @@ type AddTransactionType = {
   category: string;
   type: string;
   detail: string;
-  amount: Number;
+  amount: string;
 };
 
 export const addTransaction =
