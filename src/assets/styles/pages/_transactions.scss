@@ -1,6 +1,11 @@
 @use "../utils/variables" as *;
+
+.table-row {
+  background-color: white;
+}
 .table-cell {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
+  margin: 1rem;
 }
 
 .table-cell__icon {
@@ -8,11 +13,17 @@
 }
 
 .table-head {
+  padding-top: 1rem !important;
   font-weight: 700;
 }
 
 .link {
   color: $secondary-color;
+}
+
+.transactions-container {
+  display: flex;
+  justify-content: center;
 }
 
 .empty-transactions {
@@ -30,20 +41,20 @@
 }
 
 .transactions {
-  display: block;
+  display: flex;
 }
 
 .transaction-filter {
   display: flex;
   flex-direction: row;
-  padding: 1rem 0rem;
+  padding-top: 1rem;
 }
 
 .transaction-filtered-count {
   text-align: right;
   font-size: $font-medium;
-  margin-right: 3rem;
-  margin-bottom: 2rem;
+  margin: 1rem 1rem 2rem 1rem;
+  font-size: small;
 }
 
 @media screen and (max-width: $breakpoint-mobile) {

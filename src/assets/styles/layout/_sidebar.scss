@@ -31,11 +31,15 @@
   color: $text-color;
   margin-top: 1rem;
 }
+.sidebar-container-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .sidebar-container__item.active {
   color: $secondary-color;
   font-weight: bold;
-  // background-color: $accent-color;
 }
 .sidebar-container__item:hover {
   color: $secondary-color;
@@ -51,7 +55,7 @@
   .sidebar {
     position: fixed;
     z-index: 10;
-    width: 200px;
+    width: 100%;
   }
 
   .sidebar-container.open {

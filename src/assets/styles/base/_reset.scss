@@ -10,3 +10,16 @@ ul {
   margin-block-end: 0;
   margin-inline-start: 0;
 }
+
+table {
+  border-collapse: collapse !important;
+  border-spacing: 0 24px !important;
+}
+tr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+td,
+th {
+  border: none;
+}

@@ -57,7 +57,9 @@ function Sidebar() {
                 navigate(sideMenu.path);
               }}
             >
-              {sideMenu.icon} {sideMenu.title}
+              <div className="sidebar-container-icon">
+                {sideMenu.icon} {sideMenu.title}
+              </div>
             </li>
           ))}
         </ul>

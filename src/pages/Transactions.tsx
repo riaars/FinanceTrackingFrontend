@@ -186,8 +186,7 @@ function Transactions() {
   ]);
 
   return (
-    <div>
-      <div className="page_title">Transactions</div>
+    <div className="transactions-container">
       <div
         className="empty-transactions"
         style={{ display: transactions.length > 0 ? "none" : "flex" }}
@@ -195,111 +194,111 @@ function Transactions() {
         <div className="empty-transactions__text">
           You don't have any transaction yet. Please add it here.
         </div>
-        <Button
-          title="Add new transactions"
-          type="button"
-          className="primary-button"
-          onClick={() => navigate(PATH.ADD_NEW_TRANSACTION)}
-        />
       </div>
+
       <div
         className="transactions"
         style={{ display: transactions.length > 0 ? "block" : "none" }}
       >
-        <div className="transaction-filter">
-          <Input
-            type="text"
-            name="detail"
-            placeholder="Search by transaction ID or details"
-            value={filtered.detail}
-            onChange={(e) => handleFilterChange(e.target.name, e.target.value)}
-          />
+        <div>
+          <div className="transaction-filter">
+            <Input
+              type="text"
+              name="detail"
+              placeholder="Search by Transaction ID or Details"
+              value={filtered.detail}
+              onChange={(e) =>
+                handleFilterChange(e.target.name, e.target.value)
+              }
+            />
 
-          <Dropdown
-            className="small"
-            options={TypeOptions}
-            name="type"
-            value={filtered.type}
-            onChange={handleFilterChange}
-          />
-          <Dropdown
-            className="small"
-            name="category"
-            options={CategoryOptions}
-            value={filtered.category}
-            onChange={handleFilterChange}
-          />
-          <Button
-            title="Reset"
-            type="button"
-            className="primary-button"
-            onClick={() => setFiltered(initialFiltered)}
-          />
-          <Button
-            title="Add Transactions"
-            type="button"
-            className="primary-button"
-            onClick={() => setOpenAddTransactionDialog(true)}
-          />
+            <Dropdown
+              className="small"
+              options={TypeOptions}
+              name="type"
+              value={filtered.type}
+              onChange={handleFilterChange}
+            />
+            <Dropdown
+              className="small"
+              name="category"
+              options={CategoryOptions}
+              value={filtered.category}
+              onChange={handleFilterChange}
+            />
+            <Button
+              title="Reset"
+              type="button"
+              className="secondary-button"
+              onClick={() => setFiltered(initialFiltered)}
+            />
+            <Button
+              title=" + Add new transactions"
+              type="button"
+              className="primary-button add-button-transaction"
+              onClick={() => navigate(PATH.ADD_NEW_TRANSACTION)}
+            />
+          </div>
+          <div className="transaction-filtered-count">{`${
+            filteredTransactions().length
+          } of ${transactions.length} transactions `}</div>
         </div>
 
-        <div className="transaction-filtered-count">{`${
-          filteredTransactions().length
-        } of ${transactions.length} transactions `}</div>
-
-        <table className="transaction-table">
-          <thead className="table-head">
-            <tr className="table-row">
-              <td className="table-cell">Date</td>
-              <td className="table-cell">Transaction ID</td>
-              <td className="table-cell">Type</td>
-              <td className="table-cell">Category</td>
-              <td className="table-cell">Amount</td>
-              <td className="table-cell">Detail</td>
-              <td className="table-cell">Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTransactions()?.map((transaction: any) => (
-              <tr key={transaction.transaction_id} className="table-row">
-                <td className="table-cell">
-                  {formattedDate(transaction.date)}
-                </td>
-                <td className="table-cell">
-                  <a href="" className="link">
-                    {transaction.transaction_id}
-                  </a>
-                </td>
-
-                <td className="table-cell">
-                  <Button
-                    title={transaction?.type?.toLowerCase()}
-                    className={`tag-button ${transaction?.type?.toLowerCase()}`}
-                  />
-                </td>
-                <td className="table-cell">{transaction.category}</td>
-                <td className="table-cell">{transaction.amount}</td>
-                <td className="table-cell">{transaction.detail}</td>
-                <td className="table-cell">
-                  <MdEdit
-                    className="table-cell__icon edit"
-                    onClick={() => {
-                      setSelectedTransaction(transaction);
-                      setIsEdit(!isEdit);
-                    }}
-                  />
-                  <MdDelete
-                    className="table-cell__icon delete"
-                    onClick={() => {
-                      setSelectedTransaction(transaction);
-                      setIsDelete(!isDelete);
-                    }}
-                  />
-                </td>
+        <div>
+          <table className="transaction-table">
+            <thead className="table-head">
+              <tr className="table-row-head">
+                <td className="table-cell">Date</td>
+                <td className="table-cell">Transaction ID</td>
+                <td className="table-cell">Type</td>
+                <td className="table-cell">Category</td>
+                <td className="table-cell">Amount</td>
+                <td className="table-cell">Details</td>
+                <td className="table-cell">Actions</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredTransactions()?.map((transaction: any) => (
+                <tr key={transaction.transaction_id} className="table-row">
+                  <td className="table-cell">
+                    {formattedDate(transaction.date)}
+                  </td>
+                  <td className="table-cell">
+                    <a href="" className="link">
+                      {transaction.transaction_id}
+                    </a>
+                  </td>
+
+                  <td className="table-cell">
+                    <Button
+                      title={transaction?.type?.toLowerCase()}
+                      className={`tag-button ${transaction?.type?.toLowerCase()}`}
+                    />
+                  </td>
+                  <td className="table-cell">{transaction.category}</td>
+                  <td className="table-cell">{transaction.amount}</td>
+                  <td className="table-cell">{transaction.detail}</td>
+                  <td className="table-cell">
+                    <MdEdit
+                      className="table-cell__icon edit"
+                      onClick={() => {
+                        setSelectedTransaction(transaction);
+                        setIsEdit(!isEdit);
+                      }}
+                    />
+                    <MdDelete
+                      className="table-cell__icon delete"
+                      onClick={() => {
+                        setSelectedTransaction(transaction);
+                        setIsDelete(!isDelete);
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {isEdit && (
           <Dialog
             title="Update Transaction"
