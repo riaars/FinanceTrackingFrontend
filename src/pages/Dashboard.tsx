@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +55,7 @@ function Dashboard() {
   );
 
   const { transactions } = useSelector((state: State) => state.transaction);
+  const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
   const expenses = transactions.filter(
     (transaction: any) => transaction?.type?.toLowerCase() !== "income"
@@ -180,6 +181,45 @@ function Dashboard() {
   return (
     <>
       <div className="page_title">Dashboard</div>
+      <ul className="dashboard-filter">
+        <li
+          className={`dashboard-filter__item ${
+            currentTabIndex === 0 ? `active` : ``
+          }`}
+          value={0}
+          onClick={() => setCurrentTabIndex(0)}
+        >
+          Today
+        </li>
+        <li
+          className={`dashboard-filter__item ${
+            currentTabIndex === 1 ? `active` : ``
+          }`}
+          value={1}
+          onClick={() => setCurrentTabIndex(1)}
+        >
+          This week
+        </li>
+        <li
+          className={`dashboard-filter__item ${
+            currentTabIndex === 2 ? `active` : ``
+          }`}
+          value={2}
+          onClick={() => setCurrentTabIndex(2)}
+        >
+          This month
+        </li>
+        <li
+          className={`dashboard-filter__item ${
+            currentTabIndex === 3 ? `active` : ``
+          }`}
+          value={3}
+          onClick={() => setCurrentTabIndex(3)}
+        >
+          This year
+        </li>
+      </ul>
+
       <div className="dashboard-summary">
         <div className="dashboard-summary__item">
           <p className="total-amount">

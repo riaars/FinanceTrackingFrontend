@@ -1,6 +1,23 @@
 .dashboard {
   display: flex;
 }
+
+.dashboard-filter {
+  margin-top: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboard-filter__item {
+  margin: 0 1rem;
+  list-style: none;
+  cursor: pointer;
+  &.active {
+    font-weight: bold;
+  }
+}
+
 .dashboard-summary {
   margin: 1rem;
   display: flex;
