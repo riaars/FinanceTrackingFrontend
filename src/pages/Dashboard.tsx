@@ -6,6 +6,7 @@ import { State, transactionCreators } from "../redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { TransactionType } from "./Transactions";
 import BarChart from "../components/BarChart";
+import Button from "../components/Button";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -125,12 +126,10 @@ function Dashboard() {
   };
 
   const summary = getMonthlySummary(transactions);
-  console.log(summary);
 
   const months = Array.from(
     new Set(summary.map((item) => `${item.month} ${item.year}`))
   );
-  console.log(months);
 
   const expenseData = months.map((month) => {
     const expense = summary.find(
@@ -147,6 +146,31 @@ function Dashboard() {
     return income ? income.totalAmount : 0;
   });
 
+  const getCurrentMonthSummary = (type: string) => {
+    const date = new Date();
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = `${date.getFullYear()}`;
+
+    const currentMonthSummary = summary.filter(
+      (item) => item.month === month && item.year === year && item.type === type
+    )[0];
+
+    return currentMonthSummary?.totalAmount;
+  };
+
+  const getPreviousMonthSummary = (type: string) => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = `${date.getFullYear()}`;
+
+    const currentMonthSummary = summary.filter(
+      (item) => item.month === month && item.year === year && item.type === type
+    )[0];
+
+    return currentMonthSummary?.totalAmount;
+  };
+
   useEffect(() => {
     if (token) {
       getAllTransactions(token);
@@ -156,6 +180,41 @@ function Dashboard() {
   return (
     <>
       <div className="page_title">Dashboard</div>
+      <div className="dashboard-summary">
+        <div className="dashboard-summary__item">
+          <p className="total-amount">
+            SEK {getCurrentMonthSummary("Expense")}
+          </p>
+          <div className="dashboard-summary__item__details">
+            <p className="summary-text">Expense in this month</p>
+            <Button
+              title={`+${(
+                ((getCurrentMonthSummary("Expense") -
+                  getPreviousMonthSummary("Expense")) /
+                  getPreviousMonthSummary("Expense")) *
+                100
+              ).toFixed(2)}%`}
+              className="tag-button expense"
+            />
+          </div>
+        </div>
+        <div className="dashboard-summary__item">
+          <p className="total-amount">SEK {getCurrentMonthSummary("Income")}</p>
+          <div className="dashboard-summary__item__details">
+            <p className="summary-text">Income in this month</p>
+            <Button
+              title={`${(
+                ((getCurrentMonthSummary("Income") -
+                  getPreviousMonthSummary("Income")) /
+                  getPreviousMonthSummary("Income")) *
+                100
+              ).toFixed(2)}%`}
+              className="tag-button income"
+            />
+          </div>
+        </div>
+      </div>
+
       <BarChart
         months={months}
         expenseData={expenseData}

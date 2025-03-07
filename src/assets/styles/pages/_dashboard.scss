@@ -1,3 +1,35 @@
 .dashboard {
   display: flex;
 }
+.dashboard-summary {
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.dashboard-summary__item {
+  padding: 1rem 2rem;
+  border: 1px solid #ebebeb;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+.total-amount {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  width: 200px;
+}
+
+.dashboard-summary__item__details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.summary-text {
+  font-size: small;
+  text-align: left;
+}
