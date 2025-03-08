@@ -41,7 +41,7 @@ function AddTransaction({
 
   let date = new Date(Date.now());
   const [form, setForm] = useState({
-    date: formattedDate(date.toISOString().split("T")[0]),
+    date: date.toISOString().split("T")[0],
     category: "Select category",
     type: "Select type",
     detail: "",
