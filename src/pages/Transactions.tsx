@@ -261,7 +261,7 @@ function Transactions() {
               {filteredTransactions()?.map((transaction: any) => (
                 <tr key={transaction.transaction_id} className="table-row">
                   <td className="table-cell">
-                    {formattedDate(transaction.date)}
+                    {new Date(transaction.date).toLocaleDateString("en-SE")}
                   </td>
                   <td className="table-cell">
                     <a href="" className="link">

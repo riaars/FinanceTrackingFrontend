@@ -106,8 +106,8 @@ function Dashboard() {
     data.forEach((transaction) => {
       // Extract the year and month from the date
       const date = new Date(transaction.date);
-      const day = date.toLocaleDateString("en-US");
-      const monthName = date.toLocaleString("en-US", { month: "long" });
+      const day = date.toLocaleDateString("en-SE");
+      const monthName = date.toLocaleDateString("en-SE", { month: "long" });
       const fullYear = `${date.getFullYear()}`;
 
       const key = `${fullYear}:${monthName}:${day}:${transaction.type}:${date}`;
@@ -154,11 +154,13 @@ function Dashboard() {
 
   const getTodaySummary = (type: string) => {
     const date = new Date();
-    const today = date.toLocaleDateString("en-US");
-
+    const today = date.toLocaleDateString("en-SE");
+    console.log(summary);
     const todaySummary = summary.filter(
       (item) => item.day === today && item.type === type
     );
+
+    console.log(todaySummary);
 
     return todaySummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
   };
@@ -166,7 +168,7 @@ function Dashboard() {
   const getPreviousDaySummary = (type: string) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    const previousDay = date.toLocaleDateString("en-US");
+    const previousDay = date.toLocaleString();
 
     const previousDaySummary = summary.filter(
       (item) => item.month === previousDay && item.type === type
@@ -177,7 +179,7 @@ function Dashboard() {
 
   const getThisWeekSummary = (type: string) => {
     const date = new Date();
-    const today = date.toLocaleDateString("en-US");
+    const today = date.toLocaleDateString("en-SE");
     const week = date.getDay();
     const weekStart = new Date(date.setDate(date.getDate() - week));
     const weekEnd = new Date(date.setDate(date.getDate() + 6));
@@ -194,7 +196,7 @@ function Dashboard() {
 
   const getPreviousWeekSummary = (type: string) => {
     const date = new Date();
-    const today = date.toLocaleDateString("en-US");
+    const today = date.toLocaleDateString("en-SE");
     const week = date.getDay();
     const weekStart = new Date(date.setDate(date.getDate() - week));
     const weekEnd = new Date(date.setDate(date.getDate() + 6));
@@ -214,7 +216,7 @@ function Dashboard() {
 
   const getCurrentMonthSummary = (type: string) => {
     const date = new Date();
-    const month = date.toLocaleString("en-US", { month: "long" });
+    const month = date.toLocaleString("en-SE", { month: "long" });
     const year = `${date.getFullYear()}`;
 
     const currentMonthSummary = summary.filter(
@@ -227,7 +229,7 @@ function Dashboard() {
   const getPreviousMonthSummary = (type: string) => {
     const date = new Date();
     date.setMonth(date.getMonth() - 1);
-    const month = date.toLocaleString("en-US", { month: "long" });
+    const month = date.toLocaleString("en-SE", { month: "long" });
     const year = `${date.getFullYear()}`;
 
     const previousMonthSummary = summary.filter(
