@@ -8,6 +8,7 @@ import { State, transactionCreators } from "../redux";
 import { CategoryOptions, TypeOptions } from "../utils/Constant";
 import Dialog from "../components/Dialog";
 import { formattedDate } from "../utils/helpers";
+import InputDate from "../components/Date";
 
 type TransactionErrorsFormType = {
   date: string;
@@ -40,6 +41,7 @@ function AddTransaction({
   );
 
   let date = new Date(Date.now());
+
   const [form, setForm] = useState({
     date: date.toISOString().split("T")[0],
     category: "Select category",
@@ -47,8 +49,6 @@ function AddTransaction({
     detail: "",
     amount: "",
   });
-
-  console.log(form.date);
 
   const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
     date: "",
@@ -107,20 +107,19 @@ function AddTransaction({
     return Object.keys(newErrors).length === 0;
   };
 
-  console.log(form.date);
-
   return (
     <div className="add-transaction__dialog">
       <div className=" add-transaction__form">
         <div className="dialog__content__body">
-          <Input
-            type="date"
+          <InputDate
             name="date"
             value={form.date}
             placeholder="Date"
             onChange={(e) =>
               handleTransactionChange(e.target.name, e.target.value)
             }
+            min="1970-01-01"
+            max={formattedDate(new Date(Date.now()).toISOString())}
           />
           <Dropdown
             options={TypeOptions}

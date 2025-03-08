@@ -1,5 +1,5 @@
 export const formattedDate = (date: string) => {
-  return date?.substring(0, 19).split("T")[0];
+  return date?.split("T")[0];
 };
 
 export const isEmailValid = (email: string) => {
