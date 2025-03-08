@@ -39,6 +39,8 @@ const PieChart = ({ chartData }: any) => {
 };
 
 interface MonthlySummary {
+  date: string;
+  day: string;
   month: string;
   year: string;
   type: string;
@@ -104,10 +106,11 @@ function Dashboard() {
     data.forEach((transaction) => {
       // Extract the year and month from the date
       const date = new Date(transaction.date);
+      const day = date.toLocaleDateString("en-US");
       const monthName = date.toLocaleString("en-US", { month: "long" });
       const fullYear = `${date.getFullYear()}`;
 
-      const key = `${fullYear}:${monthName}:${transaction.type}`;
+      const key = `${fullYear}:${monthName}:${day}:${transaction.type}:${date}`;
       if (summary[key]) {
         summary[key] += Number(transaction.amount);
       } else {
@@ -116,10 +119,12 @@ function Dashboard() {
     });
 
     return Object.keys(summary).map((key) => {
-      const [year, month, type] = key.split(":");
+      const [year, month, day, type, date] = key.split(":");
       return {
+        date,
         year,
         month,
+        day,
         type,
         totalAmount: summary[key],
       };
@@ -147,6 +152,66 @@ function Dashboard() {
     return income ? income.totalAmount : 0;
   });
 
+  const getTodaySummary = (type: string) => {
+    const date = new Date();
+    const today = date.toLocaleDateString("en-US");
+
+    const todaySummary = summary.filter(
+      (item) => item.day === today && item.type === type
+    );
+
+    return todaySummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
+  };
+
+  const getPreviousDaySummary = (type: string) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    const previousDay = date.toLocaleDateString("en-US");
+
+    const previousDaySummary = summary.filter(
+      (item) => item.month === previousDay && item.type === type
+    );
+
+    return previousDaySummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
+  };
+
+  const getThisWeekSummary = (type: string) => {
+    const date = new Date();
+    const today = date.toLocaleDateString("en-US");
+    const week = date.getDay();
+    const weekStart = new Date(date.setDate(date.getDate() - week));
+    const weekEnd = new Date(date.setDate(date.getDate() + 6));
+
+    const thisWeekSummary = summary.filter((item) => {
+      const itemDate = new Date(item.date);
+      return itemDate >= weekStart && itemDate <= weekEnd && item.type === type;
+    });
+
+    return (
+      thisWeekSummary.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0
+    );
+  };
+
+  const getPreviousWeekSummary = (type: string) => {
+    const date = new Date();
+    const today = date.toLocaleDateString("en-US");
+    const week = date.getDay();
+    const weekStart = new Date(date.setDate(date.getDate() - week));
+    const weekEnd = new Date(date.setDate(date.getDate() + 6));
+    const previousWeekStart = new Date(date.setDate(date.getDate() - 7));
+    const previousWeekEnd = new Date(date.setDate(date.getDate() - 1));
+
+    const previousWeekSummary = summary.filter(
+      (item) =>
+        new Date(`${item.day} ${item.month} ${item.year}`) >=
+          previousWeekStart &&
+        new Date(`${item.day} ${item.month} ${item.year}`) <= previousWeekEnd &&
+        item.type === type
+    )[0];
+
+    return previousWeekSummary?.totalAmount || 0;
+  };
+
   const getCurrentMonthSummary = (type: string) => {
     const date = new Date();
     const month = date.toLocaleString("en-US", { month: "long" });
@@ -154,9 +219,9 @@ function Dashboard() {
 
     const currentMonthSummary = summary.filter(
       (item) => item.month === month && item.year === year && item.type === type
-    )[0];
+    );
 
-    return currentMonthSummary?.totalAmount;
+    return currentMonthSummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
   };
 
   const getPreviousMonthSummary = (type: string) => {
@@ -165,11 +230,75 @@ function Dashboard() {
     const month = date.toLocaleString("en-US", { month: "long" });
     const year = `${date.getFullYear()}`;
 
-    const currentMonthSummary = summary.filter(
+    const previousMonthSummary = summary.filter(
       (item) => item.month === month && item.year === year && item.type === type
-    )[0];
+    );
 
-    return currentMonthSummary?.totalAmount;
+    return previousMonthSummary.reduce(
+      (acc, curr) => acc + curr.totalAmount,
+      0
+    );
+  };
+
+  const getThisYearSummary = (type: string) => {
+    const date = new Date();
+    const year = `${date.getFullYear()}`;
+    const thisYearSummary = summary.filter(
+      (item) => item.year === year && item.type === type
+    );
+    return (
+      thisYearSummary.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0
+    );
+  };
+
+  const getPreviousYearSummary = (type: string) => {
+    const date = new Date();
+    const year = `${date.getFullYear() - 1}`;
+    const previousYearSummary = summary.filter(
+      (item) => item.year === year && item.type === type
+    );
+
+    return (
+      previousYearSummary.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0
+    );
+  };
+
+  const getSummary = (index: number) => {
+    switch (index) {
+      case 0:
+        return {
+          expense: getTodaySummary("Expense"),
+          income: getTodaySummary("Income"),
+          previousExpense: getPreviousDaySummary("Expense"),
+          previousIncome: getPreviousDaySummary("Income"),
+        };
+      case 1:
+        return {
+          expense: getThisWeekSummary("Expense"),
+          income: getThisWeekSummary("Income"),
+          previousExpense: getPreviousWeekSummary("Expense"),
+          previousIncome: getPreviousWeekSummary("Income"),
+        };
+      case 2:
+        return {
+          expense: getCurrentMonthSummary("Expense"),
+          income: getCurrentMonthSummary("Income"),
+          previousExpense: getPreviousMonthSummary("Expense"),
+          previousIncome: getPreviousMonthSummary("Income"),
+        };
+      case 3:
+        return {
+          expense: getThisYearSummary("Expense"),
+          income: getThisYearSummary("Income"),
+          previousExpense: getPreviousYearSummary("Expense"),
+          previousIncome: getPreviousYearSummary("Income"),
+        };
+    }
+  };
+
+  const getPercentage = (current: number, previous: number) => {
+    let percentage = (current - previous) / previous;
+    return previous > 0 ? (percentage * 100).toFixed() + "%" : "+100%";
   };
 
   useEffect(() => {
@@ -223,32 +352,43 @@ function Dashboard() {
       <div className="dashboard-summary">
         <div className="dashboard-summary__item">
           <p className="total-amount">
-            SEK {getCurrentMonthSummary("Expense")}
+            SEK {getSummary(currentTabIndex)?.expense || 0}
           </p>
           <div className="dashboard-summary__item__details">
-            <p className="summary-text">Expense in this month</p>
+            <p className="summary-text">Expense in this periode</p>
             <Button
-              title={`+${(
-                ((getCurrentMonthSummary("Expense") -
-                  getPreviousMonthSummary("Expense")) /
-                  getPreviousMonthSummary("Expense")) *
-                100
-              ).toFixed(2)}%`}
+              // title={`${(
+              //   (((getSummary(currentTabIndex)?.expense || 0) -
+              //     (getSummary(currentTabIndex)?.previousExpense || 0)) /
+              //     (getSummary(currentTabIndex)?.previousExpense || 0)) *
+              //   100
+              // ).toFixed(2)}%`}
+              title={getPercentage(
+                getSummary(currentTabIndex)?.expense || 0,
+                getSummary(currentTabIndex)?.previousExpense || 0
+              )}
               className="tag-button expense"
             />
           </div>
         </div>
         <div className="dashboard-summary__item">
-          <p className="total-amount">SEK {getCurrentMonthSummary("Income")}</p>
+          <p className="total-amount">
+            SEK {getSummary(currentTabIndex)?.income || 0}
+          </p>
           <div className="dashboard-summary__item__details">
-            <p className="summary-text">Income in this month</p>
+            <p className="summary-text">Income in this periode</p>
             <Button
-              title={`${(
-                ((getCurrentMonthSummary("Income") -
-                  getPreviousMonthSummary("Income")) /
-                  getPreviousMonthSummary("Income")) *
-                100
-              ).toFixed(2)}%`}
+              // title={`${(
+              //   (((getSummary(currentTabIndex)?.income || 0) -
+              //     (getSummary(currentTabIndex)?.previousIncome || 0)) /
+              //     (getSummary(currentTabIndex)?.previousIncome || 0)) *
+              //   100
+              // ).toFixed(2)}%`}
+
+              title={getPercentage(
+                getSummary(currentTabIndex)?.income || 0,
+                getSummary(currentTabIndex)?.previousIncome || 0
+              )}
               className="tag-button income"
             />
           </div>
