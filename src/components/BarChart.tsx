@@ -21,11 +21,7 @@ ChartJS.register(
 
 interface BarChartProps {}
 
-const BarChart: React.FC<BarChartProps> = ({
-  months,
-  expenseData,
-  incomeData,
-}: any) => {
+const BarChart = ({ months, expenseData, incomeData }: any) => {
   const data = {
     labels: months,
     datasets: [

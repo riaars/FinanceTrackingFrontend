@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { State, transactionCreators } from "../redux";
 import { CategoryOptions, TypeOptions } from "../utils/Constant";
 import Dialog from "../components/Dialog";
-import { useNavigate } from "react-router-dom";
-import * as PATH from "../config/Path";
+import { formattedDate } from "../utils/helpers";
 
 type TransactionErrorsFormType = {
+  date: string;
   category: string;
   type: string;
   detail: string;
@@ -39,16 +39,19 @@ function AddTransaction({
     (state: State) => state.transaction
   );
 
-  const navigate = useNavigate();
-
+  let date = new Date(Date.now());
   const [form, setForm] = useState({
+    date: formattedDate(date.toISOString().split("T")[0]),
     category: "Select category",
     type: "Select type",
     detail: "",
     amount: "",
   });
 
+  console.log(form.date);
+
   const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
+    date: "",
     category: "",
     type: "",
     detail: "",
@@ -104,16 +107,21 @@ function AddTransaction({
     return Object.keys(newErrors).length === 0;
   };
 
-  // useEffect(() => {
-  //   if (addTransactionResult && transactionSubmit) {
-  //     navigate(PATH.TRANSACTIONS);
-  //   }
-  // }, [JSON.stringify(addTransactionResult)]);
+  console.log(form.date);
 
   return (
     <div className="add-transaction__dialog">
       <div className=" add-transaction__form">
         <div className="dialog__content__body">
+          <Input
+            type="date"
+            name="date"
+            value={form.date}
+            placeholder="Date"
+            onChange={(e) =>
+              handleTransactionChange(e.target.name, e.target.value)
+            }
+          />
           <Dropdown
             options={TypeOptions}
             name="type"
