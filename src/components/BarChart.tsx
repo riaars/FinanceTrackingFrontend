@@ -51,7 +51,13 @@ const BarChart = ({ label, period, expenseData, incomeData }: any) => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <Bar
+      data={data}
+      options={options}
+      style={{ backgroundColor: "white", padding: "1rem", margin: "1rem" }}
+    />
+  );
 };
 
 export default BarChart;

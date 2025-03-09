@@ -7,6 +7,7 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { TransactionType } from "./Transactions";
 import BarChart from "../components/BarChart";
 import Button from "../components/Button";
+import { get } from "http";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -141,6 +142,27 @@ function Dashboard() {
 
   const summary = getTransactionsSummary(transactions);
 
+  const getLast7DaysData = (type: string) => {
+    const date = new Date();
+    const today = date.toLocaleDateString("en-SE");
+    const last7Days = new Date(date.setDate(date.getDate() - 7));
+    const last7DaysData = summary.filter(
+      (item) =>
+        new Date(item.date) >= last7Days &&
+        new Date(item.date) <= new Date(today)
+    );
+
+    const days = Array.from(new Set(last7DaysData.map((item) => item.day)));
+    const data = days.map((day) => {
+      const dayData = last7DaysData.filter(
+        (item) => item.day === day && item.type === type
+      );
+      return dayData.reduce((acc, curr) => acc + curr.totalAmount, 0);
+    });
+
+    return { days: days, data: data };
+  };
+
   const months = Array.from(
     new Set(summary.map((item) => `${item.month} ${item.year}`))
   );
@@ -204,6 +226,8 @@ function Dashboard() {
     const week = date.getDay();
     const weekStart = new Date(date.setDate(date.getDate() - week));
     const weekEnd = new Date(date.setDate(date.getDate() + 6));
+    console.log("weekStart", weekStart);
+    console.log("weekEnd", weekEnd);
 
     const thisWeekSummary = summary.filter((item) => {
       const itemDate = new Date(item.date);
@@ -350,7 +374,7 @@ function Dashboard() {
           value={1}
           onClick={() => setCurrentTabIndex(1)}
         >
-          This week
+          Weekly
         </li>
         <li
           className={`dashboard-filter__item ${
@@ -359,7 +383,7 @@ function Dashboard() {
           value={2}
           onClick={() => setCurrentTabIndex(2)}
         >
-          This month
+          Monthly
         </li>
         <li
           className={`dashboard-filter__item ${
@@ -368,7 +392,7 @@ function Dashboard() {
           value={3}
           onClick={() => setCurrentTabIndex(3)}
         >
-          This year
+          Yearly
         </li>
       </ul>
 
@@ -406,18 +430,25 @@ function Dashboard() {
       </div>
 
       <BarChart
+        label="Daily"
+        period={getLast7DaysData("Income").days}
+        expenseData={getLast7DaysData("Expense").data}
+        incomeData={getLast7DaysData("Income").data}
+      />
+
+      <BarChart
         label="Monthly"
         period={months}
         expenseData={monthlyExpenseData}
         incomeData={monthlyIncomeData}
       />
 
-      {/* <BarChart
+      <BarChart
         label="Yearly"
         period={years}
         expenseData={yearlyExpenseData}
         incomeData={yearlyIncomeData}
-      /> */}
+      />
       {/* <div className="dashboard">
         <div>
           <p>Expenses Chart</p>
