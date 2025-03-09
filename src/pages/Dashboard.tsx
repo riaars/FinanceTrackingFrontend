@@ -429,26 +429,52 @@ function Dashboard() {
         </div>
       </div>
 
-      <BarChart
-        label="Daily"
-        period={getLast7DaysData("Income").days}
-        expenseData={getLast7DaysData("Expense").data}
-        incomeData={getLast7DaysData("Income").data}
-      />
+      <ul>
+        <li
+          className={`dashboard__chart ${
+            currentTabIndex === 0 ? "active" : ""
+          }`}
+        >
+          Recent transactions
+        </li>
+        <li
+          className={`dashboard__chart ${
+            currentTabIndex === 1 ? "active" : ""
+          }`}
+        >
+          <BarChart
+            label="Daily"
+            period={getLast7DaysData("Income").days}
+            expenseData={getLast7DaysData("Expense").data}
+            incomeData={getLast7DaysData("Income").data}
+          />
+        </li>
+        <li
+          className={`dashboard__chart ${
+            currentTabIndex === 2 ? "active" : ""
+          }`}
+        >
+          <BarChart
+            label="Monthly"
+            period={months}
+            expenseData={monthlyExpenseData}
+            incomeData={monthlyIncomeData}
+          />
+        </li>
+        <li
+          className={`dashboard__chart ${
+            currentTabIndex === 3 ? "active" : ""
+          }`}
+        >
+          <BarChart
+            label="Yearly"
+            period={years}
+            expenseData={yearlyExpenseData}
+            incomeData={yearlyIncomeData}
+          />
+        </li>
+      </ul>
 
-      <BarChart
-        label="Monthly"
-        period={months}
-        expenseData={monthlyExpenseData}
-        incomeData={monthlyIncomeData}
-      />
-
-      <BarChart
-        label="Yearly"
-        period={years}
-        expenseData={yearlyExpenseData}
-        incomeData={yearlyIncomeData}
-      />
       {/* <div className="dashboard">
         <div>
           <p>Expenses Chart</p>

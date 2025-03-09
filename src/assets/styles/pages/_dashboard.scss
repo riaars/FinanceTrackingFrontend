@@ -50,3 +50,11 @@
   font-size: small;
   text-align: left;
 }
+
+.dashboard__chart {
+  list-style: none;
+  display: none;
+  &.active {
+    display: flex;
+  }
+}
