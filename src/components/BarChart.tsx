@@ -21,19 +21,19 @@ ChartJS.register(
 
 interface BarChartProps {}
 
-const BarChart = ({ months, expenseData, incomeData }: any) => {
+const BarChart = ({ label, period, expenseData, incomeData }: any) => {
   const data = {
-    labels: months,
+    labels: period,
     datasets: [
       {
-        label: "Monthly Expenses",
+        label: `${label} Expenses`,
         data: expenseData,
         backgroundColor: "#eccfcf",
         borderColor: "#ee5656",
         borderWidth: 1,
       },
       {
-        label: "Monthly Income",
+        label: `${label} Income`,
         data: incomeData,
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -51,12 +51,7 @@ const BarChart = ({ months, expenseData, incomeData }: any) => {
     },
   };
 
-  return (
-    <div>
-      <p>Monthly Expenses 2025</p>
-      <Bar data={data} options={options} />
-    </div>
-  );
+  return <Bar data={data} options={options} />;
 };
 
 export default BarChart;

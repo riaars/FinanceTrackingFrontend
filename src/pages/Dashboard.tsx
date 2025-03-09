@@ -100,8 +100,14 @@ function Dashboard() {
     return totalExpense;
   };
 
-  const getMonthlySummary = (data: TransactionType[]): MonthlySummary[] => {
+  const getTransactionsSummary = (
+    data: TransactionType[]
+  ): MonthlySummary[] => {
     const summary: { [key: string]: number } = {};
+
+    data.sort((a: TransactionType, b: TransactionType) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
 
     data.forEach((transaction) => {
       // Extract the year and month from the date
@@ -131,23 +137,39 @@ function Dashboard() {
     });
   };
 
-  const summary = getMonthlySummary(transactions);
+  const summary = getTransactionsSummary(transactions);
 
   const months = Array.from(
     new Set(summary.map((item) => `${item.month} ${item.year}`))
   );
 
-  const expenseData = months.map((month) => {
-    const expense = summary.find(
+  const monthlyExpenseData = months.map((month) => {
+    const expense = summary.filter(
       (item) =>
         `${item.month} ${item.year}` === month && item.type === "Expense"
     );
-    return expense ? expense.totalAmount : 0;
+    return expense.reduce((acc, curr) => acc + curr.totalAmount, 0);
   });
 
-  const incomeData = months.map((month) => {
-    const income = summary.find(
+  const monthlyIncomeData = months.map((month) => {
+    const income = summary.filter(
       (item) => `${item.month} ${item.year}` === month && item.type === "Income"
+    );
+    return income.reduce((acc, curr) => acc + curr.totalAmount, 0);
+  });
+
+  const years = Array.from(new Set(summary.map((item) => item.year)));
+
+  const yearlyExpenseData = years.map((year) => {
+    const expense = summary.filter(
+      (item) => item.year === year && item.type === "Expense"
+    );
+    return expense.reduce((acc, curr) => acc + curr.totalAmount, 0);
+  });
+
+  const yearlyIncomeData = years.map((year) => {
+    const income = summary.find(
+      (item) => item.year === year && item.type === "Income"
     );
     return income ? income.totalAmount : 0;
   });
@@ -155,12 +177,9 @@ function Dashboard() {
   const getTodaySummary = (type: string) => {
     const date = new Date();
     const today = date.toLocaleDateString("en-SE");
-    console.log(summary);
     const todaySummary = summary.filter(
       (item) => item.day === today && item.type === type
     );
-
-    console.log(todaySummary);
 
     return todaySummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
   };
@@ -359,12 +378,6 @@ function Dashboard() {
           <div className="dashboard-summary__item__details">
             <p className="summary-text">Expense in this periode</p>
             <Button
-              // title={`${(
-              //   (((getSummary(currentTabIndex)?.expense || 0) -
-              //     (getSummary(currentTabIndex)?.previousExpense || 0)) /
-              //     (getSummary(currentTabIndex)?.previousExpense || 0)) *
-              //   100
-              // ).toFixed(2)}%`}
               title={getPercentage(
                 getSummary(currentTabIndex)?.expense || 0,
                 getSummary(currentTabIndex)?.previousExpense || 0
@@ -380,13 +393,6 @@ function Dashboard() {
           <div className="dashboard-summary__item__details">
             <p className="summary-text">Income in this periode</p>
             <Button
-              // title={`${(
-              //   (((getSummary(currentTabIndex)?.income || 0) -
-              //     (getSummary(currentTabIndex)?.previousIncome || 0)) /
-              //     (getSummary(currentTabIndex)?.previousIncome || 0)) *
-              //   100
-              // ).toFixed(2)}%`}
-
               title={getPercentage(
                 getSummary(currentTabIndex)?.income || 0,
                 getSummary(currentTabIndex)?.previousIncome || 0
@@ -398,9 +404,17 @@ function Dashboard() {
       </div>
 
       <BarChart
-        months={months}
-        expenseData={expenseData}
-        incomeData={incomeData}
+        label="Monthly"
+        period={months}
+        expenseData={monthlyExpenseData}
+        incomeData={monthlyIncomeData}
+      />
+
+      <BarChart
+        label="Yearly"
+        period={years}
+        expenseData={yearlyExpenseData}
+        incomeData={yearlyIncomeData}
       />
       {/* <div className="dashboard">
         <div>

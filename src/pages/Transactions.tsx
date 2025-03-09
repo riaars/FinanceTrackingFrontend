@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import AddTransaction from "./AddTransaction";
 
 export type TransactionType = {
-  date: string;
+  date: Date | string;
   transaction_id: string;
   email: string;
   category: string;
