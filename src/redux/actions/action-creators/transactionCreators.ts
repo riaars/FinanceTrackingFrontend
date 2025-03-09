@@ -106,11 +106,11 @@ export const getAllTransactions =
           payload: data,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("error");
       dispatch({
         type: ActionTypes.GET_ALL_TRANSACTIONS_ERROR,
-        payload: error,
+        payload: error.message,
       });
     }
   };
@@ -143,11 +143,11 @@ export const deleteTransaction =
           transaction_id: transaction_id,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("error");
       dispatch({
         type: ActionTypes.DELETE_TRANSACTION_ERROR,
-        payload: error,
+        payload: error.message,
       });
     }
   };

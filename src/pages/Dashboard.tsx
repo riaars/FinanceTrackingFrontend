@@ -105,11 +105,13 @@ function Dashboard() {
   ): MonthlySummary[] => {
     const summary: { [key: string]: number } = {};
 
-    data.sort((a: TransactionType, b: TransactionType) => {
-      return new Date(a.date).getTime() - new Date(b.date).getTime();
-    });
+    let sortedData = [...data].sort(
+      (a: TransactionType, b: TransactionType) => {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      }
+    );
 
-    data.forEach((transaction) => {
+    sortedData.forEach((transaction) => {
       // Extract the year and month from the date
       const date = new Date(transaction.date);
       const day = date.toLocaleDateString("en-SE");
@@ -410,12 +412,12 @@ function Dashboard() {
         incomeData={monthlyIncomeData}
       />
 
-      <BarChart
+      {/* <BarChart
         label="Yearly"
         period={years}
         expenseData={yearlyExpenseData}
         incomeData={yearlyIncomeData}
-      />
+      /> */}
       {/* <div className="dashboard">
         <div>
           <p>Expenses Chart</p>
