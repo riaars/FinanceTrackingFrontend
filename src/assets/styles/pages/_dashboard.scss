@@ -1,5 +1,8 @@
+@use "../utils/variables" as *;
+
 .dashboard {
   display: flex;
+  flex-direction: column;
 }
 
 .dashboard-filter {
@@ -56,5 +59,23 @@
   display: none;
   &.active {
     display: flex;
+  }
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .dashboard {
+    margin-top: 3rem;
+  }
+  .dashboard-filter {
+    flex-direction: column;
+  }
+  .dashboard-filter__item {
+    margin: 0.5rem 1rem;
+  }
+  .dashboard-summary {
+    flex-direction: column;
+  }
+  .dashboard-summary__item {
+    padding: 1rem;
   }
 }

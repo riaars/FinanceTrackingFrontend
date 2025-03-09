@@ -355,7 +355,7 @@ function Dashboard() {
   }, [token]);
 
   return (
-    <>
+    <div className="dashboard">
       <div className="page_title">Dashboard</div>
       <ul className="dashboard-filter">
         <li
@@ -408,7 +408,7 @@ function Dashboard() {
                 getSummary(currentTabIndex)?.expense || 0,
                 getSummary(currentTabIndex)?.previousExpense || 0
               )}
-              className="tag-button expense"
+              className="tag-button small expense"
             />
           </div>
         </div>
@@ -423,7 +423,7 @@ function Dashboard() {
                 getSummary(currentTabIndex)?.income || 0,
                 getSummary(currentTabIndex)?.previousIncome || 0
               )}
-              className="tag-button income"
+              className="tag-button small income"
             />
           </div>
         </div>
@@ -485,7 +485,7 @@ function Dashboard() {
           <PieChart chartData={getChartData(income)} />
         </div>
       </div> */}
-    </>
+    </div>
   );
 }
 

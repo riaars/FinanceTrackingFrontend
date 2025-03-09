@@ -27,7 +27,13 @@
   margin: 0.5rem;
   color: white;
   font-weight: bold;
+
+  &.small {
+    font-size: $font-small;
+    padding: 0.2rem 0.4rem;
+  }
 }
+
 .add-button-transaction {
   margin-left: 2rem;
 }
