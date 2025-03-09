@@ -19,8 +19,6 @@ ChartJS.register(
   Legend
 );
 
-interface BarChartProps {}
-
 const BarChart = ({ label, period, expenseData, incomeData }: any) => {
   const data = {
     labels: period,

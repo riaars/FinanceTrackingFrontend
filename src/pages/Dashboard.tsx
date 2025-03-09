@@ -1,43 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
 import { useDispatch, useSelector } from "react-redux";
 import { State, transactionCreators } from "../redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { TransactionType } from "./Transactions";
 import BarChart from "../components/BarChart";
 import Button from "../components/Button";
-import { get } from "http";
-
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-const PieChart = ({ chartData }: any) => {
-  const data = {
-    labels: chartData.labelData,
-    datasets: [
-      {
-        label: "Expenses",
-        data: chartData.amountData,
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4CAF50",
-          "#9966FF",
-        ],
-        hoverBackgroundColor: [
-          "#FF4365",
-          "#209CEE",
-          "#FFD633",
-          "#3EBA61",
-          "#7755FF",
-        ],
-      },
-    ],
-  };
-
-  return <Pie data={data} style={{ maxWidth: "300px", height: "auto" }} />;
-};
+import { getPercentage } from "../utils/helpers";
 
 interface MonthlySummary {
   date: string;
@@ -60,47 +29,6 @@ function Dashboard() {
   const { transactions } = useSelector((state: State) => state.transaction);
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
-  const expenses = transactions.filter(
-    (transaction: any) => transaction?.type?.toLowerCase() !== "income"
-  );
-
-  const income = transactions.filter(
-    (transaction: any) => transaction?.type?.toLowerCase() === "income"
-  );
-
-  const getChartData = (data: TransactionType[]) => {
-    const expenseMap = new Map();
-    for (const { category, amount } of data) {
-      expenseMap.set(category, (expenseMap.get(category) || 0) + amount);
-    }
-    const groupedData = Object.fromEntries(expenseMap);
-    const labelData = Object.keys(groupedData);
-    const amountData = Object.values(groupedData);
-
-    return {
-      labelData,
-      amountData,
-    };
-  };
-
-  const getMonthlyData = (type: string) => {
-    const expenseMap = new Map();
-
-    let expenses = transactions.filter(
-      (transaction: TransactionType) =>
-        transaction?.type?.toLowerCase() === type
-    );
-
-    for (const { date, amount } of expenses) {
-      expenseMap.set(date, (expenseMap.get(date) || 0) + amount);
-    }
-    let totalExpense = expenses
-      .map((expense: TransactionType) => expense.amount)
-      .reduce((curr: number, sum: number) => curr + sum, 0);
-
-    return totalExpense;
-  };
-
   const getTransactionsSummary = (
     data: TransactionType[]
   ): MonthlySummary[] => {
@@ -113,7 +41,6 @@ function Dashboard() {
     );
 
     sortedData.forEach((transaction) => {
-      // Extract the year and month from the date
       const date = new Date(transaction.date);
       const day = date.toLocaleDateString("en-SE");
       const monthName = date.toLocaleDateString("en-SE", { month: "long" });
@@ -193,102 +120,54 @@ function Dashboard() {
     return { days: days, data: data, totalAmount: totalAmount };
   };
 
-  const months = Array.from(
-    new Set(summary.map((item) => `${item.month} ${item.year}`))
-  );
-
-  const monthlyExpenseData = months.map((month) => {
-    const expense = summary.filter(
-      (item) =>
-        `${item.month} ${item.year}` === month && item.type === "Expense"
-    );
-    return expense.reduce((acc, curr) => acc + curr.totalAmount, 0);
-  });
-
-  const monthlyIncomeData = months.map((month) => {
-    const income = summary.filter(
-      (item) => `${item.month} ${item.year}` === month && item.type === "Income"
-    );
-    return income.reduce((acc, curr) => acc + curr.totalAmount, 0);
-  });
-
-  const years = Array.from(new Set(summary.map((item) => item.year)));
-
-  const yearlyExpenseData = years.map((year) => {
-    const expense = summary.filter(
-      (item) => item.year === year && item.type === "Expense"
-    );
-    return expense.reduce((acc, curr) => acc + curr.totalAmount, 0);
-  });
-
-  const yearlyIncomeData = years.map((year) => {
-    const income = summary.find(
-      (item) => item.year === year && item.type === "Income"
-    );
-    return income ? income.totalAmount : 0;
-  });
-
-  const getTodaySummary = (type: string) => {
-    const date = new Date();
-    const today = date.toLocaleDateString("en-SE");
-    const todaySummary = summary.filter(
-      (item) => item.day === today && item.type === type
+  const getMonthlyData = (type: string) => {
+    const months = Array.from(
+      new Set(summary.map((item) => `${item.month} ${item.year}`))
     );
 
-    return todaySummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
-  };
-
-  const getPreviousDaySummary = (type: string) => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    const previousDay = date.toLocaleString();
-
-    const previousDaySummary = summary.filter(
-      (item) => item.month === previousDay && item.type === type
-    );
-
-    return previousDaySummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
-  };
-
-  const getThisWeekSummary = (type: string) => {
-    const date = new Date();
-    const today = date.toLocaleDateString("en-SE");
-    const week = date.getDay();
-    const weekStart = new Date(date.setDate(date.getDate() - week));
-    const weekEnd = new Date(date.setDate(date.getDate() + 6));
-
-    const thisWeekSummary = summary.filter((item) => {
-      const itemDate = new Date(item.date);
-      return itemDate >= weekStart && itemDate <= weekEnd && item.type === type;
+    const data = months.map((month) => {
+      const monthlyData = summary.filter(
+        (item) => `${item.month} ${item.year}` === month && item.type === type
+      );
+      return monthlyData.reduce((acc, curr) => acc + curr.totalAmount, 0);
     });
 
-    return (
-      thisWeekSummary.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0
+    const totalAmount = data.reduce((acc, curr) => acc + curr, 0);
+
+    return { months: months, data: data, totalAmount: totalAmount };
+  };
+
+  const getYearlyData = (type: string) => {
+    const years = Array.from(new Set(summary.map((item) => item.year)));
+
+    const data = years.map((year) => {
+      const yearlyData = summary.filter(
+        (item) => item.year === year && item.type === type
+      );
+      return yearlyData.reduce((acc, curr) => acc + curr.totalAmount, 0);
+    });
+
+    const totalAmount = data.reduce((acc, curr) => acc + curr, 0);
+
+    return { years, data, totalAmount };
+  };
+
+  const getDaysSummary = (type: string, daysAgo: number = 0) => {
+    const date = new Date();
+    date.setDate(date.getDate() - daysAgo);
+
+    const formattedDate = date.toLocaleDateString("en-SE");
+
+    const filteredSummary = summary.filter(
+      (item) => item.day === formattedDate && item.type === type
     );
+
+    return filteredSummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
   };
 
-  const getPreviousWeekSummary = (type: string) => {
+  const getMonthSummary = (type: string, monthsAgo: number = 0) => {
     const date = new Date();
-    const today = date.toLocaleDateString("en-SE");
-    const week = date.getDay();
-    const weekStart = new Date(date.setDate(date.getDate() - week));
-    const weekEnd = new Date(date.setDate(date.getDate() + 6));
-    const previousWeekStart = new Date(date.setDate(date.getDate() - 7));
-    const previousWeekEnd = new Date(date.setDate(date.getDate() - 1));
-
-    const previousWeekSummary = summary.filter(
-      (item) =>
-        new Date(`${item.day} ${item.month} ${item.year}`) >=
-          previousWeekStart &&
-        new Date(`${item.day} ${item.month} ${item.year}`) <= previousWeekEnd &&
-        item.type === type
-    )[0];
-
-    return previousWeekSummary?.totalAmount || 0;
-  };
-
-  const getCurrentMonthSummary = (type: string) => {
-    const date = new Date();
+    date.setMonth(date.getMonth() - monthsAgo);
     const month = date.toLocaleString("en-SE", { month: "long" });
     const year = `${date.getFullYear()}`;
 
@@ -299,25 +178,10 @@ function Dashboard() {
     return currentMonthSummary.reduce((acc, curr) => acc + curr.totalAmount, 0);
   };
 
-  const getPreviousMonthSummary = (type: string) => {
+  const getYearSummary = (type: string, yearsAgo: number = 0) => {
     const date = new Date();
-    date.setMonth(date.getMonth() - 1);
-    const month = date.toLocaleString("en-SE", { month: "long" });
-    const year = `${date.getFullYear()}`;
+    const year = `${date.getFullYear() - yearsAgo}`;
 
-    const previousMonthSummary = summary.filter(
-      (item) => item.month === month && item.year === year && item.type === type
-    );
-
-    return previousMonthSummary.reduce(
-      (acc, curr) => acc + curr.totalAmount,
-      0
-    );
-  };
-
-  const getThisYearSummary = (type: string) => {
-    const date = new Date();
-    const year = `${date.getFullYear()}`;
     const thisYearSummary = summary.filter(
       (item) => item.year === year && item.type === type
     );
@@ -326,26 +190,14 @@ function Dashboard() {
     );
   };
 
-  const getPreviousYearSummary = (type: string) => {
-    const date = new Date();
-    const year = `${date.getFullYear() - 1}`;
-    const previousYearSummary = summary.filter(
-      (item) => item.year === year && item.type === type
-    );
-
-    return (
-      previousYearSummary.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0
-    );
-  };
-
   const getSummary = (index: number) => {
     switch (index) {
       case 0:
         return {
-          expense: getTodaySummary("Expense"),
-          income: getTodaySummary("Income"),
-          previousExpense: getPreviousDaySummary("Expense"),
-          previousIncome: getPreviousDaySummary("Income"),
+          expense: getDaysSummary("Expense"),
+          income: getDaysSummary("Income"),
+          previousExpense: getDaysSummary("Expense", 1),
+          previousIncome: getDaysSummary("Income", 1),
         };
       case 1:
         return {
@@ -356,24 +208,19 @@ function Dashboard() {
         };
       case 2:
         return {
-          expense: getCurrentMonthSummary("Expense"),
-          income: getCurrentMonthSummary("Income"),
-          previousExpense: getPreviousMonthSummary("Expense"),
-          previousIncome: getPreviousMonthSummary("Income"),
+          expense: getMonthSummary("Expense"),
+          income: getMonthSummary("Income"),
+          previousExpense: getMonthSummary("Expense", 1),
+          previousIncome: getMonthSummary("Income", 1),
         };
       case 3:
         return {
-          expense: getThisYearSummary("Expense"),
-          income: getThisYearSummary("Income"),
-          previousExpense: getPreviousYearSummary("Expense"),
-          previousIncome: getPreviousYearSummary("Income"),
+          expense: getYearSummary("Expense"),
+          income: getYearSummary("Income"),
+          previousExpense: getYearSummary("Expense", 1),
+          previousIncome: getYearSummary("Income", 1),
         };
     }
-  };
-
-  const getPercentage = (current: number, previous: number) => {
-    let percentage = (current - previous) / previous;
-    return previous > 0 ? (percentage * 100).toFixed() + "%" : "+100%";
   };
 
   useEffect(() => {
@@ -462,9 +309,7 @@ function Dashboard() {
           className={`dashboard__chart ${
             currentTabIndex === 0 ? "active" : ""
           }`}
-        >
-          Recent transactions
-        </li>
+        ></li>
         <li
           className={`dashboard__chart ${
             currentTabIndex === 1 ? "active" : ""
@@ -484,9 +329,9 @@ function Dashboard() {
         >
           <BarChart
             label="Monthly"
-            period={months}
-            expenseData={monthlyExpenseData}
-            incomeData={monthlyIncomeData}
+            period={getMonthlyData("Income").months}
+            expenseData={getMonthlyData("Expense").data}
+            incomeData={getMonthlyData("Income").data}
           />
         </li>
         <li
@@ -496,9 +341,9 @@ function Dashboard() {
         >
           <BarChart
             label="Yearly"
-            period={years}
-            expenseData={yearlyExpenseData}
-            incomeData={yearlyIncomeData}
+            period={getYearlyData("Income").years}
+            expenseData={getYearlyData("Expense").data}
+            incomeData={getYearlyData("Income").data}
           />
         </li>
       </ul>
