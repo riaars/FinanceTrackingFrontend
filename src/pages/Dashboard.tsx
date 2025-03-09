@@ -142,7 +142,7 @@ function Dashboard() {
 
   const summary = getTransactionsSummary(transactions);
 
-  const getLast7DaysData = (type: string) => {
+  const getThisWeekData = (type: string) => {
     const date = new Date();
     const today = date.toLocaleDateString("en-SE");
     const last7Days = new Date(date.setDate(date.getDate() - 7));
@@ -160,7 +160,37 @@ function Dashboard() {
       return dayData.reduce((acc, curr) => acc + curr.totalAmount, 0);
     });
 
-    return { days: days, data: data };
+    const totalAmount = data.reduce((acc, curr) => acc + curr, 0);
+
+    return { days: days, data: data, totalAmount: totalAmount };
+  };
+
+  const getLastWeekData = (type: string) => {
+    const today = new Date();
+
+    const previousWeekStart = new Date(today);
+    previousWeekStart.setDate(today.getDate() - 7);
+
+    const previousWeekEnd = new Date(today);
+    previousWeekEnd.setDate(today.getDate() - 1);
+
+    const previousWeekData = summary.filter(
+      (item) =>
+        new Date(item.date) >= previousWeekStart &&
+        new Date(item.date) <= previousWeekEnd
+    );
+
+    const days = Array.from(new Set(previousWeekData.map((item) => item.day)));
+    const data = days.map((day) => {
+      const dayData = previousWeekData.filter(
+        (item) => item.day === day && item.type === type
+      );
+      return dayData.reduce((acc, curr) => acc + curr.totalAmount, 0);
+    });
+
+    const totalAmount = data.reduce((acc, curr) => acc + curr, 0);
+
+    return { days: days, data: data, totalAmount: totalAmount };
   };
 
   const months = Array.from(
@@ -226,8 +256,6 @@ function Dashboard() {
     const week = date.getDay();
     const weekStart = new Date(date.setDate(date.getDate() - week));
     const weekEnd = new Date(date.setDate(date.getDate() + 6));
-    console.log("weekStart", weekStart);
-    console.log("weekEnd", weekEnd);
 
     const thisWeekSummary = summary.filter((item) => {
       const itemDate = new Date(item.date);
@@ -321,10 +349,10 @@ function Dashboard() {
         };
       case 1:
         return {
-          expense: getThisWeekSummary("Expense"),
-          income: getThisWeekSummary("Income"),
-          previousExpense: getPreviousWeekSummary("Expense"),
-          previousIncome: getPreviousWeekSummary("Income"),
+          expense: getThisWeekData("Expense").totalAmount,
+          income: getThisWeekData("Income").totalAmount,
+          previousExpense: getLastWeekData("Expense").totalAmount,
+          previousIncome: getLastWeekData("Income").totalAmount,
         };
       case 2:
         return {
@@ -444,9 +472,9 @@ function Dashboard() {
         >
           <BarChart
             label="Daily"
-            period={getLast7DaysData("Income").days}
-            expenseData={getLast7DaysData("Expense").data}
-            incomeData={getLast7DaysData("Income").data}
+            period={getThisWeekData("Income").days}
+            expenseData={getThisWeekData("Expense").data}
+            incomeData={getThisWeekData("Income").data}
           />
         </li>
         <li
