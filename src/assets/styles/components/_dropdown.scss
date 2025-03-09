@@ -15,6 +15,7 @@
   background-color: $primary-color;
   padding: 0.75rem 0;
   min-width: 240px;
+  color: $text-button-color;
 
   &.small {
     min-width: 120px;
@@ -30,7 +31,7 @@
   top: 100%;
   left: 0;
   width: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid $border-color;
   background-color: $primary-color;
   list-style: none;
   padding: 0;
@@ -43,6 +44,9 @@
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
+  .dropdown {
+    max-width: 100%;
+  }
   .dropdown__button {
     &.small {
       min-width: 240px;

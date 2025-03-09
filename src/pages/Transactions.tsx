@@ -203,6 +203,7 @@ function Transactions() {
         <div>
           <div className="transaction-filter">
             <Input
+              className="search-field"
               type="text"
               name="detail"
               placeholder="Search by Transaction ID or Details"

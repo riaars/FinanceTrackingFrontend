@@ -1,6 +1,7 @@
 @use "../utils/variables" as *;
 
-.input-field {
+.input-field,
+.search-field {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid;
@@ -10,7 +11,7 @@
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
-  .input-field {
+  .search-field {
     padding: 12px 0px 12px 12px;
   }
 }

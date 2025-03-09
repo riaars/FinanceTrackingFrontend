@@ -18,6 +18,9 @@
   cursor: pointer;
   &.active {
     font-weight: bold;
+    border-bottom: 2px solid $secondary-color;
+    color: $secondary-color;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -31,8 +34,8 @@
 
 .dashboard-summary__item {
   padding: 1rem 2rem;
-  border: 1px solid #ebebeb;
-  background-color: white;
+  border: 1px solid $border-color;
+  background-color: $primary-color;
   border-radius: 0.5rem;
 }
 
@@ -71,6 +74,9 @@
   }
   .dashboard-filter__item {
     margin: 0.5rem 1rem;
+    &.active {
+      border-bottom: 2px solid transparent;
+    }
   }
   .dashboard-summary {
     flex-direction: column;

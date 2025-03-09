@@ -1,9 +1,16 @@
+@use "../utils/variables" as *;
+
 html,
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
+  color: $text-color;
+}
+
+input {
+  color: $text-color;
 }
 ul {
   margin-block-start: 0;

@@ -1,7 +1,7 @@
 @use "../utils/variables" as *;
 
 .table-row {
-  background-color: white;
+  background-color: $primary-color;
 }
 .table-cell {
   padding: 1rem 1rem;
