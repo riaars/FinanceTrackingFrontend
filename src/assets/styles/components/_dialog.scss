@@ -13,7 +13,7 @@
 }
 
 .dialog {
-  background: $primary-color;
+  background: var(--primary-color);
   width: 400px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -37,7 +37,7 @@
 .dialog__content__header {
   text-align: center;
   font-weight: bold;
-  color: $secondary-color;
+  color: var(--secondary-color);
 }
 
 .dialog__content__body {

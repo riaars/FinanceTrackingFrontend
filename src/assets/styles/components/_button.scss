@@ -1,12 +1,12 @@
 @use "../utils/variables" as *;
 
 .primary-button {
-  background-color: $secondary-color;
+  background-color: var(--secondary-color);
   padding: 12px;
   border-radius: 0.5rem;
   border-width: 0px;
   margin: 0.5rem;
-  color: $text-button-color;
+  color: var(--text-button-color);
 }
 
 .secondary-button {
@@ -14,9 +14,9 @@
   border-radius: 0.5rem;
   border-width: 0px;
   margin: 0.5rem;
-  border: 1px solid $secondary-color;
-  background-color: $hover-color;
-  color: $secondary-color;
+  border: 1px solidvar(--secondary-color);
+  background-color: var(--hover-color);
+  color: var(--secondary-color);
   font-weight: bold;
 }
 
@@ -25,7 +25,7 @@
   border-radius: 1rem;
   border-width: 0;
   margin: 0.5rem;
-  color: $text-button-color;
+  color: var(--text-button-color);
   font-weight: bold;
 
   &.small {
@@ -65,6 +65,10 @@
 
 .entertainment {
   background-color: #9966ff;
+}
+
+.icon-button {
+  background-color: transparent;
 }
 
 @media screen and (max-width: $breakpoint-mobile) {

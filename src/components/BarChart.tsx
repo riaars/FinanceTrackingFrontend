@@ -49,7 +49,7 @@ const BarChart = ({ label, period, expenseData, incomeData }: any) => {
     },
   };
 
-  return <Bar data={data} options={options} className="bar-chart" />;
+  return <Bar data={data} options={options} className="barchart" />;
 };
 
 export default BarChart;

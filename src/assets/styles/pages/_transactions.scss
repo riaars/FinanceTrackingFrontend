@@ -1,7 +1,7 @@
 @use "../utils/variables" as *;
 
 .table-row {
-  background-color: $primary-color;
+  background-color: var(--primary-color);
 }
 .table-cell {
   padding: 1rem 1rem;
@@ -18,7 +18,7 @@
 }
 
 .link {
-  color: $secondary-color;
+  color: var(--secondary-color);
 }
 
 .transactions-container {
