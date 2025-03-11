@@ -8,7 +8,7 @@ function Settings() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <>
+    <div className="settings-container">
       <div className="page_title">Settings</div>
       <div>
         <p>Email: {loggedInUser}</p>
@@ -19,7 +19,7 @@ function Settings() {
           </span>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

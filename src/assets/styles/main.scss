@@ -16,8 +16,9 @@
 @use "pages/signup";
 @use "pages/login";
 @use "pages/dashboard";
-@use "pages/add-transaction";
+@use "pages/addtransaction";
 @use "pages/transactions";
+@use "pages/settings";
 
 @use "utils/variables";
 @use "utils/mixin";

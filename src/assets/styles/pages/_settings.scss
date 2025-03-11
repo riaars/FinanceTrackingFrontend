@@ -1,0 +1,7 @@
+@use "../utils/variables" as *;
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .settings-container {
+    margin-top: 3rem;
+  }
+}
