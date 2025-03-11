@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as PATH from "../config/Path";
 import { MdMenu } from "react-icons/md";
 import { MdOutlineFormatListBulleted } from "react-icons/md";
 import { IoBarChartOutline } from "react-icons/io5";
 import { LuSettings } from "react-icons/lu";
+import { IoLogOutOutline } from "react-icons/io5";
+
 import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
 import { AiOutlineTransaction } from "react-icons/ai";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { authCreators } from "../redux";
+import { useDispatch } from "react-redux";
 
 function Sidebar() {
   const loggedInUser = localStorage.getItem("username");
+  const dispatch = useDispatch();
+  const { signOut } = bindActionCreators(authCreators, dispatch);
 
   const navigate = useNavigate();
 
@@ -29,7 +36,20 @@ function Sidebar() {
       icon: <AiOutlineTransaction />,
     },
     { title: "Settings", path: PATH.SETTINGS, icon: <LuSettings /> },
+    { title: "Logout", path: "", icon: <IoLogOutOutline /> },
   ];
+
+  const handleSignOut = () => {
+    signOut();
+    navigate(PATH.LOGIN);
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate(PATH.LOGIN);
+    }
+  }, [navigate]);
 
   const activeMenu = (menu_path: string) => {
     return location.pathname === menu_path ? "active" : "inherit";
@@ -53,8 +73,12 @@ function Sidebar() {
               key={sideMenu.title}
               className={`sidebar-container__item ${activeMenu(sideMenu.path)}`}
               onClick={() => {
-                setOpenSidebar(false);
-                navigate(sideMenu.path);
+                if (sideMenu.title === "Logout") {
+                  handleSignOut();
+                } else {
+                  setOpenSidebar(false);
+                  navigate(sideMenu.path);
+                }
               }}
             >
               <div className="sidebar-container-icon">
