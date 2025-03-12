@@ -6,13 +6,17 @@ import * as PATH from "./config/Path";
 import Header from "./layout/Header";
 import Sidebar from "./layout/Sidebar";
 import Transactions from "./pages/Transactions";
-import Dashboard from "./pages/Dashboard";
-import Settings from "./pages/Settings";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import PrivateRoute from "./components/PrivateRoute";
+import React, { useEffect } from "react";
+import Dashboard from "./pages/Dashboard";
+import useTheme from "./hooks/useTheme";
+import Settings from "./pages/Settings";
 
 function App() {
+  const { theme } = useTheme();
+
   const Layout = ({ children }: any) => {
     return (
       <div className="app">
@@ -24,6 +28,16 @@ function App() {
       </div>
     );
   };
+
+  useEffect(() => {
+    if (theme == "dark") {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
     <Provider store={store}>
@@ -60,6 +74,7 @@ function App() {
             />
           </Route>
         </Routes>
+        {/* </Suspense> */}
       </BrowserRouter>
     </Provider>
   );

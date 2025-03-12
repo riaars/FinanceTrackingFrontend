@@ -11,7 +11,7 @@ import { transactionCreators, State } from "../redux";
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
 import { CategoryOptions, TypeOptions } from "../utils/Constant";
-import { formattedDate } from "../utils/helpers";
+import { debounce, formattedDate } from "../utils/helpers";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
 import AddTransaction from "./AddTransaction";
@@ -139,7 +139,15 @@ function Transactions() {
   };
 
   const handleFilterChange = (name: string, value: string) => {
-    setFiltered({ ...filtered, [name]: value });
+    setFiltered((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const debouncedFilterChange = debounce(handleFilterChange, 500);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFiltered((prev) => ({ ...prev, [e.target.name]: value }));
+    debouncedFilterChange(e.target.name, value);
   };
 
   const filteredTransactions = () => {
@@ -208,9 +216,7 @@ function Transactions() {
               name="detail"
               placeholder="Search by Transaction ID or Details"
               value={filtered.detail}
-              onChange={(e) =>
-                handleFilterChange(e.target.name, e.target.value)
-              }
+              onChange={handleSearchChange}
             />
 
             <Dropdown
