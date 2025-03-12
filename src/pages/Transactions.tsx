@@ -202,6 +202,14 @@ function Transactions() {
         <div className="empty-transactions__text">
           You don't have any transaction yet. Please add it here.
         </div>
+        <Button
+          title=" + Add Transaction"
+          type="button"
+          className="primary-button add-button-transaction"
+          onClick={() => {
+            setOpenAddTransactionDialog(true);
+          }}
+        />
       </div>
 
       <div
@@ -400,23 +408,23 @@ function Transactions() {
             </div>
           </Dialog>
         )}
-
-        {openAddTransactionDialog && (
-          <Dialog
-            title="Add New Transaction"
-            handleCloseDialog={() =>
-              setOpenAddTransactionDialog(!openAddTransactionDialog)
-            }
-          >
-            <AddTransaction
-              openAddTransactionDialog={openAddTransactionDialog}
-              setOpenAddTransactionDialog={setOpenAddTransactionDialog}
-              openUserInputDialog={openUserInputDialog}
-              setOpenUserInputDialog={setOpenUserInputDialog}
-            />
-          </Dialog>
-        )}
       </div>
+
+      {openAddTransactionDialog && (
+        <Dialog
+          title="Add New Transaction"
+          handleCloseDialog={() =>
+            setOpenAddTransactionDialog(!openAddTransactionDialog)
+          }
+        >
+          <AddTransaction
+            openAddTransactionDialog={openAddTransactionDialog}
+            setOpenAddTransactionDialog={setOpenAddTransactionDialog}
+            openUserInputDialog={openUserInputDialog}
+            setOpenUserInputDialog={setOpenUserInputDialog}
+          />
+        </Dialog>
+      )}
     </div>
   );
 }
