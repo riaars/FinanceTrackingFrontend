@@ -98,7 +98,7 @@ function Transactions() {
     if (isFormTransactionValid()) {
       try {
         if (token) {
-          addTransaction(form, token);
+          addTransaction(form);
           setTransactionSubmit(true);
         }
       } catch (error) {
@@ -186,7 +186,7 @@ function Transactions() {
   };
 
   useEffect(() => {
-    if (token) getAllTransactions(token);
+    if (token) getAllTransactions();
   }, [
     token,
     JSON.stringify(updateTransactionResult),
@@ -366,7 +366,7 @@ function Transactions() {
                 className="primary-button"
                 onClick={() => {
                   if (token && selectedTransaction) {
-                    updateTransaction(selectedTransaction, token);
+                    updateTransaction(selectedTransaction);
                     setIsEdit(!isEdit);
                   }
                 }}
@@ -395,10 +395,7 @@ function Transactions() {
                 className="primary-button"
                 onClick={() => {
                   if (token && selectedTransaction) {
-                    deleteTransaction(
-                      selectedTransaction?.transaction_id,
-                      token
-                    );
+                    deleteTransaction(selectedTransaction?.transaction_id);
                     setIsDelete(!isDelete);
                   }
                 }}

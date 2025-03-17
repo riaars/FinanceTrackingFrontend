@@ -10,13 +10,14 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { authCreators } from "../redux";
-import { useDispatch } from "react-redux";
+import { authCreators, State } from "../redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar() {
   const loggedInUser = localStorage.getItem("username");
   const dispatch = useDispatch();
   const { signOut } = bindActionCreators(authCreators, dispatch);
+  const { loginResponse } = useSelector((state: State) => state.auth);
 
   const navigate = useNavigate();
 
@@ -49,7 +50,7 @@ function Sidebar() {
     if (!token) {
       navigate(PATH.LOGIN);
     }
-  }, [navigate]);
+  }, [navigate, loginResponse]);
 
   const activeMenu = (menu_path: string) => {
     return location.pathname === menu_path ? "active" : "inherit";

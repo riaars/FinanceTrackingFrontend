@@ -7,7 +7,8 @@ import { TransactionType } from "./Transactions";
 import BarChart from "../components/BarChart";
 import Button from "../components/Button";
 import { getPercentage } from "../utils/helpers";
-
+import * as PATH from "../config/Path";
+import { useNavigate } from "react-router-dom";
 interface MonthlySummary {
   date: string;
   day: string;
@@ -19,6 +20,7 @@ interface MonthlySummary {
 
 function Dashboard() {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { getAllTransactions } = bindActionCreators(
@@ -27,6 +29,8 @@ function Dashboard() {
   );
 
   const { transactions } = useSelector((state: State) => state.transaction);
+  const { loginResponse } = useSelector((state: State) => state.auth);
+
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
   const getTransactionsSummary = (
@@ -225,9 +229,11 @@ function Dashboard() {
 
   useEffect(() => {
     if (token) {
-      getAllTransactions(token);
+      getAllTransactions();
+    } else {
+      navigate(PATH.LOGIN);
     }
-  }, [token]);
+  }, [token, loginResponse]);
 
   return (
     <div className="dashboard">

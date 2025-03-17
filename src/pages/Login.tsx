@@ -45,7 +45,7 @@ function Login() {
     if (token) {
       navigate(PATH.DASHBOARD);
     }
-  }, [loginResponse, navigate]);
+  }, [loginResponse]);
 
   return (
     <div>

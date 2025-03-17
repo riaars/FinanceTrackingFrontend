@@ -71,7 +71,7 @@ function AddTransaction({
     if (isFormTransactionValid()) {
       try {
         if (token) {
-          addTransaction(form, token);
+          addTransaction(form);
           setTransactionSubmit(true);
           setOpenAddTransactionDialog(false);
         }

@@ -21,6 +21,7 @@ export const signIn =
     try {
       const response = await fetch(`${API_URL}/signIn`, {
         method: "POST",
+        credentials: "include",
         body: JSON.stringify(form),
         headers: {
           "Content-Type": "application/json",
@@ -57,6 +58,7 @@ export const signUp =
     try {
       const response = await fetch(`${API_URL}/signUp`, {
         method: "POST",
+        credentials: "include",
         body: JSON.stringify(form),
         headers: {
           "Content-Type": "application/json",
@@ -87,6 +89,36 @@ export const signUp =
 
 export const signOut = () => async (dispatch: Dispatch<Action>) => {
   dispatch({
-    type: ActionTypes.SIGNOUT_RESULT,
+    type: ActionTypes.SIGNOUT_REQUEST,
   });
+
+  try {
+    const response = await fetch(`${API_URL}/logout`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message || "Something went wrong";
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    if (data) {
+      dispatch({
+        type: ActionTypes.SIGNOUT_RESULT,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    dispatch({
+      type: ActionTypes.SIGNOUT_ERROR,
+      payload: error,
+    });
+  }
 };

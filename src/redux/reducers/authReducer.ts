@@ -9,6 +9,9 @@ const initialState = {
   signupRequest: false,
   signupResponse: null,
   signupError: null,
+  signOutRequest: false,
+  signOutResponse: null,
+  signOutError: null,
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -47,9 +50,7 @@ const authReducer = (state = initialState, action: any) => {
     case ActionTypes.SIGNUP_RESULT: {
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("email", action.payload.email);
-
       localStorage.setItem("username", action.payload.username);
-
       return {
         ...state,
         signupResponse: action.payload,
@@ -62,13 +63,28 @@ const authReducer = (state = initialState, action: any) => {
         signupError: action.payload,
       };
     }
-
+    case ActionTypes.SIGNOUT_REQUEST: {
+      return {
+        ...state,
+        signOutRequest: action.payload,
+      };
+    }
     case ActionTypes.SIGNOUT_RESULT: {
       localStorage.removeItem("token");
       localStorage.removeItem("email");
+      localStorage.removeItem("username");
+
       return {
         ...state,
         loginResponse: null,
+        signOutResponse: action.payload,
+      };
+    }
+
+    case ActionTypes.SIGNOUT_ERROR: {
+      return {
+        ...state,
+        signOutError: action.payload,
       };
     }
 
