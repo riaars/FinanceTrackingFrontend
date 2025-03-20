@@ -16,6 +16,7 @@ import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
 import AddTransaction from "./AddTransaction";
 import UpdateTransactionDialog from "../components/Transactions/UpdateTransactionDialog";
+import DeleteTransactionDialog from "../components/Transactions/DeleteTransactionDialog";
 
 export type TransactionType = {
   date: Date | string;
@@ -36,7 +37,7 @@ const initialFiltered = {
 function Transactions() {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
-  const { deleteTransaction, getAllTransactions } = bindActionCreators(
+  const { getAllTransactions } = bindActionCreators(
     transactionCreators,
     dispatch
   );
@@ -69,6 +70,10 @@ function Transactions() {
 
   const toggleEditDialog = () => {
     setIsEdit(!isEdit);
+  };
+
+  const toggleDeleteDialog = () => {
+    setIsDelete(!isDelete);
   };
 
   const debouncedFilterChange = debounce(handleFilterChange, 500);
@@ -250,33 +255,10 @@ function Transactions() {
           />
         )}
         {isDelete && (
-          <Dialog
-            title="Delete Transaction"
-            handleCloseDialog={() => setIsDelete(!isDelete)}
-          >
-            <div className="dialog__content">
-              <p>Are you sure want to delete this transaction?</p>
-            </div>
-            <div className="dialog__actions">
-              <button
-                className="secondary-button"
-                onClick={() => setIsDelete(!isDelete)}
-              >
-                Cancel
-              </button>
-              <button
-                className="primary-button"
-                onClick={() => {
-                  if (token && selectedTransaction) {
-                    deleteTransaction(selectedTransaction?.transaction_id);
-                    setIsDelete(!isDelete);
-                  }
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </Dialog>
+          <DeleteTransactionDialog
+            selectedTransaction={selectedTransaction}
+            toggleDialog={toggleDeleteDialog}
+          />
         )}
       </div>
 
