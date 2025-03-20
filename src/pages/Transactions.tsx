@@ -15,18 +15,12 @@ import { debounce, formattedDate } from "../utils/helpers";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
 import AddTransaction from "./AddTransaction";
+import UpdateTransactionDialog from "../components/Transactions/UpdateTransactionDialog";
 
 export type TransactionType = {
   date: Date | string;
   transaction_id: string;
   email: string;
-  category: string;
-  type: string;
-  detail: string;
-  amount: string;
-};
-
-type TransactionErrorsFormType = {
   category: string;
   type: string;
   detail: string;
@@ -41,14 +35,11 @@ const initialFiltered = {
 
 function Transactions() {
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    deleteTransaction,
-    getAllTransactions,
-    updateTransaction,
-    addTransaction,
-  } = bindActionCreators(transactionCreators, dispatch);
+  const { deleteTransaction, getAllTransactions } = bindActionCreators(
+    transactionCreators,
+    dispatch
+  );
 
   const { transactions, updateTransactionResult, addTransactionResult } =
     useSelector((state: State) => state.transaction);
@@ -72,74 +63,12 @@ function Transactions() {
     useState(false);
   const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
 
-  const [transactionSubmit, setTransactionSubmit] = useState(false);
-  const [form, setForm] = useState({
-    category: "Select category",
-    type: "Select type",
-    detail: "",
-    amount: "",
-  });
-
-  const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
-    category: "",
-    type: "",
-    detail: "",
-    amount: "",
-  });
-  const [isFormValid, setIsFormValid] = useState(true);
-
-  const handleTransactionChange = (name: string, value: string) => {
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (isFormTransactionValid()) {
-      try {
-        if (token) {
-          addTransaction(form);
-          setTransactionSubmit(true);
-        }
-      } catch (error) {
-        console.log("Something went wrong");
-      }
-    } else {
-      setOpenUserInputDialog(!openUserInputDialog);
-    }
-    setOpenAddTransactionDialog(false);
-  };
-
-  const isFormTransactionValid = () => {
-    const newErrors: TransactionErrorsFormType =
-      {} as TransactionErrorsFormType;
-    if (form.type === "Select type") {
-      newErrors.type = "Type is required";
-    }
-    if (form.category === "Select category") {
-      newErrors.category = "Category is required";
-    }
-
-    if (form.detail === "") {
-      newErrors.detail = "Detail is required";
-    }
-
-    if (parseInt(form.amount) === 0) {
-      newErrors.amount = "Amount is required";
-    }
-
-    setFormErrors(newErrors);
-    setIsFormValid(Object.keys(newErrors).length === 0);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleChange = (name: string, value: string) => {
-    setSelectedTransaction({ ...selectedTransaction, [name]: value });
-  };
-
   const handleFilterChange = (name: string, value: string) => {
     setFiltered((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const toggleEditDialog = () => {
+    setIsEdit(!isEdit);
   };
 
   const debouncedFilterChange = debounce(handleFilterChange, 500);
@@ -259,122 +188,66 @@ function Transactions() {
           } of ${transactions.length} transactions `}</div>
         </div>
 
-        <div>
-          <table className="transaction-table">
-            <thead className="table-head">
-              <tr className="table-row-head">
-                <td className="table-cell">Date</td>
-                <td className="table-cell">Transaction ID</td>
-                <td className="table-cell">Type</td>
-                <td className="table-cell">Category</td>
-                <td className="table-cell">Amount</td>
-                <td className="table-cell">Details</td>
-                <td className="table-cell">Actions</td>
+        <table className="transaction-table">
+          <thead className="table-head">
+            <tr className="table-row-head">
+              <td className="table-cell">Date</td>
+              <td className="table-cell">Transaction ID</td>
+              <td className="table-cell">Type</td>
+              <td className="table-cell">Category</td>
+              <td className="table-cell">Amount</td>
+              <td className="table-cell">Details</td>
+              <td className="table-cell">Actions</td>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTransactions()?.map((transaction: any) => (
+              <tr key={transaction.transaction_id} className="table-row">
+                <td className="table-cell">
+                  {new Date(transaction.date).toLocaleDateString("en-SE")}
+                </td>
+                <td className="table-cell">
+                  <a href="" className="link">
+                    {transaction.transaction_id}
+                  </a>
+                </td>
+
+                <td className="table-cell">
+                  <Button
+                    title={transaction?.type?.toLowerCase()}
+                    className={`tag-button ${transaction?.type?.toLowerCase()}`}
+                  />
+                </td>
+                <td className="table-cell">{transaction.category}</td>
+                <td className="table-cell">{transaction.amount}</td>
+                <td className="table-cell">{transaction.detail}</td>
+                <td className="table-cell">
+                  <MdEdit
+                    className="table-cell__icon edit"
+                    onClick={() => {
+                      setSelectedTransaction(transaction);
+                      setIsEdit(!isEdit);
+                    }}
+                  />
+                  <MdDelete
+                    className="table-cell__icon delete"
+                    onClick={() => {
+                      setSelectedTransaction(transaction);
+                      setIsDelete(!isDelete);
+                    }}
+                  />
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions()?.map((transaction: any) => (
-                <tr key={transaction.transaction_id} className="table-row">
-                  <td className="table-cell">
-                    {new Date(transaction.date).toLocaleDateString("en-SE")}
-                  </td>
-                  <td className="table-cell">
-                    <a href="" className="link">
-                      {transaction.transaction_id}
-                    </a>
-                  </td>
+            ))}
+          </tbody>
+        </table>
 
-                  <td className="table-cell">
-                    <Button
-                      title={transaction?.type?.toLowerCase()}
-                      className={`tag-button ${transaction?.type?.toLowerCase()}`}
-                    />
-                  </td>
-                  <td className="table-cell">{transaction.category}</td>
-                  <td className="table-cell">{transaction.amount}</td>
-                  <td className="table-cell">{transaction.detail}</td>
-                  <td className="table-cell">
-                    <MdEdit
-                      className="table-cell__icon edit"
-                      onClick={() => {
-                        setSelectedTransaction(transaction);
-                        setIsEdit(!isEdit);
-                      }}
-                    />
-                    <MdDelete
-                      className="table-cell__icon delete"
-                      onClick={() => {
-                        setSelectedTransaction(transaction);
-                        setIsDelete(!isDelete);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
         {isEdit && (
-          <Dialog
-            title="Update Transaction"
-            handleCloseDialog={() => setIsEdit(!isEdit)}
-          >
-            <div className="dialog__content">
-              <div className="dialog__content__header">
-                {selectedTransaction?.transaction_id}
-              </div>
-              <div className="dialog__content__body">
-                <Dropdown
-                  options={TypeOptions}
-                  name="type"
-                  value={selectedTransaction?.type || ""}
-                  onChange={handleChange}
-                />
-
-                <Dropdown
-                  options={CategoryOptions}
-                  name="category"
-                  value={selectedTransaction?.category || ""}
-                  onChange={handleChange}
-                />
-
-                <Input
-                  type="number"
-                  name="amount"
-                  placeholder="Amount"
-                  value={selectedTransaction?.amount || ""}
-                  onChange={(e) => handleChange(e.target.name, e.target.value)}
-                />
-
-                <Input
-                  type="text"
-                  name="detail"
-                  placeholder="Detail"
-                  value={selectedTransaction?.detail || ""}
-                  onChange={(e) => handleChange(e.target.name, e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="dialog__actions">
-              <button
-                className="secondary-button"
-                onClick={() => setIsEdit(!isEdit)}
-              >
-                Cancel
-              </button>
-              <button
-                className="primary-button"
-                onClick={() => {
-                  if (token && selectedTransaction) {
-                    updateTransaction(selectedTransaction);
-                    setIsEdit(!isEdit);
-                  }
-                }}
-              >
-                Update
-              </button>
-            </div>
-          </Dialog>
+          <UpdateTransactionDialog
+            selectedTransaction={selectedTransaction}
+            setSelectedTransaction={setSelectedTransaction}
+            toggleDialog={toggleEditDialog}
+          />
         )}
         {isDelete && (
           <Dialog
