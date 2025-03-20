@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Button from "../components/Button";
+
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { transactionCreators, State } from "../redux";
 
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
-import Dialog from "../components/Dialog";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { transactionCreators, State } from "../redux";
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
-import { CategoryOptions, TypeOptions } from "../utils/Constant";
-import { debounce, formattedDate } from "../utils/helpers";
-import * as PATH from "../config/Path";
-import { useNavigate } from "react-router-dom";
-import AddTransaction from "../components/Transactions/AddTransactionDialog";
+import Button from "../components/Button";
 import UpdateTransactionDialog from "../components/Transactions/UpdateTransactionDialog";
 import DeleteTransactionDialog from "../components/Transactions/DeleteTransactionDialog";
 import AddTransactionDialog from "../components/Transactions/AddTransactionDialog";
+
+import { CategoryOptions, TypeOptions } from "../utils/Constant";
 
 export type TransactionType = {
   date: Date | string;
@@ -64,14 +61,6 @@ function Transactions() {
 
   const handleFilterChange = (name: string, value: string) => {
     setFiltered((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const debouncedFilterChange = debounce(handleFilterChange, 500);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setFiltered((prev) => ({ ...prev, [e.target.name]: value }));
-    debouncedFilterChange(e.target.name, value);
   };
 
   const filteredTransactions = () => {
@@ -160,7 +149,9 @@ function Transactions() {
               name="detail"
               placeholder="Search by Transaction ID or Details"
               value={filtered.detail}
-              onChange={handleSearchChange}
+              onChange={(e) =>
+                handleFilterChange(e.target.name, e.target.value)
+              }
             />
 
             <Dropdown
