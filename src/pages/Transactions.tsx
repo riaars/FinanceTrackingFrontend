@@ -14,9 +14,10 @@ import { CategoryOptions, TypeOptions } from "../utils/Constant";
 import { debounce, formattedDate } from "../utils/helpers";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
-import AddTransaction from "./AddTransaction";
+import AddTransaction from "../components/Transactions/AddTransactionDialog";
 import UpdateTransactionDialog from "../components/Transactions/UpdateTransactionDialog";
 import DeleteTransactionDialog from "../components/Transactions/DeleteTransactionDialog";
+import AddTransactionDialog from "../components/Transactions/AddTransactionDialog";
 
 export type TransactionType = {
   date: Date | string;
@@ -56,24 +57,13 @@ function Transactions() {
       amount: "",
     });
 
+  const [isAdded, setIsAdded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [filtered, setFiltered] = useState(initialFiltered);
 
-  const [openAddTransactionDialog, setOpenAddTransactionDialog] =
-    useState(false);
-  const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
-
   const handleFilterChange = (name: string, value: string) => {
     setFiltered((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const toggleEditDialog = () => {
-    setIsEdit(!isEdit);
-  };
-
-  const toggleDeleteDialog = () => {
-    setIsDelete(!isDelete);
   };
 
   const debouncedFilterChange = debounce(handleFilterChange, 500);
@@ -119,6 +109,18 @@ function Transactions() {
     );
   };
 
+  const toggleAddDialog = () => {
+    setIsAdded(!isAdded);
+  };
+
+  const toggleEditDialog = () => {
+    setIsEdit(!isEdit);
+  };
+
+  const toggleDeleteDialog = () => {
+    setIsDelete(!isDelete);
+  };
+
   useEffect(() => {
     if (token) getAllTransactions();
   }, [
@@ -141,7 +143,7 @@ function Transactions() {
           type="button"
           className="primary-button add-button-transaction"
           onClick={() => {
-            setOpenAddTransactionDialog(true);
+            setIsAdded(true);
           }}
         />
       </div>
@@ -185,7 +187,7 @@ function Transactions() {
               title=" + Add Transaction"
               type="button"
               className="primary-button add-button-transaction"
-              onClick={() => setOpenAddTransactionDialog(true)}
+              onClick={toggleAddDialog}
             />
           </div>
           <div className="transaction-filtered-count">{`${
@@ -262,21 +264,7 @@ function Transactions() {
         )}
       </div>
 
-      {openAddTransactionDialog && (
-        <Dialog
-          title="Add New Transaction"
-          handleCloseDialog={() =>
-            setOpenAddTransactionDialog(!openAddTransactionDialog)
-          }
-        >
-          <AddTransaction
-            openAddTransactionDialog={openAddTransactionDialog}
-            setOpenAddTransactionDialog={setOpenAddTransactionDialog}
-            openUserInputDialog={openUserInputDialog}
-            setOpenUserInputDialog={setOpenUserInputDialog}
-          />
-        </Dialog>
-      )}
+      {isAdded && <AddTransactionDialog toggleDialog={toggleAddDialog} />}
     </div>
   );
 }
