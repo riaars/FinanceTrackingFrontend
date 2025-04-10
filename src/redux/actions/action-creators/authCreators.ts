@@ -41,11 +41,11 @@ export const signIn =
           payload: data,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("error");
       dispatch({
         type: ActionTypes.LOGIN_ERROR,
-        payload: error,
+        payload: error.message,
       });
     }
   };
@@ -82,7 +82,7 @@ export const signUp =
       console.error(error);
       dispatch({
         type: ActionTypes.SIGNUP_ERROR,
-        payload: error,
+        payload: error.message,
       });
     }
   };
@@ -114,11 +114,11 @@ export const signOut = () => async (dispatch: Dispatch<Action>) => {
         payload: data,
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     dispatch({
       type: ActionTypes.SIGNOUT_ERROR,
-      payload: error,
+      payload: error.message,
     });
   }
 };

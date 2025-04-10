@@ -17,7 +17,7 @@ import Settings from "./pages/Settings";
 function App() {
   const { theme } = useTheme();
 
-  const Layout = ({ children }: any) => {
+  const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
       <div className="app">
         <Sidebar />

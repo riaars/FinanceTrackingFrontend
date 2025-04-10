@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 type DialogType = {
   title: string;
-  children: any;
+  children: React.ReactNode;
   handleCloseDialog: () => void;
 };
 function Dialog({ title, handleCloseDialog, children }: DialogType) {

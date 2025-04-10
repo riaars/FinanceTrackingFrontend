@@ -13,6 +13,18 @@ interface AddTransactionErrorAction {
   payload: Object;
 }
 
+interface UpdateTransactionRequestAction {
+  type: ActionTypes.UPDATE_TRANSACTION_REQUEST;
+}
+
+interface UpdateTransactionResponseAction {
+  type: ActionTypes.UPDATE_TRANSACTION_RESULT;
+  payload: Object;
+}
+interface UpdateTransactionErrorAction {
+  type: ActionTypes.UPDATE_TRANSACTION_ERROR;
+  payload: Object;
+}
 interface DeleteTransactionRequestAction {
   type: ActionTypes.DELETE_TRANSACTION_REQUEST;
 }
@@ -44,6 +56,9 @@ export type Action =
   | AddTransactionRequestAction
   | AddTransactionResponseAction
   | AddTransactionErrorAction
+  | UpdateTransactionRequestAction
+  | UpdateTransactionResponseAction
+  | UpdateTransactionErrorAction
   | DeleteTransactionRequestAction
   | DeleteTransactionResponseAction
   | DeleteTransactionErrorAction

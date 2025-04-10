@@ -1,4 +1,5 @@
 import { ActionTypes } from "../actions/action-types";
+import { Action } from "../actions/action-types/authAction";
 
 const initialState = {
   loginRequest: false,
@@ -14,7 +15,7 @@ const initialState = {
   signOutError: null,
 };
 
-const authReducer = (state = initialState, action: any) => {
+const authReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case ActionTypes.LOGIN_REQUEST: {
       return {
@@ -66,7 +67,7 @@ const authReducer = (state = initialState, action: any) => {
     case ActionTypes.SIGNOUT_REQUEST: {
       return {
         ...state,
-        signOutRequest: action.payload,
+        signOutRequest: true,
       };
     }
     case ActionTypes.SIGNOUT_RESULT: {

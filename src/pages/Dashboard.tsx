@@ -71,7 +71,7 @@ function Dashboard() {
     });
   };
 
-  const summary = getTransactionsSummary(transactions);
+  const summary = getTransactionsSummary(transactions as TransactionType[]);
 
   const getThisWeekData = (type: string) => {
     const date = new Date();

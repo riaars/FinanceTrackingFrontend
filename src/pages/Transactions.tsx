@@ -64,7 +64,7 @@ function Transactions() {
   };
 
   const filteredTransactions = () => {
-    let transactionList = transactions;
+    let transactionList = transactions as TransactionType[];
 
     if (
       filtered.type === "Select Type" &&
@@ -74,7 +74,7 @@ function Transactions() {
       return transactionList;
     }
 
-    return transactions.filter(
+    return (transactions as TransactionType[]).filter(
       (transaction: {
         type: string;
         category: string;
@@ -122,7 +122,10 @@ function Transactions() {
     <div className="transactions-container">
       <div
         className="empty-transactions"
-        style={{ display: transactions.length > 0 ? "none" : "flex" }}
+        style={{
+          display:
+            (transactions as TransactionType[]).length > 0 ? "none" : "flex",
+        }}
       >
         <div className="empty-transactions__text">
           You don't have any transaction yet. Please add it here.
@@ -139,7 +142,10 @@ function Transactions() {
 
       <div
         className="transactions"
-        style={{ display: transactions.length > 0 ? "block" : "none" }}
+        style={{
+          display:
+            (transactions as TransactionType[]).length > 0 ? "block" : "none",
+        }}
       >
         <div>
           <div className="transaction-filter">
@@ -183,7 +189,9 @@ function Transactions() {
           </div>
           <div className="transaction-filtered-count">{`${
             filteredTransactions().length
-          } of ${transactions.length} transactions `}</div>
+          } of ${
+            (transactions as TransactionType[]).length
+          } transactions `}</div>
         </div>
 
         <table className="transaction-table">
@@ -199,7 +207,7 @@ function Transactions() {
             </tr>
           </thead>
           <tbody>
-            {filteredTransactions()?.map((transaction: any) => (
+            {filteredTransactions()?.map((transaction: TransactionType) => (
               <tr key={transaction.transaction_id} className="table-row">
                 <td className="table-cell">
                   {new Date(transaction.date).toLocaleDateString("en-SE")}

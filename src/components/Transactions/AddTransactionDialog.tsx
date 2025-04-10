@@ -157,7 +157,9 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
             <Button
               title="Add Transaction"
               className="primary-button"
-              onClick={(e) => handleSubmit(e)}
+              onClick={(e) =>
+                handleSubmit(e as React.FormEvent<HTMLFormElement>)
+              }
             ></Button>
           </div>
         </div>

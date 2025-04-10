@@ -1,5 +1,6 @@
-import Transactions from "../../pages/Transactions";
+import { TransactionType } from "../../pages/Transactions";
 import { ActionTypes } from "../actions/action-types";
+import { Action } from "../actions/action-types/transactionAction";
 
 const initialState = {
   addTransactionRequest: false,
@@ -9,14 +10,14 @@ const initialState = {
   updateTransactionResult: null,
   updateTransactionError: null,
   getAllTransactionsRequest: false,
-  transactions: [{} as any],
+  transactions: [] as TransactionType[],
   getAllTransactionsError: null,
   deleteTransactionRequest: false,
   deleteTransactionResult: [],
   deleteTransactionError: null,
 };
 
-const transactionReducer = (state = initialState, action: any) => {
+const transactionReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case ActionTypes.ADD_TRANSACTION_REQUEST: {
       return {

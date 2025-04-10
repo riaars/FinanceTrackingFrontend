@@ -43,7 +43,14 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 //   return totalExpense;
 // };
-const PieChart = ({ chartData }: any) => {
+
+interface PieChartProps {
+  chartData: {
+    labelData: string[];
+    amountData: number[];
+  };
+}
+const PieChart = ({ chartData }: PieChartProps) => {
   const data = {
     labels: chartData.labelData,
     datasets: [

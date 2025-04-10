@@ -19,7 +19,18 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = ({ label, period, expenseData, incomeData }: any) => {
+interface BarChartProps {
+  label: string;
+  period: string[];
+  expenseData: number[];
+  incomeData: number[];
+}
+const BarChart = ({
+  label,
+  period,
+  expenseData,
+  incomeData,
+}: BarChartProps) => {
   const data = {
     labels: period,
     datasets: [

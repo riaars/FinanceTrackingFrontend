@@ -6,11 +6,17 @@ interface LoginRequestAction {
 
 interface LoginResponseAction {
   type: ActionTypes.LOGIN_RESULT;
-  payload: Object;
+  payload: {
+    token: string;
+    email: string;
+    username: string;
+  };
 }
 interface LoginErrorAction {
   type: ActionTypes.LOGIN_ERROR;
-  payload: Object;
+  payload: {
+    message: string;
+  };
 }
 
 interface SignupRequestAction {
@@ -19,10 +25,28 @@ interface SignupRequestAction {
 
 interface SignupResponseAction {
   type: ActionTypes.SIGNUP_RESULT;
-  payload: Object;
+  payload: {
+    token: string;
+    email: string;
+    username: string;
+  };
 }
 interface SignupErrorAction {
   type: ActionTypes.SIGNUP_ERROR;
+  payload: {
+    message: string;
+  };
+}
+
+interface SignoutRequestAction {
+  type: ActionTypes.SIGNOUT_REQUEST;
+}
+interface SignoutResponseAction {
+  type: ActionTypes.SIGNOUT_RESULT;
+  payload: Object;
+}
+interface SignoutErrorAction {
+  type: ActionTypes.SIGNOUT_ERROR;
   payload: Object;
 }
 
@@ -32,4 +56,7 @@ export type Action =
   | LoginErrorAction
   | SignupRequestAction
   | SignupResponseAction
-  | SignupErrorAction;
+  | SignupErrorAction
+  | SignoutRequestAction
+  | SignoutResponseAction
+  | SignoutErrorAction;
