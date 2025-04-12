@@ -9,7 +9,7 @@ import Button from "../components/Button";
 import { getPercentage } from "../utils/helpers";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
-interface MonthlySummary {
+export interface MonthlySummary {
   date: string;
   day: string;
   month: string;

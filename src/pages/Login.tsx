@@ -71,7 +71,7 @@ function Login() {
             title="Login"
             className="primary-button"
             disabled={!isFormValid()}
-            onClick={(e) => handleSubmit(e)}
+            onClick={(e) => handleSubmit(e as React.FormEvent<HTMLFormElement>)}
           />
         </div>
       </div>

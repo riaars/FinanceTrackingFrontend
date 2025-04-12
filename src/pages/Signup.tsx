@@ -123,7 +123,10 @@ function Signup() {
       <Button
         title="Signup"
         className="primary-button"
-        onClick={(e) => handleSubmit(e)}
+        onClick={(e) => {
+          e.preventDefault();
+          handleSubmit(e as React.FormEvent<HTMLFormElement>);
+        }}
       />
 
       {!isFormValid && openUserInputDialog && (
