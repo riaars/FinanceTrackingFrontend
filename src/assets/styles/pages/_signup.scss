@@ -1,15 +1,5 @@
 @use "../utils/variables" as *;
 
-.signup__container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.signup__header {
-  display: flex;
-  align-items: center;
-}
-
 .signup__info {
   padding: 2rem;
 }

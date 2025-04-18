@@ -5,9 +5,6 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { transactionCreators, State } from "../redux";
 
 import { MdEdit, MdDelete } from "react-icons/md";
-import { BsFiletypeCsv } from "react-icons/bs";
-import { BsFiletypePdf } from "react-icons/bs";
-import { FaRegFilePdf } from "react-icons/fa6";
 import { FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
 

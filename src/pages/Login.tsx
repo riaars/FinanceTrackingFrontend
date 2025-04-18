@@ -8,7 +8,7 @@ import { authCreators, State } from "../redux";
 import * as PATH from "../config/Path";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
-import Logo from "../assets/images/logo.png";
+import AuthPageLayout from "../layout/AuthPageLayout";
 
 function Login() {
   const dispatch = useDispatch();
@@ -50,11 +50,7 @@ function Login() {
   }, [loginResponse]);
 
   return (
-    <div className="login__container">
-      <div className="login__header">
-        <img className="logo__icon" src={Logo} />
-        <h2>Trexo</h2>
-      </div>
+    <AuthPageLayout>
       <div className="login__body">
         <div className="login__info">
           <h1>Welcome back</h1>
@@ -109,7 +105,7 @@ function Login() {
           </div>
         </Dialog>
       )}
-    </div>
+    </AuthPageLayout>
   );
 }
 

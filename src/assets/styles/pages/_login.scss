@@ -1,15 +1,5 @@
 @use "../utils/variables" as *;
 
-.login__container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.login__header {
-  display: flex;
-  align-items: center;
-}
 .login__body {
   flex: 1;
   display: flex;

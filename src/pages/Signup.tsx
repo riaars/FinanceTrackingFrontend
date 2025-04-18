@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { isEmailValid } from "../utils/helpers";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
-import Logo from "../assets/images/logo.png";
+import AuthPageLayout from "../layout/AuthPageLayout";
 
 type SignupErrorsFormType = {
   username: string;
@@ -92,11 +92,7 @@ function Signup() {
   }, [signupResponse, navigate]);
 
   return (
-    <div className="signup__container">
-      <div className="signup__header">
-        <img className="logo__icon" src={Logo} />
-        <h2>Trexo</h2>
-      </div>
+    <AuthPageLayout>
       <div className="signup__body">
         <div className="signup__info">
           <div className="signup__info__logo">
@@ -204,7 +200,7 @@ function Signup() {
           )}
         </div>
       </div>
-    </div>
+    </AuthPageLayout>
   );
 }
 
