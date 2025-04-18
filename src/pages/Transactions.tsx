@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { transactionCreators, State } from "../redux";
 
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
+import { RiDownloadCloud2Line } from "react-icons/ri";
 
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -118,6 +118,25 @@ function Transactions() {
     JSON.stringify(addTransactionResult),
   ]);
 
+  const downloadCSV = (data: TransactionType[], filename = "data.csv") => {
+    let originalHeaders = Object.keys(data[0]);
+    const headers = originalHeaders.filter(
+      (item) => item !== "email" && item !== "_id" && item !== "__v"
+    );
+    const csv = [
+      headers.join(","), // header row
+      ...data.map((row) => headers.map((field) => `"${row[field]}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="transactions-container">
       {(transactions as TransactionType[]).length === 0 ? (
@@ -181,6 +200,17 @@ function Transactions() {
             } of ${
               (transactions as TransactionType[]).length
             } transactions `}</div>
+            <div
+              onClick={() =>
+                downloadCSV(
+                  transactions as TransactionType[],
+                  `Trexo_Transactions_${new Date().toLocaleDateString()}_${new Date().toLocaleTimeString()}`
+                )
+              }
+              className="link right"
+            >
+              <RiDownloadCloud2Line /> Download .csv
+            </div>
           </div>
 
           <table className="transaction-table">
