@@ -9,9 +9,9 @@ const AccountSwitchLink = ({ source }: AccountSwitchLinkProps) => {
   const isLoggedIn = source === "Login";
   const promptText = isLoggedIn
     ? "Don't have an account?"
-    : "Have an account? ";
+    : "Already have an account? ";
   const linkPath = isLoggedIn ? PATH.SIGNUP : PATH.LOGIN;
-  const linkTo = isLoggedIn ? "Sign up" : "Login";
+  const linkTo = isLoggedIn ? "Sign up" : "Log in";
 
   return (
     <p className="center">

@@ -1,5 +1,48 @@
 @use "../utils/variables" as *;
 
+.signup__container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.signup__header {
+  display: flex;
+  align-items: center;
+}
+
+.signup__info {
+  padding: 2rem;
+}
+.signup__info__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.signup__info__logo {
+  font-weight: bold;
+
+  &.name {
+    color: blue;
+  }
+}
+
+.signup__body {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3;
+  justify-content: space-around;
+}
 .signup__form {
-  justify-content: center !important;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .signup__body {
+    flex-direction: column;
+    justify-content: center;
+  }
 }

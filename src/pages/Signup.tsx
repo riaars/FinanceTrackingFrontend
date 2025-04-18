@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { isEmailValid } from "../utils/helpers";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
+import Logo from "../assets/images/logo.png";
 
 type SignupErrorsFormType = {
   username: string;
@@ -91,97 +92,118 @@ function Signup() {
   }, [signupResponse, navigate]);
 
   return (
-    <div className="container signup__form">
-      <Input
-        type="text"
-        name="username"
-        placeholder="username"
-        value={form.username}
-        onChange={handleChange}
-      />
-      <Input
-        type="text"
-        name="email"
-        placeholder="email"
-        value={form.email}
-        onChange={handleChange}
-      />
-      <Input
-        type="password"
-        name="password"
-        placeholder="password"
-        value={form.password}
-        onChange={handleChange}
-      />
-      <Input
-        type="password"
-        name="repassword"
-        placeholder="re-password"
-        value={form.repassword}
-        onChange={handleChange}
-      />
-
-      <Button
-        title="Signup"
-        className="primary-button"
-        onClick={(e) => {
-          e.preventDefault();
-          handleSubmit(e as React.FormEvent<HTMLFormElement>);
-        }}
-      />
-      <AccountSwitchLink source="Signup" />
-
-      {!isFormValid && openUserInputDialog && (
-        <Dialog
-          title="Incomplete Request"
-          handleCloseDialog={() => setOpenUserInputDialog(!openUserInputDialog)}
-        >
-          <div className="dialog__content">
-            <p>
-              Oops! We couldn’t register because some required fields are
-              missing. Please fill in the following:
-            </p>
-            <ul>
-              {Object.entries(formErrors).map(([key, value]) => (
-                <li key={key}>{value}</li>
-              ))}
-            </ul>
-            <p>
-              Make sure all required fields are completed before submitting.
-            </p>
+    <div className="signup__container">
+      <div className="signup__header">
+        <img className="logo__icon" src={Logo} />
+        <h2>Trexo</h2>
+      </div>
+      <div className="signup__body">
+        <div className="signup__info">
+          <div className="signup__info__logo">
+            <h1>Let’s get started with </h1>{" "}
+            <h1 className="signup__info__logo name">Trexo</h1>
           </div>
-          <div className="dialog__actions">
-            <button
-              className="primary-button"
-              onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
+
+          <p>Create your free account and take control of your finances.</p>
+        </div>
+        <div className="signup__form">
+          <h1>Create Account</h1>
+          <Input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={form.username}
+            onChange={handleChange}
+          />
+          <Input
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <Input
+            type="password"
+            name="repassword"
+            placeholder="Re-password"
+            value={form.repassword}
+            onChange={handleChange}
+          />
+
+          <Button
+            title="Create Account"
+            className="primary-button"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSubmit(e as React.FormEvent<HTMLFormElement>);
+            }}
+          />
+          <AccountSwitchLink source="Signup" />
+
+          {!isFormValid && openUserInputDialog && (
+            <Dialog
+              title="Incomplete Request"
+              handleCloseDialog={() =>
+                setOpenUserInputDialog(!openUserInputDialog)
+              }
             >
-              OK
-            </button>
-          </div>
-        </Dialog>
-      )}
+              <div className="dialog__content">
+                <p>
+                  Oops! We couldn’t register because some required fields are
+                  missing. Please fill in the following:
+                </p>
+                <ul>
+                  {Object.entries(formErrors).map(([key, value]) => (
+                    <li key={key}>{value}</li>
+                  ))}
+                </ul>
+                <p>
+                  Make sure all required fields are completed before submitting.
+                </p>
+              </div>
+              <div className="dialog__actions">
+                <button
+                  className="primary-button"
+                  onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
+                >
+                  OK
+                </button>
+              </div>
+            </Dialog>
+          )}
 
-      {signupError && openSignupErrorDialog && (
-        <Dialog
-          title="Registration Failed"
-          handleCloseDialog={() =>
-            setOpenSignupErrorDialog(!openSignupErrorDialog)
-          }
-        >
-          <div className="dialog__content">
-            <p>Oops! Something went wrong on registering the user.</p>
-            {signupError.message}
-          </div>
-          <div className="dialog__actions">
-            <button
-              className="primary-button"
-              onClick={() => setOpenSignupErrorDialog(!openSignupErrorDialog)}
+          {signupError && openSignupErrorDialog && (
+            <Dialog
+              title="Registration Failed"
+              handleCloseDialog={() =>
+                setOpenSignupErrorDialog(!openSignupErrorDialog)
+              }
             >
-              OK
-            </button>
-          </div>
-        </Dialog>
-      )}
+              <div className="dialog__content">
+                <p>Oops! Something went wrong on registering the user.</p>
+                {signupError.message}
+              </div>
+              <div className="dialog__actions">
+                <button
+                  className="primary-button"
+                  onClick={() =>
+                    setOpenSignupErrorDialog(!openSignupErrorDialog)
+                  }
+                >
+                  OK
+                </button>
+              </div>
+            </Dialog>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
