@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { authCreators, State } from "../redux";
@@ -12,7 +12,7 @@ import AccountSwitchLink from "../components/AccountSwitchLink";
 function Login() {
   const dispatch = useDispatch();
   const { signIn } = bindActionCreators(authCreators, dispatch);
-  const { loginResponse, loginError } = useSelector(
+  const { loginRequest, loginResponse, loginError } = useSelector(
     (state: State) => state.auth
   );
   const token = localStorage.getItem("token");
@@ -74,7 +74,7 @@ function Login() {
         <AccountSwitchLink source={"Login"} />
       </div>
 
-      {loginError && openLoginErrorDialog && (
+      {!loginRequest && loginError && openLoginErrorDialog && (
         <Dialog
           title="Login Failed"
           handleCloseDialog={() => setOpenLoginError(!openLoginErrorDialog)}
