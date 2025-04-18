@@ -19,6 +19,7 @@ import { CategoryOptions, TypeOptions } from "../utils/Constant";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Logo from "../assets/images/logo.png";
+import Content from "../layout/Content";
 
 export type TransactionType = {
   date: Date | string;
@@ -188,7 +189,7 @@ function Transactions() {
   };
 
   return (
-    <div className="transactions-container">
+    <Content title="Transactions">
       {(transactions as TransactionType[]).length === 0 ? (
         <div className="empty-transactions">
           <div className="empty-transactions__text">
@@ -348,7 +349,7 @@ function Transactions() {
       )}
 
       {isAdded && <AddTransactionDialog toggleDialog={toggleAddDialog} />}
-    </div>
+    </Content>
   );
 }
 

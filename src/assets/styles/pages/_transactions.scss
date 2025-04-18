@@ -21,11 +21,6 @@
   color: var(--secondary-color);
 }
 
-.transactions-container {
-  display: flex;
-  justify-content: center;
-}
-
 .empty-transactions {
   display: flex;
   flex-direction: column;
@@ -68,9 +63,5 @@
   .empty-transactions {
     justify-content: center;
     width: 90vw;
-  }
-  .transactions-container {
-    display: block;
-    margin-top: 2rem;
   }
 }

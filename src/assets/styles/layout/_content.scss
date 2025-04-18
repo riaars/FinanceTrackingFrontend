@@ -9,14 +9,28 @@
 }
 
 .content__container {
-  min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.content__title {
+  font-size: $font-large;
+  font-weight: bold;
+}
+.content__body {
+  padding: 1rem;
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
   .content {
     width: 100%;
     overflow-y: auto;
+  }
+
+  .content__container {
+    margin-top: 2rem;
+    padding: 1rem;
   }
 }

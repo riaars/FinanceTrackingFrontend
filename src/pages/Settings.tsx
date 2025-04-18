@@ -2,14 +2,14 @@ import React from "react";
 import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import useTheme from "../hooks/useTheme";
+import Content from "../layout/Content";
 
 function Settings() {
   const loggedInUser = localStorage.getItem("email");
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="settings-container">
-      <div className="page_title">Settings</div>
+    <Content title={"Settings"}>
       <div>
         <p>Email: {loggedInUser}</p>
         <div>
@@ -19,7 +19,7 @@ function Settings() {
           </span>
         </div>
       </div>
-    </div>
+    </Content>
   );
 }
 

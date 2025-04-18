@@ -9,6 +9,7 @@ import Button from "../components/Button";
 import { getPercentage } from "../utils/helpers";
 import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
+import Content from "../layout/Content";
 export interface MonthlySummary {
   date: string;
   day: string;
@@ -236,8 +237,7 @@ function Dashboard() {
   }, [token, loginResponse]);
 
   return (
-    <div className="dashboard">
-      <div className="page_title">Dashboard</div>
+    <Content title="Dashboard">
       <ul className="dashboard-filter">
         <li
           className={`dashboard-filter__item ${
@@ -353,18 +353,7 @@ function Dashboard() {
           />
         </li>
       </ul>
-
-      {/* <div className="dashboard">
-        <div>
-          <p>Expenses Chart</p>
-          <PieChart chartData={getChartData(expenses)} />
-        </div>
-        <div>
-          <p>Income Chart</p>
-          <PieChart chartData={getChartData(income)} />
-        </div>
-      </div> */}
-    </div>
+    </Content>
   );
 }
 
