@@ -2,7 +2,7 @@
 
 .dropdown {
   position: relative;
-  max-width: 240px;
+  max-width: 360px;
   border: 1px solid;
   padding: 0 0.75rem;
   border-radius: 0.5rem;
@@ -14,7 +14,7 @@
   border-width: 0px;
   background-color: var(--primary-color);
   padding: 0.75rem 0;
-  min-width: 240px;
+  min-width: 360px;
   color: var(--text-color);
 
   &.small {
@@ -25,6 +25,7 @@
 .dropdown__button__selected-item {
   display: flex;
   justify-content: space-between;
+  max-width: 360px;
 }
 .dropdown__list {
   position: absolute;
@@ -45,12 +46,17 @@
 
 @media screen and (max-width: $breakpoint-mobile) {
   .dropdown {
-    max-width: 100%;
+    max-width: 240px;
   }
   .dropdown__button {
+    min-width: 240px;
+    border-radius: 0.5rem;
     &.small {
       min-width: 240px;
       border-radius: 0.5rem;
     }
+  }
+  .dropdown__button__selected-item {
+    max-width: 240px;
   }
 }
