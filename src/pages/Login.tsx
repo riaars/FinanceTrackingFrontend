@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { authCreators, State } from "../redux";
 import * as PATH from "../config/Path";
 import Dialog from "../components/Dialog";
+import AccountSwitchLink from "../components/AccountSwitchLink";
 
 function Login() {
   const dispatch = useDispatch();
@@ -57,7 +58,6 @@ function Login() {
           value={form.email}
           onChange={handleChange}
         />
-
         <Input
           type="password"
           name="password"
@@ -65,15 +65,13 @@ function Login() {
           value={form.password}
           onChange={handleChange}
         />
-
-        <div className="login__form__field">
-          <Button
-            title="Login"
-            className="primary-button"
-            disabled={!isFormValid()}
-            onClick={(e) => handleSubmit(e as React.FormEvent<HTMLFormElement>)}
-          />
-        </div>
+        <Button
+          title="Login"
+          className="primary-button"
+          disabled={!isFormValid()}
+          onClick={(e) => handleSubmit(e as React.FormEvent<HTMLFormElement>)}
+        />
+        <AccountSwitchLink source={"Login"} />
       </div>
 
       {loginError && openLoginErrorDialog && (

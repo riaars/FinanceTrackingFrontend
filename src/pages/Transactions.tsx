@@ -120,148 +120,138 @@ function Transactions() {
 
   return (
     <div className="transactions-container">
-      <div
-        className="empty-transactions"
-        style={{
-          display:
-            (transactions as TransactionType[]).length > 0 ? "none" : "flex",
-        }}
-      >
-        <div className="empty-transactions__text">
-          You don't have any transaction yet. Please add it here.
-        </div>
-        <Button
-          title=" + Add Transaction"
-          type="button"
-          className="primary-button add-button-transaction"
-          onClick={() => {
-            setIsAdded(true);
-          }}
-        />
-      </div>
-
-      <div
-        className="transactions"
-        style={{
-          display:
-            (transactions as TransactionType[]).length > 0 ? "block" : "none",
-        }}
-      >
-        <div>
-          <div className="transaction-filter">
-            <Input
-              className="search-field"
-              type="text"
-              name="detail"
-              placeholder="Search by Transaction ID or Details"
-              value={filtered.detail}
-              onChange={(e) =>
-                handleFilterChange(e.target.name, e.target.value)
-              }
-            />
-
-            <Dropdown
-              className="small"
-              options={TypeOptions}
-              name="type"
-              value={filtered.type}
-              onChange={handleFilterChange}
-            />
-            <Dropdown
-              className="small"
-              name="category"
-              options={CategoryOptions}
-              value={filtered.category}
-              onChange={handleFilterChange}
-            />
-            <Button
-              title="Reset"
-              type="button"
-              className="secondary-button"
-              onClick={() => setFiltered(initialFiltered)}
-            />
-            <Button
-              title=" + Add Transaction"
-              type="button"
-              className="primary-button add-button-transaction"
-              onClick={toggleAddDialog}
-            />
+      {(transactions as TransactionType[]).length === 0 ? (
+        <div className="empty-transactions">
+          <div className="empty-transactions__text">
+            You don't have any transaction yet. Please add it here.
           </div>
-          <div className="transaction-filtered-count">{`${
-            filteredTransactions().length
-          } of ${
-            (transactions as TransactionType[]).length
-          } transactions `}</div>
+          <Button
+            title=" + Add Transaction"
+            type="button"
+            className="primary-button add-button-transaction"
+            onClick={() => {
+              setIsAdded(true);
+            }}
+          />
         </div>
+      ) : (
+        <div className="transactions">
+          <div>
+            <div className="transaction-filter">
+              <Input
+                className="search-field"
+                type="text"
+                name="detail"
+                placeholder="Search by Transaction ID or Details"
+                value={filtered.detail}
+                onChange={(e) =>
+                  handleFilterChange(e.target.name, e.target.value)
+                }
+              />
 
-        <table className="transaction-table">
-          <thead className="table-head">
-            <tr className="table-row-head">
-              <td className="table-cell">Date</td>
-              <td className="table-cell">Transaction ID</td>
-              <td className="table-cell">Type</td>
-              <td className="table-cell">Category</td>
-              <td className="table-cell">Amount</td>
-              <td className="table-cell">Details</td>
-              <td className="table-cell">Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTransactions()?.map((transaction: TransactionType) => (
-              <tr key={transaction.transaction_id} className="table-row">
-                <td className="table-cell">
-                  {new Date(transaction.date).toLocaleDateString("en-SE")}
-                </td>
-                <td className="table-cell">
-                  <a href="" className="link">
-                    {transaction.transaction_id}
-                  </a>
-                </td>
+              <Dropdown
+                className="small"
+                options={TypeOptions}
+                name="type"
+                value={filtered.type}
+                onChange={handleFilterChange}
+              />
+              <Dropdown
+                className="small"
+                name="category"
+                options={CategoryOptions}
+                value={filtered.category}
+                onChange={handleFilterChange}
+              />
+              <Button
+                title="Reset"
+                type="button"
+                className="secondary-button"
+                onClick={() => setFiltered(initialFiltered)}
+              />
+              <Button
+                title=" + Add Transaction"
+                type="button"
+                className="primary-button add-button-transaction"
+                onClick={toggleAddDialog}
+              />
+            </div>
+            <div className="transaction-filtered-count">{`${
+              filteredTransactions().length
+            } of ${
+              (transactions as TransactionType[]).length
+            } transactions `}</div>
+          </div>
 
-                <td className="table-cell">
-                  <Button
-                    title={transaction?.type?.toLowerCase()}
-                    className={`tag-button ${transaction?.type?.toLowerCase()}`}
-                  />
-                </td>
-                <td className="table-cell">{transaction.category}</td>
-                <td className="table-cell">{transaction.amount}</td>
-                <td className="table-cell">{transaction.detail}</td>
-                <td className="table-cell">
-                  <MdEdit
-                    className="table-cell__icon edit"
-                    onClick={() => {
-                      setSelectedTransaction(transaction);
-                      setIsEdit(!isEdit);
-                    }}
-                  />
-                  <MdDelete
-                    className="table-cell__icon delete"
-                    onClick={() => {
-                      setSelectedTransaction(transaction);
-                      setIsDelete(!isDelete);
-                    }}
-                  />
-                </td>
+          <table className="transaction-table">
+            <thead className="table-head">
+              <tr className="table-row-head">
+                <td className="table-cell">Date</td>
+                <td className="table-cell">Transaction ID</td>
+                <td className="table-cell">Type</td>
+                <td className="table-cell">Category</td>
+                <td className="table-cell">Amount</td>
+                <td className="table-cell">Details</td>
+                <td className="table-cell">Actions</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredTransactions()?.map((transaction: TransactionType) => (
+                <tr key={transaction.transaction_id} className="table-row">
+                  <td className="table-cell">
+                    {new Date(transaction.date).toLocaleDateString("en-SE")}
+                  </td>
+                  <td className="table-cell">
+                    <a href="" className="link">
+                      {transaction.transaction_id}
+                    </a>
+                  </td>
 
-        {isEdit && (
-          <UpdateTransactionDialog
-            selectedTransaction={selectedTransaction}
-            setSelectedTransaction={setSelectedTransaction}
-            toggleDialog={toggleEditDialog}
-          />
-        )}
-        {isDelete && (
-          <DeleteTransactionDialog
-            selectedTransaction={selectedTransaction}
-            toggleDialog={toggleDeleteDialog}
-          />
-        )}
-      </div>
+                  <td className="table-cell">
+                    <Button
+                      title={transaction?.type?.toLowerCase()}
+                      className={`tag-button ${transaction?.type?.toLowerCase()}`}
+                    />
+                  </td>
+                  <td className="table-cell">{transaction.category}</td>
+                  <td className="table-cell">{transaction.amount}</td>
+                  <td className="table-cell">{transaction.detail}</td>
+                  <td className="table-cell">
+                    <MdEdit
+                      className="table-cell__icon edit"
+                      onClick={() => {
+                        setSelectedTransaction(transaction);
+                        setIsEdit(!isEdit);
+                      }}
+                    />
+                    <MdDelete
+                      className="table-cell__icon delete"
+                      onClick={() => {
+                        setSelectedTransaction(transaction);
+                        setIsDelete(!isDelete);
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {isEdit && (
+            <UpdateTransactionDialog
+              selectedTransaction={selectedTransaction}
+              setSelectedTransaction={setSelectedTransaction}
+              toggleDialog={toggleEditDialog}
+            />
+          )}
+          {isDelete && (
+            <DeleteTransactionDialog
+              selectedTransaction={selectedTransaction}
+              toggleDialog={toggleDeleteDialog}
+            />
+          )}
+        </div>
+      )}
 
       {isAdded && <AddTransactionDialog toggleDialog={toggleAddDialog} />}
     </div>

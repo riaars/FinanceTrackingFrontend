@@ -8,6 +8,7 @@ import * as PATH from "../config/Path";
 import { useNavigate } from "react-router-dom";
 import { isEmailValid } from "../utils/helpers";
 import Dialog from "../components/Dialog";
+import AccountSwitchLink from "../components/AccountSwitchLink";
 
 type SignupErrorsFormType = {
   username: string;
@@ -128,6 +129,7 @@ function Signup() {
           handleSubmit(e as React.FormEvent<HTMLFormElement>);
         }}
       />
+      <AccountSwitchLink source="Signup" />
 
       {!isFormValid && openUserInputDialog && (
         <Dialog

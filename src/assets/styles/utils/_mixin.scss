@@ -13,6 +13,14 @@
   font-weight: bold;
 }
 
+.link {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+.center {
+  text-align: center;
+}
 @media screen and (max-width: $breakpoint-mobile) {
   .page_title {
     font-size: $font-medium;

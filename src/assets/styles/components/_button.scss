@@ -1,10 +1,14 @@
 @use "../utils/variables" as *;
 
+.primary-button,
+.secondary-button {
+  min-width: 260px;
+}
 .primary-button {
   background-color: var(--secondary-color);
   padding: 12px;
   border-radius: 0.5rem;
-  border-width: 0px;
+  border-width: 1px;
   margin: 0.5rem;
   color: var(--text-button-color);
 }

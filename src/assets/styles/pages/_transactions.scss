@@ -42,6 +42,7 @@
 
 .transactions {
   display: flex;
+  flex-direction: column;
 }
 
 .transaction-filter {
