@@ -5,7 +5,11 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { transactionCreators, State } from "../redux";
 
 import { MdEdit, MdDelete } from "react-icons/md";
-import { RiDownloadCloud2Line } from "react-icons/ri";
+import { BsFiletypeCsv } from "react-icons/bs";
+import { BsFiletypePdf } from "react-icons/bs";
+import { FaRegFilePdf } from "react-icons/fa6";
+import { FaFileCsv } from "react-icons/fa6";
+import { FaFilePdf } from "react-icons/fa6";
 
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -15,6 +19,9 @@ import DeleteTransactionDialog from "../components/Transactions/DeleteTransactio
 import AddTransactionDialog from "../components/Transactions/AddTransactionDialog";
 
 import { CategoryOptions, TypeOptions } from "../utils/Constant";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import Logo from "../assets/images/logo.png";
 
 export type TransactionType = {
   date: Date | string;
@@ -23,7 +30,7 @@ export type TransactionType = {
   category: string;
   type: string;
   detail: string;
-  amount: string;
+  amount: number;
 };
 
 const initialFiltered = {
@@ -34,6 +41,8 @@ const initialFiltered = {
 
 function Transactions() {
   const token = localStorage.getItem("token");
+  const loggedInUser = localStorage.getItem("email") || "";
+
   const dispatch = useDispatch();
   const { getAllTransactions } = bindActionCreators(
     transactionCreators,
@@ -51,7 +60,7 @@ function Transactions() {
       category: "",
       type: "",
       detail: "",
-      amount: "",
+      amount: 0,
     });
 
   const [isAdded, setIsAdded] = useState(false);
@@ -137,6 +146,50 @@ function Transactions() {
     window.URL.revokeObjectURL(url);
   };
 
+  const downloadPDF = (
+    transactions: TransactionType[],
+    fileName = "transactions.pdf"
+  ) => {
+    const doc = new jsPDF();
+    const logo = new Image();
+    logo.src = Logo;
+
+    logo.onload = () => {
+      doc.addImage(logo, "PNG", 14, 10, 14, 14);
+      doc.text("Trexo", 26, 19);
+
+      doc.setFontSize(12);
+      doc.text(loggedInUser, 150, 19);
+      doc.setFontSize(8);
+      doc.text(new Date().toLocaleString(), 150, 24);
+      doc.setFontSize(18);
+      doc.text("Transaction Summary", 14, 40);
+
+      autoTable(doc, {
+        head: [
+          ["Date", "Transaction ID", "Category", "Type", "Detail", "Amount"],
+        ],
+        body: transactions.map((tx: TransactionType) => [
+          tx.date,
+          tx.transaction_id,
+          tx.category,
+          tx.type,
+          tx.detail,
+          `SEK${tx.amount.toFixed(2)}`,
+        ]),
+        styles: {
+          head: {
+            fillColor: [52, 89, 212],
+            textColor: 255,
+            fontStyle: "bold",
+          },
+        },
+        startY: 50,
+      });
+      doc.save(fileName);
+    };
+  };
+
   return (
     <div className="transactions-container">
       {(transactions as TransactionType[]).length === 0 ? (
@@ -200,16 +253,30 @@ function Transactions() {
             } of ${
               (transactions as TransactionType[]).length
             } transactions `}</div>
-            <div
-              onClick={() =>
-                downloadCSV(
-                  transactions as TransactionType[],
-                  `Trexo_Transactions_${new Date().toLocaleDateString()}_${new Date().toLocaleTimeString()}`
-                )
-              }
-              className="link right"
-            >
-              <RiDownloadCloud2Line /> Download .csv
+
+            <div className="flex flex-right gap-1">
+              <div
+                className="link"
+                onClick={() =>
+                  downloadCSV(
+                    transactions as TransactionType[],
+                    `Trexo_Transactions_${new Date().toLocaleDateString()}_${new Date().toLocaleTimeString()}`
+                  )
+                }
+              >
+                <FaFileCsv />
+              </div>
+              <div
+                className="link"
+                onClick={() =>
+                  downloadPDF(
+                    transactions as TransactionType[],
+                    `Trexo_Transactions_${new Date().toLocaleDateString()}_${new Date().toLocaleTimeString()}`
+                  )
+                }
+              >
+                <FaFilePdf />
+              </div>
             </div>
           </div>
 

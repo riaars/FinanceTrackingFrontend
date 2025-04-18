@@ -18,6 +18,25 @@
   color: var(--secondary-color);
   font-weight: bold;
 }
+
+.flex {
+  display: flex;
+}
+
+.flex-right {
+  justify-content: right;
+}
+.flex-left {
+  justify-content: flex-start;
+}
+
+.gap-1 {
+  gap: 20px;
+}
+
+.gap-2 {
+  gap: 2;
+}
 .center {
   text-align: center;
 }
