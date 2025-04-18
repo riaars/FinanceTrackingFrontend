@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as PATH from "../config/Path";
 import { MdMenu } from "react-icons/md";
-import { MdOutlineFormatListBulleted } from "react-icons/md";
-import { IoBarChartOutline } from "react-icons/io5";
 import { LuSettings } from "react-icons/lu";
 import { IoLogOutOutline } from "react-icons/io5";
 
