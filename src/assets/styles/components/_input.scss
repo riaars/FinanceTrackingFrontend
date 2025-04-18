@@ -5,13 +5,15 @@
   padding: 12px;
   border-radius: 8px;
   border: 1px solid;
-  min-width: 240px;
+  min-width: 360px;
   margin: 0.5rem;
   background-color: var(--primary-color);
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
+  .input-field,
   .search-field {
     padding: 12px 0px 12px 12px;
+    min-width: 240px;
   }
 }

@@ -8,6 +8,7 @@ import { authCreators, State } from "../redux";
 import * as PATH from "../config/Path";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
+import Logo from "../assets/images/logo.png";
 
 function Login() {
   const dispatch = useDispatch();
@@ -49,29 +50,42 @@ function Login() {
   }, [loginResponse]);
 
   return (
-    <div>
-      <div className="container login__form">
-        <Input
-          type="text"
-          name="email"
-          placeholder="email"
-          value={form.email}
-          onChange={handleChange}
-        />
-        <Input
-          type="password"
-          name="password"
-          placeholder="password"
-          value={form.password}
-          onChange={handleChange}
-        />
-        <Button
-          title="Login"
-          className="primary-button"
-          disabled={!isFormValid()}
-          onClick={(e) => handleSubmit(e as React.FormEvent<HTMLFormElement>)}
-        />
-        <AccountSwitchLink source={"Login"} />
+    <div className="login__container">
+      <div className="login__header">
+        <img className="logo__icon" src={Logo} />
+        <h2>Trexo</h2>
+      </div>
+      <div className="login__body">
+        <div className="login__info">
+          <h1>Welcome back</h1>
+          <p>
+            Log in to your account to continue managing your finances with ease.
+          </p>
+        </div>
+        <div className="login__form">
+          <h1>Login</h1>
+          <Input
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <Button
+            title="Login"
+            className="primary-button"
+            disabled={!isFormValid()}
+            onClick={(e) => handleSubmit(e as React.FormEvent<HTMLFormElement>)}
+          />
+          <AccountSwitchLink source={"Login"} />
+        </div>
       </div>
 
       {!loginRequest && loginError && openLoginErrorDialog && (
