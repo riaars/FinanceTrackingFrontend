@@ -9,6 +9,7 @@ import IncomeExpenseChart from "../components/IncomeExpenseChart";
 import CategoryCart from "../components/CategoryCart";
 import BudgetActualChart from "../components/BudgetActualChart";
 import CashFlowChart from "../components/CashFlowChart";
+import Button from "../components/Button";
 
 const Dashboard = () => {
   const token = localStorage.getItem("token");
@@ -129,20 +130,28 @@ const Dashboard = () => {
       <div className="dashboard-summary">
         <div className="dashboard-summary__item">
           <div className="dashboard-summary__item__details">
-            <p className="summary-text">Expense in this {view}</p>
-          </div>
-          <p className="total-amount">SEK {ExpenseThisPeriod}</p>
-        </div>
-        <div className="dashboard-summary__item">
-          <div className="dashboard-summary__item__details">
-            <p className="summary-text">Income in this {view}</p>
+            <p className="summary-text">
+              Total Income This {view.charAt(0).toUpperCase() + view.slice(1)}
+            </p>
           </div>
           <p className="total-amount">SEK {IncomeThisPeriod}</p>
+          <Button title="Income" className="tag-button small income" />
+        </div>
+
+        <div className="dashboard-summary__item">
+          <div className="dashboard-summary__item__details">
+            <p className="summary-text">
+              Total Expense this {view.charAt(0).toUpperCase() + view.slice(1)}
+            </p>
+          </div>
+          <p className="total-amount">SEK {ExpenseThisPeriod}</p>
+          <Button title="Expense" className="tag-button small expense" />
         </div>
       </div>
 
       <IncomeExpenseChart data={IncomeVsExpenseList} />
       <CashFlowChart data={cashFlowData} />
+
       <BudgetActualChart data={budgetVsActualData} />
       <CategoryCart data={categoryData} />
     </Content>
