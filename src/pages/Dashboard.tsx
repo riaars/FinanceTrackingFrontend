@@ -130,9 +130,7 @@ const Dashboard = () => {
       <div className="dashboard-summary">
         <div className="dashboard-summary__item">
           <div className="dashboard-summary__item__details">
-            <p className="summary-text">
-              Total Income This {view.charAt(0).toUpperCase() + view.slice(1)}
-            </p>
+            <p className="summary-text">Income this {view}</p>
           </div>
           <p className="total-amount">SEK {IncomeThisPeriod}</p>
           <Button title="Income" className="tag-button small income" />
@@ -140,9 +138,7 @@ const Dashboard = () => {
 
         <div className="dashboard-summary__item">
           <div className="dashboard-summary__item__details">
-            <p className="summary-text">
-              Total Expense this {view.charAt(0).toUpperCase() + view.slice(1)}
-            </p>
+            <p className="summary-text">Expense this {view}</p>
           </div>
           <p className="total-amount">SEK {ExpenseThisPeriod}</p>
           <Button title="Expense" className="tag-button small expense" />
