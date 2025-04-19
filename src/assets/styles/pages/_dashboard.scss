@@ -65,6 +65,13 @@
   }
 }
 
+.custom-card {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin: 1rem;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .dashboard {
     margin-top: 3rem;
@@ -83,5 +90,9 @@
   }
   .dashboard-summary__item {
     padding: 1rem;
+  }
+  .custom-card {
+    padding: 0.5rem;
+    margin: 1rem 0.5rem;
   }
 }

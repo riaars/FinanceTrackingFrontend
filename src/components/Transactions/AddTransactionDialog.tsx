@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Button from "../Button";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
@@ -9,6 +9,7 @@ import { CategoryOptions, TypeOptions } from "../../utils/Constant";
 import Dialog from "../Dialog";
 import { formattedDate } from "../../utils/helpers";
 import InputDate from "../Date";
+import Tesseract from "tesseract.js";
 
 type TransactionErrorsFormType = {
   date: string;
@@ -32,8 +33,8 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
 
   const [form, setForm] = useState({
     date: date.toISOString().split("T")[0],
-    category: "Select category",
-    type: "Select type",
+    category: "Select Category",
+    type: "Select Type",
     detail: "",
     amount: "",
   });
@@ -49,6 +50,9 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   const [isFormValid, setIsFormValid] = useState(true);
   const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
   const [transactionSubmit, setTransactionSubmit] = useState(false);
+  const [receipt, setReceipt] = useState<File>();
+  const [loadingScan, setLoadingScan] = useState(true);
+  const [parsedText, setParsedText] = useState({});
 
   const handleTransactionChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
@@ -96,6 +100,34 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleUploadReceipt = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const file = e.target.files?.[0];
+    console.log("uploading");
+
+    if (file) {
+      setReceipt(file);
+      scanReceipt(file);
+    }
+  };
+
+  const scanReceipt = async (file: File) => {
+    const imageURL = URL.createObjectURL(file);
+    Tesseract.recognize(imageURL, "eng", {
+      logger: (m) => console.log(m),
+    })
+      .then(({ data: { text } }) => {
+        setParsedText(text);
+      })
+      .catch((err) => {
+        console.error("OCR error:", err);
+        setParsedText("Failed to read the receipt.");
+      })
+      .finally(() => {
+        setLoadingScan(false);
+      });
+  };
+
   return (
     <Dialog title="Add New Transaction" handleCloseDialog={toggleDialog}>
       <div className="add-transaction__dialog">
@@ -106,6 +138,15 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
           }}
         >
           <div className="dialog__content__body">
+            {/* <input
+              type="file"
+              name="receipt"
+              placeholder="Upload Receipt"
+              accept="image/*"
+              onChange={handleUploadReceipt}
+              className="input-field"
+            /> */}
+
             <InputDate
               name="date"
               value={form.date}
@@ -140,9 +181,10 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
               }
             />
 
-            <Input
-              type="text"
+            <textarea
+              className="input-field"
               name="detail"
+              rows={3}
               placeholder="Details"
               value={form.detail}
               onChange={(e) =>
