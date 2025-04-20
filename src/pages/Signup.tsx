@@ -23,7 +23,7 @@ function Signup() {
 
   const dispatch = useDispatch();
   const { signUp } = bindActionCreators(authCreators, dispatch);
-  const { signupResponse, signupError } = useSelector(
+  const { signupRequest, signupResponse, signupError } = useSelector(
     (state: State) => state.auth
   );
 
@@ -44,6 +44,7 @@ function Signup() {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const [openVerifyEmailDialog, setOpenVerifyEmailDialog] = useState(false);
   const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
   const [openSignupErrorDialog, setOpenSignupErrorDialog] = useState(false);
 
@@ -57,6 +58,7 @@ function Signup() {
     if (validateSignupForm()) {
       signUp(form);
       setOpenSignupErrorDialog(true);
+      setOpenVerifyEmailDialog(true);
     } else {
       setOpenUserInputDialog(true);
     }
@@ -85,11 +87,14 @@ function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  useEffect(() => {
-    if (token) {
-      navigate(PATH.DASHBOARD);
-    }
-  }, [signupResponse, navigate]);
+  // useEffect(() => {
+  //   if (token) {
+  //     navigate(PATH.DASHBOARD);
+  //   }
+  // }, [signupResponse, navigate]);
+  console.log(!signupRequest);
+  console.log(signupResponse);
+  console.log(openVerifyEmailDialog);
 
   return (
     <AuthPageLayout>
@@ -141,6 +146,33 @@ function Signup() {
             }}
           />
           <AccountSwitchLink source="Signup" />
+
+          {!signupRequest && signupResponse && openVerifyEmailDialog && (
+            <Dialog
+              title="You're almost there!"
+              handleCloseDialog={() =>
+                setOpenVerifyEmailDialog(!setOpenVerifyEmailDialog)
+              }
+            >
+              <div className="dialog__content">
+                <p>
+                  {" "}
+                  We have sent a verification email to <a>{form.email} </a>
+                </p>
+                <p>Just click the link to activate your account.</p>
+              </div>
+              <div className="dialog__actions">
+                <button
+                  className="primary-button"
+                  onClick={() =>
+                    setOpenVerifyEmailDialog(!setOpenVerifyEmailDialog)
+                  }
+                >
+                  OK
+                </button>
+              </div>
+            </Dialog>
+          )}
 
           {!isFormValid && openUserInputDialog && (
             <Dialog

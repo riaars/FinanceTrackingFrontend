@@ -46,6 +46,8 @@ const authReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         signupRequest: true,
+        signupResponse: null,
+        signupError: null,
       };
     }
     case ActionTypes.SIGNUP_RESULT: {
@@ -54,13 +56,17 @@ const authReducer = (state = initialState, action: Action) => {
       localStorage.setItem("username", action.payload.username);
       return {
         ...state,
+        signupRequest: false,
         signupResponse: action.payload,
+        signupError: null,
       };
     }
 
     case ActionTypes.SIGNUP_ERROR: {
       return {
         ...state,
+        signupRequest: false,
+        signupResponse: null,
         signupError: action.payload,
       };
     }
