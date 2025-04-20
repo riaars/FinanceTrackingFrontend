@@ -13,6 +13,7 @@ import React, { useEffect } from "react";
 import Dashboard from "./pages/Dashboard";
 import useTheme from "./hooks/useTheme";
 import Settings from "./pages/Settings";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   const { theme } = useTheme();
@@ -45,6 +46,7 @@ function App() {
         <Routes>
           <Route path={PATH.SIGNUP} element={<Signup />} />
           <Route path={PATH.LOGIN} element={<Login />} />
+          <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
 
           <Route element={<PrivateRoute />}>
             <Route

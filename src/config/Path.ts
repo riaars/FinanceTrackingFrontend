@@ -4,3 +4,4 @@ export const SIGNUP = "/signup";
 export const ADD_NEW_TRANSACTION = "/add-new-transaction";
 export const TRANSACTIONS = "/transactions";
 export const SETTINGS = "/settings";
+export const VERIFY_EMAIL = "/verify-email";

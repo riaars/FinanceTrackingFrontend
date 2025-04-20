@@ -99,7 +99,6 @@ function Signup() {
             <h1>Let’s get started with </h1>{" "}
             <h1 className="signup__info__logo name">Trexo</h1>
           </div>
-
           <p>Create your free account and take control of your finances.</p>
         </div>
         <div className="signup__form">
