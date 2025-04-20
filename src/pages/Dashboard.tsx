@@ -10,6 +10,7 @@ import CategoryCart from "../components/CategoryCart";
 import BudgetActualChart from "../components/BudgetActualChart";
 import CashFlowChart from "../components/CashFlowChart";
 import Button from "../components/Button";
+import * as PATH from "../config/Path";
 
 const Dashboard = () => {
   const token = localStorage.getItem("token");
@@ -102,12 +103,8 @@ const Dashboard = () => {
   }));
 
   useEffect(() => {
-    if (token) {
-      getAllTransactions();
-    } else {
-      navigate(PATH.LOGIN);
-    }
-  }, [token, loginResponse]);
+    getAllTransactions();
+  }, []);
 
   return (
     <Content title="Dashboard">

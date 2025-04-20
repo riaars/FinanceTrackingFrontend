@@ -15,7 +15,9 @@ function Sidebar() {
   const loggedInUser = localStorage.getItem("username");
   const dispatch = useDispatch();
   const { signOut } = bindActionCreators(authCreators, dispatch);
-  const { loginResponse } = useSelector((state: State) => state.auth);
+  const { loginResponse, signOutResponse } = useSelector(
+    (state: State) => state.auth
+  );
 
   const navigate = useNavigate();
 
@@ -42,13 +44,6 @@ function Sidebar() {
     signOut();
     navigate(PATH.LOGIN);
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate(PATH.LOGIN);
-    }
-  }, [navigate, loginResponse]);
 
   const activeMenu = (menu_path: string) => {
     return location.pathname === menu_path ? "active" : "inherit";

@@ -242,13 +242,13 @@ function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      getAllTransactions();
-    } else {
-      navigate(PATH.LOGIN);
-    }
-  }, [token, loginResponse]);
+  // useEffect(() => {
+  //   if (token) {
+  //     getAllTransactions();
+  //   } else {
+  //     navigate(PATH.LOGIN);
+  //   }
+  // }, [token, loginResponse]);
 
   const COLORS = ["#3459d4", "#FF8042", "#00C49F", "#FFBB28", "#8884d8"];
 

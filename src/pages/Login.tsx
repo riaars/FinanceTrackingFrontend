@@ -16,6 +16,7 @@ function Login() {
   const { loginRequest, loginResponse, loginError } = useSelector(
     (state: State) => state.auth
   );
+
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -44,10 +45,10 @@ function Login() {
   };
 
   useEffect(() => {
-    if (token) {
+    if (!loginRequest && loginResponse?.token) {
       navigate(PATH.DASHBOARD);
     }
-  }, [loginResponse]);
+  }, [loginResponse?.token]);
 
   return (
     <AuthPageLayout>

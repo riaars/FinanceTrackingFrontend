@@ -21,6 +21,8 @@ const authReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         loginRequest: true,
+        loginResponse: null,
+        loginError: null,
       };
     }
     case ActionTypes.LOGIN_RESULT: {
@@ -33,12 +35,17 @@ const authReducer = (state = initialState, action: Action) => {
         token: action.payload.token,
         email: action.payload.email,
         username: action.payload.username,
+        loginRequest: false,
+        loginError: null,
       };
     }
 
     case ActionTypes.LOGIN_ERROR: {
       return {
         ...state,
+
+        loginRequest: false,
+        loginResponse: null,
         loginError: action.payload,
       };
     }
@@ -74,6 +81,7 @@ const authReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         signOutRequest: true,
+        loginResponse: null,
       };
     }
     case ActionTypes.SIGNOUT_RESULT: {
@@ -85,6 +93,7 @@ const authReducer = (state = initialState, action: Action) => {
         ...state,
         loginResponse: null,
         signOutResponse: action.payload,
+        signOutRequest: false,
       };
     }
 
@@ -92,6 +101,7 @@ const authReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         signOutError: action.payload,
+        signOutRequest: false,
       };
     }
 
