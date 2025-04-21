@@ -2,16 +2,23 @@ import React, { ChangeEvent, useState } from "react";
 import AuthPageLayout from "../layout/AuthPageLayout";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { useForgotPassword } from "../hooks/useForgotPassword";
+import Dialog from "../components/Dialog";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const { forgotPassword, status } = useForgotPassword();
+  const [openForgotPasswordDialog, setOpenForgotPasswordDialog] =
+    useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setOpenForgotPasswordDialog(true);
     e.preventDefault();
+    await forgotPassword(email);
   };
   return (
     <AuthPageLayout>
@@ -32,11 +39,37 @@ const ForgotPassword = () => {
           <Button
             title="Send"
             className="primary-button"
-            disabled={!email}
+            disabled={email === ""}
             type="submit"
           />
         </form>
       </div>
+
+      {openForgotPasswordDialog && status === "Reset link send to email" && (
+        <Dialog
+          title="Reset password linksent"
+          handleCloseDialog={() =>
+            setOpenForgotPasswordDialog(!openForgotPasswordDialog)
+          }
+        >
+          <div className="dialog__content">
+            <p>
+              We sent the reset link to your email{" "}
+              <span className="link">{email}</span>
+            </p>
+          </div>
+          <div className="dialog__actions">
+            <button
+              className="primary-button"
+              onClick={() =>
+                setOpenForgotPasswordDialog(!openForgotPasswordDialog)
+              }
+            >
+              OK
+            </button>
+          </div>
+        </Dialog>
+      )}
     </AuthPageLayout>
   );
 };
