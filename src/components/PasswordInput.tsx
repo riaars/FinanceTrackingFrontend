@@ -27,7 +27,7 @@ const PasswordInput = (props: PasswordInputProps) => {
         className="password-toggle"
         onClick={() => setShowPassword((prev) => !prev)}
       >
-        {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+        {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
       </button>
     </div>
   );
