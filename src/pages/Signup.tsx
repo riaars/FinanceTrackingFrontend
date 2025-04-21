@@ -10,6 +10,7 @@ import { isEmailValid } from "../utils/helpers";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
 import AuthPageLayout from "../layout/AuthPageLayout";
+import PasswordInput from "../components/PasswordInput";
 
 type SignupErrorsFormType = {
   username: string;
@@ -113,15 +114,15 @@ function Signup() {
             value={form.email}
             onChange={handleChange}
           />
-          <Input
-            type="password"
+
+          <PasswordInput
             name="password"
             placeholder="Password"
             value={form.password}
             onChange={handleChange}
           />
-          <Input
-            type="password"
+
+          <PasswordInput
             name="repassword"
             placeholder="Confirm Password"
             value={form.repassword}

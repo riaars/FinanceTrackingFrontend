@@ -6,6 +6,7 @@ import Dialog from "../components/Dialog";
 import { Link, useSearchParams } from "react-router-dom";
 import { useResetPassword } from "../hooks/useResetPassword";
 import * as PATH from "../config/Path";
+import PasswordInput from "../components/PasswordInput";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -20,14 +21,15 @@ const ResetPassword = () => {
   ] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setOpenResetPasswordConfirmationDialog(true);
     e.preventDefault();
+    setOpenResetPasswordConfirmationDialog((prev) => !prev);
     await resetPassword(token, password);
   };
 
   const toggleDialog = () => {
     setOpenResetPasswordConfirmationDialog((prev) => !prev);
   };
+
   return (
     <AuthPageLayout>
       <div className="reset-password__body">
@@ -36,16 +38,14 @@ const ResetPassword = () => {
           Please enter your valid email address to receive a reset link.
         </p> */}
         <form onSubmit={handleSubmit} className="reset-password__form">
-          <Input
-            type="password"
+          <PasswordInput
             name="password"
             placeholder="New Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Input
-            type="password"
+          <PasswordInput
             name="repassword"
             placeholder="Confirm Password"
             value={repassword}

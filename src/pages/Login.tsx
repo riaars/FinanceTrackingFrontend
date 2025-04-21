@@ -9,6 +9,7 @@ import * as PATH from "../config/Path";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
 import AuthPageLayout from "../layout/AuthPageLayout";
+import PasswordInput from "../components/PasswordInput";
 
 function Login() {
   const dispatch = useDispatch();
@@ -68,8 +69,7 @@ function Login() {
             value={form.email}
             onChange={handleChange}
           />
-          <Input
-            type="password"
+          <PasswordInput
             name="password"
             placeholder="Password"
             value={form.password}
