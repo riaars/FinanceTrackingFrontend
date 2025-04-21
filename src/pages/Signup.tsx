@@ -123,7 +123,7 @@ function Signup() {
           <Input
             type="password"
             name="repassword"
-            placeholder="Re-password"
+            placeholder="Confirm Password"
             value={form.repassword}
             onChange={handleChange}
           />

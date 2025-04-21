@@ -42,7 +42,6 @@ export const signIn =
         });
       }
     } catch (error: any) {
-      console.error("error");
       dispatch({
         type: ActionTypes.LOGIN_ERROR,
         payload: error.message,
