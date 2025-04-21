@@ -87,15 +87,6 @@ function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate(PATH.DASHBOARD);
-  //   }
-  // }, [signupResponse, navigate]);
-  console.log(!signupRequest);
-  console.log(signupResponse);
-  console.log(openVerifyEmailDialog);
-
   return (
     <AuthPageLayout>
       <div className="signup__body">

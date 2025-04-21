@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { authCreators, State } from "../redux";
@@ -75,6 +75,9 @@ function Login() {
             value={form.password}
             onChange={handleChange}
           />
+          <Link to={PATH.FORGOT_PASSWORD} className="forgot-password">
+            <p>Forgot Password?</p>
+          </Link>
           <Button
             title="Login"
             className="primary-button"

@@ -14,6 +14,8 @@ import Dashboard from "./pages/Dashboard";
 import useTheme from "./hooks/useTheme";
 import Settings from "./pages/Settings";
 import VerifyEmail from "./pages/VerifyEmail";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const { theme } = useTheme();
@@ -47,6 +49,8 @@ function App() {
           <Route path={PATH.SIGNUP} element={<Signup />} />
           <Route path={PATH.LOGIN} element={<Login />} />
           <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
+          <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
+          <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
 
           <Route element={<PrivateRoute />}>
             <Route

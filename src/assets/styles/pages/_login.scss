@@ -18,6 +18,13 @@
   flex-direction: column;
 }
 
+.forgot-password {
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-align: right;
+  color: var(--secondary-color);
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .login__body {
     flex-direction: column;
