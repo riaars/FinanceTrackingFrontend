@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import useTheme from "../hooks/useTheme";
 import Content from "../layout/Content";
+import { Link } from "react-router-dom";
+import * as PATH from "../config/Path";
+import ChangePasswordDialog from "../components/ChangePasswordDialog";
 
 function Settings() {
   const username = localStorage.getItem("username") || null;
   const email = localStorage.getItem("email") || null;
 
   const { theme, toggleTheme } = useTheme();
+  const [openChangePasswordDialog, setOpenChangePasswordDialog] =
+    useState(false);
 
+  const togglePasswordChange = () => {
+    setOpenChangePasswordDialog((prev) => !prev);
+  };
   return (
     <Content title={"Settings"}>
       <div>
@@ -18,7 +26,13 @@ function Settings() {
         <p>
           Email: <span className="link">{email} </span>{" "}
         </p>
-        <button className="primary-button">Change password</button>
+
+        <button
+          className="primary-button"
+          onClick={() => setOpenChangePasswordDialog(true)}
+        >
+          Change password
+        </button>
 
         <h2></h2>
         <div>
@@ -32,6 +46,10 @@ function Settings() {
           </span>
         </div>
       </div>
+
+      {openChangePasswordDialog && (
+        <ChangePasswordDialog toggleDialog={togglePasswordChange} />
+      )}
     </Content>
   );
 }

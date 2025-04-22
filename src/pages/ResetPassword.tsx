@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AuthPageLayout from "../layout/AuthPageLayout";
-import Input from "../components/Input";
 import Button from "../components/Button";
 import Dialog from "../components/Dialog";
 import { Link, useSearchParams } from "react-router-dom";
