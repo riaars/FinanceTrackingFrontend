@@ -3,8 +3,6 @@ import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
 import useTheme from "../hooks/useTheme";
 import Content from "../layout/Content";
-import { Link } from "react-router-dom";
-import * as PATH from "../config/Path";
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
 
 function Settings() {

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "./Dialog";
 import PasswordInput from "./PasswordInput";
-import { useResetPassword } from "../hooks/useResetPassword";
+import { useChangePassword } from "../hooks/useChangePassword";
 
 interface ChangePasswordDialogProps {
   toggleDialog: () => void;
@@ -10,13 +10,18 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const { resetPassword, status } = useResetPassword();
+  const { changePassword, status } = useChangePassword();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    await resetPassword(oldPassword, newPassword);
+    await changePassword(oldPassword, newPassword);
   };
+
+  useEffect(() => {
+    if (status === "Password has been successfully updated") {
+      toggleDialog();
+    }
+  }, [status]);
   return (
     <Dialog title="Change Password" handleCloseDialog={toggleDialog}>
       <div className="dialog__content">
@@ -49,7 +54,9 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
           <button className="secondary-button" onClick={toggleDialog}>
             Cancel
           </button>
-          <button className="primary-button">Update Pasword</button>
+          <button className="primary-button" onClick={handleSubmit}>
+            Update Pasword
+          </button>
         </div>
       </div>
     </Dialog>
