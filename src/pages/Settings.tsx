@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { MdDarkMode } from "react-icons/md";
-import { MdLightMode } from "react-icons/md";
+
 import useTheme from "../hooks/useTheme";
 import Content from "../layout/Content";
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
@@ -9,7 +8,6 @@ function Settings() {
   const username = localStorage.getItem("username") || null;
   const email = localStorage.getItem("email") || null;
 
-  const { theme, toggleTheme } = useTheme();
   const [openChangePasswordDialog, setOpenChangePasswordDialog] =
     useState(false);
 
@@ -31,18 +29,6 @@ function Settings() {
         >
           Change password
         </button>
-
-        <h2></h2>
-        <div>
-          Switch theme:
-          <span onClick={toggleTheme} className="theme">
-            {theme === "dark" ? (
-              <MdDarkMode color="#3459d4" />
-            ) : (
-              <MdLightMode color="#3459d4" />
-            )}
-          </span>
-        </div>
       </div>
 
       {openChangePasswordDialog && (
