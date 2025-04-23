@@ -1,0 +1,36 @@
+@use "../utils/variables" as *;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination__wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.pagination__arrow {
+  padding: 8px;
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+.pagination__item {
+  font-weight: bold;
+  padding: 6px 8px;
+  cursor: default;
+
+  &.active {
+    background-color: var(--secondary-color);
+    border-radius: 30%;
+    color: white;
+  }
+
+  &.inactive {
+    background-color: var(--hover-color);
+    border-radius: 30%;
+    color: var(--secondary-color);
+  }
+}

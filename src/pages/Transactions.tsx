@@ -20,6 +20,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Logo from "../assets/images/logo.png";
 import Content from "../layout/Content";
+import Pagination from "../components/Pagination";
 
 export type TransactionType = {
   date: Date | string;
@@ -66,6 +67,13 @@ function Transactions() {
   const [isDelete, setIsDelete] = useState(false);
   const [filtered, setFiltered] = useState(initialFiltered);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalItemsPerPage = 8;
+
+  const handlePageChange = (selectedPage: number) => {
+    setCurrentPage(selectedPage);
+  };
+
   const handleFilterChange = (name: string, value: string) => {
     setFiltered((prev) => ({ ...prev, [name]: value }));
   };
@@ -104,6 +112,11 @@ function Transactions() {
       }
     );
   };
+
+  const filteredTransactionsPerPage = filteredTransactions().slice(
+    (currentPage - 1) * totalItemsPerPage + 1,
+    totalItemsPerPage * currentPage
+  );
 
   const toggleAddDialog = () => {
     setIsAdded(!isAdded);
@@ -246,11 +259,11 @@ function Transactions() {
                 onClick={toggleAddDialog}
               />
             </div>
-            <div className="transaction-filtered-count">{`${
+            <div className="transaction-filtered-count">{`Showing ${
               filteredTransactions().length
             } of ${
               (transactions as TransactionType[]).length
-            } transactions `}</div>
+            } transactions`}</div>
 
             <div className="flex flex-right gap-1">
               <div
@@ -291,46 +304,55 @@ function Transactions() {
               </tr>
             </thead>
             <tbody>
-              {filteredTransactions()?.map((transaction: TransactionType) => (
-                <tr key={transaction.transaction_id} className="table-row">
-                  <td className="table-cell">
-                    {new Date(transaction.date).toLocaleDateString("en-SE")}
-                  </td>
-                  <td className="table-cell">
-                    <a href="" className="link">
-                      {transaction.transaction_id}
-                    </a>
-                  </td>
+              {filteredTransactionsPerPage?.map(
+                (transaction: TransactionType) => (
+                  <tr key={transaction.transaction_id} className="table-row">
+                    <td className="table-cell">
+                      {new Date(transaction.date).toLocaleDateString("en-SE")}
+                    </td>
+                    <td className="table-cell">
+                      <a href="" className="link">
+                        {transaction.transaction_id}
+                      </a>
+                    </td>
 
-                  <td className="table-cell">
-                    <Button
-                      title={transaction?.type?.toLowerCase()}
-                      className={`tag-button ${transaction?.type?.toLowerCase()}`}
-                    />
-                  </td>
-                  <td className="table-cell">{transaction.category}</td>
-                  <td className="table-cell">{transaction.amount}</td>
-                  <td className="table-cell">{transaction.detail}</td>
-                  <td className="table-cell">
-                    <MdEdit
-                      className="table-cell__icon edit"
-                      onClick={() => {
-                        setSelectedTransaction(transaction);
-                        setIsEdit(!isEdit);
-                      }}
-                    />
-                    <MdDelete
-                      className="table-cell__icon delete"
-                      onClick={() => {
-                        setSelectedTransaction(transaction);
-                        setIsDelete(!isDelete);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))}
+                    <td className="table-cell">
+                      <Button
+                        title={transaction?.type?.toLowerCase()}
+                        className={`tag-button ${transaction?.type?.toLowerCase()}`}
+                      />
+                    </td>
+                    <td className="table-cell">{transaction.category}</td>
+                    <td className="table-cell">{transaction.amount}</td>
+                    <td className="table-cell">{transaction.detail}</td>
+                    <td className="table-cell">
+                      <MdEdit
+                        className="table-cell__icon edit"
+                        onClick={() => {
+                          setSelectedTransaction(transaction);
+                          setIsEdit(!isEdit);
+                        }}
+                      />
+                      <MdDelete
+                        className="table-cell__icon delete"
+                        onClick={() => {
+                          setSelectedTransaction(transaction);
+                          setIsDelete(!isDelete);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
+
+          <Pagination
+            currentPage={currentPage}
+            totalItemsPerPage={totalItemsPerPage}
+            totalItems={filteredTransactions().length}
+            handleChange={handlePageChange}
+          />
 
           {isEdit && (
             <UpdateTransactionDialog
