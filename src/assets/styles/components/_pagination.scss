@@ -18,9 +18,7 @@
   font-weight: bold;
 }
 .pagination__item {
-  font-weight: bold;
   padding: 6px 8px;
-  cursor: default;
 
   &.active {
     background-color: var(--secondary-color);

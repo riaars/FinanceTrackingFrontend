@@ -53,6 +53,28 @@
   font-size: small;
 }
 
+.transaction-category__wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: center;
+  flex-direction: row;
+  justify-content: left;
+  gap: 4px;
+  display: "flex";
+}
+
+.transaction-category__details {
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+}
+
+.transaction-id {
+  text-decoration: none;
+  color: gray;
+  font-size: 14px;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .transaction-filter {
     display: flex;

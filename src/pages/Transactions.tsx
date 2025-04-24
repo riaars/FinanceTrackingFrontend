@@ -7,6 +7,12 @@ import { transactionCreators, State } from "../redux";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
+import { IoFastFood } from "react-icons/io5";
+import { FaCarAlt } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
+import { MdMovieFilter } from "react-icons/md";
+import { GrMoney } from "react-icons/gr";
+import { IoStarSharp } from "react-icons/io5";
 
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -201,6 +207,24 @@ function Transactions() {
     };
   };
 
+  const CategoryIcon = (category: string) => {
+    switch (category) {
+      case "Food":
+        return <IoFastFood fontSize={"18px"} />;
+      case "Transport":
+        return <FaCarAlt fontSize={"18px"} />;
+      case "Entertainment":
+        return <MdMovieFilter fontSize={"18px"} />;
+      case "Rent":
+        return <FaHome fontSize={"18px"} />;
+      case "Salary":
+        return <GrMoney fontSize={"18px"} />;
+
+      default:
+        return <IoStarSharp fontSize={"18px"} />;
+    }
+  };
+
   return (
     <Content title="Transactions">
       {(transactions as TransactionType[]).length === 0 ? (
@@ -225,7 +249,7 @@ function Transactions() {
                 className="search-field"
                 type="text"
                 name="detail"
-                placeholder="Search by Transaction ID or Details"
+                placeholder="Search Transaction"
                 value={filtered.detail}
                 onChange={(e) =>
                   handleFilterChange(e.target.name, e.target.value)
@@ -294,11 +318,10 @@ function Transactions() {
           <table className="transaction-table">
             <thead className="table-head">
               <tr className="table-row-head">
-                <td className="table-cell">Date</td>
-                <td className="table-cell">Transaction ID</td>
-                <td className="table-cell">Type</td>
-                <td className="table-cell">Category</td>
+                <td className="table-cell">Transaction</td>
                 <td className="table-cell">Amount</td>
+                <td className="table-cell">Date</td>
+                <td className="table-cell">Type</td>
                 <td className="table-cell">Details</td>
                 <td className="table-cell">Actions</td>
               </tr>
@@ -308,12 +331,22 @@ function Transactions() {
                 (transaction: TransactionType) => (
                   <tr key={transaction.transaction_id} className="table-row">
                     <td className="table-cell">
-                      {new Date(transaction.date).toLocaleDateString("en-SE")}
+                      <div className="transaction-category__wrapper">
+                        <button className="secondary-button">
+                          {CategoryIcon(transaction.category)}
+                        </button>
+                        <div className="transaction-category__details">
+                          {transaction.category}
+                          <a href="" className="transaction-id">
+                            {transaction.transaction_id}
+                          </a>
+                        </div>
+                      </div>
                     </td>
+                    <td className="table-cell">{transaction.amount} kr</td>
+
                     <td className="table-cell">
-                      <a href="" className="link">
-                        {transaction.transaction_id}
-                      </a>
+                      {new Date(transaction.date).toLocaleDateString("en-SE")}
                     </td>
 
                     <td className="table-cell">
@@ -322,8 +355,7 @@ function Transactions() {
                         className={`tag-button ${transaction?.type?.toLowerCase()}`}
                       />
                     </td>
-                    <td className="table-cell">{transaction.category}</td>
-                    <td className="table-cell">{transaction.amount}</td>
+
                     <td className="table-cell">{transaction.detail}</td>
                     <td className="table-cell">
                       <MdEdit
