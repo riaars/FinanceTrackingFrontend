@@ -3,7 +3,7 @@
 .dropdown {
   position: relative;
   max-width: 360px;
-  border: 1px solid;
+  border: 1px solid var(--border-color);
   padding: 0 0.75rem;
   border-radius: 0.5rem;
   background-color: var(--primary-color);
