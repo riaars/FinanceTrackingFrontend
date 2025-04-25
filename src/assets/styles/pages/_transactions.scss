@@ -1,5 +1,15 @@
 @use "../utils/variables" as *;
 
+.transaction-desktop {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.transaction-mobile {
+  display: none;
+}
+
 .table-row {
   background-color: var(--primary-color);
 }
@@ -75,7 +85,29 @@
   font-size: 14px;
 }
 
+.transaction-amount {
+  font-size: 18px;
+}
+
+.transaction-card {
+  border: 1px solid var(--border-color);
+  margin: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
+  .transaction-desktop {
+    display: none;
+  }
+
+  .transaction-mobile {
+    display: block;
+  }
+
   .transaction-filter {
     display: flex;
     flex-direction: column;
@@ -85,5 +117,39 @@
   .empty-transactions {
     justify-content: center;
     width: 90vw;
+  }
+
+  .transaction-card {
+    padding: 1rem 0.5rem;
+    margin: 0.5rem 0;
+  }
+
+  .transaction-id {
+    font-size: 12px;
+  }
+
+  .transaction-category__wrapper {
+    width: 50%;
+    display: "flex";
+  }
+
+  .transaction-category {
+    font-weight: bold;
+  }
+
+  .transaction-amount__wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: right;
+  }
+  .transaction-amount {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .transaction-date {
+    font-size: 12px;
+    color: gray;
   }
 }

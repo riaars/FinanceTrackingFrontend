@@ -14,7 +14,7 @@ const Pagination = ({
   totalItems,
   handleChange,
 }: PaginationProps) => {
-  const totalPage = Math.floor(totalItems / totalItemsPerPage + 1);
+  const totalPage = Math.ceil(totalItems / totalItemsPerPage);
 
   let pageList = [];
   for (let i = 1; i <= totalPage; i++) {

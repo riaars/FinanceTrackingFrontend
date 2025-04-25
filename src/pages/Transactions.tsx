@@ -13,6 +13,7 @@ import { FaHome } from "react-icons/fa";
 import { MdMovieFilter } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
 import { IoStarSharp } from "react-icons/io5";
+import { IoCloudDownloadOutline } from "react-icons/io5";
 
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -244,6 +245,21 @@ function Transactions() {
       ) : (
         <div className="transactions">
           <div>
+            {/* <Button
+              icon={<IoCloudDownloadOutline />}
+              title="Download Report"
+              type="button"
+              className="secondary-button add-button-transaction"
+              onClick={toggleAddDialog}
+            /> */}
+            <Button
+              title=" + Add Transaction"
+              type="button"
+              className="primary-button add-button-transaction"
+              onClick={toggleAddDialog}
+            />
+          </div>
+          <div>
             <div className="transaction-filter">
               <Input
                 className="search-field"
@@ -275,12 +291,6 @@ function Transactions() {
                 type="button"
                 className="secondary-button"
                 onClick={() => setFiltered(initialFiltered)}
-              />
-              <Button
-                title=" + Add Transaction"
-                type="button"
-                className="primary-button add-button-transaction"
-                onClick={toggleAddDialog}
               />
             </div>
             <div className="transaction-filtered-count">{`Showing ${
@@ -315,49 +325,50 @@ function Transactions() {
             </div>
           </div>
 
-          <table className="transaction-table">
-            <thead className="table-head">
-              <tr className="table-row-head">
-                <td className="table-cell">Transaction</td>
-                <td className="table-cell">Amount</td>
-                <td className="table-cell">Date</td>
-                <td className="table-cell">Type</td>
-                <td className="table-cell">Details</td>
-                <td className="table-cell">Actions</td>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactionsPerPage?.map(
-                (transaction: TransactionType) => (
-                  <tr key={transaction.transaction_id} className="table-row">
-                    <td className="table-cell">
-                      <div className="transaction-category__wrapper">
-                        <button className="secondary-button">
-                          {CategoryIcon(transaction.category)}
-                        </button>
-                        <div className="transaction-category__details">
-                          {transaction.category}
-                          <a href="" className="transaction-id">
-                            {transaction.transaction_id}
-                          </a>
+          <div className="transaction-desktop">
+            <table className="transaction-table">
+              <thead className="table-head">
+                <tr className="table-row-head">
+                  <td className="table-cell">Transaction</td>
+                  <td className="table-cell">Amount</td>
+                  <td className="table-cell">Date</td>
+                  <td className="table-cell">Type</td>
+                  <td className="table-cell">Details</td>
+                  {/* <td className="table-cell">Actions</td> */}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTransactionsPerPage?.map(
+                  (transaction: TransactionType) => (
+                    <tr key={transaction.transaction_id} className="table-row">
+                      <td className="table-cell">
+                        <div className="transaction-category__wrapper">
+                          <button className="secondary-button">
+                            {CategoryIcon(transaction.category)}
+                          </button>
+                          <div className="transaction-category__details">
+                            {transaction.category}
+                            <a href="" className="transaction-id">
+                              {transaction.transaction_id}
+                            </a>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="table-cell">{transaction.amount} kr</td>
+                      </td>
+                      <td className="table-cell">{transaction.amount} kr</td>
 
-                    <td className="table-cell">
-                      {new Date(transaction.date).toLocaleDateString("en-SE")}
-                    </td>
+                      <td className="table-cell">
+                        {new Date(transaction.date).toLocaleDateString("en-SE")}
+                      </td>
 
-                    <td className="table-cell">
-                      <Button
-                        title={transaction?.type?.toLowerCase()}
-                        className={`tag-button ${transaction?.type?.toLowerCase()}`}
-                      />
-                    </td>
+                      <td className="table-cell">{transaction.detail}</td>
+                      <td className="table-cell">
+                        <Button
+                          title={transaction?.type}
+                          className={`tag-button ${transaction?.type?.toLowerCase()}`}
+                        />
+                      </td>
 
-                    <td className="table-cell">{transaction.detail}</td>
-                    <td className="table-cell">
+                      {/* <td className="table-cell">
                       <MdEdit
                         className="table-cell__icon edit"
                         onClick={() => {
@@ -372,12 +383,53 @@ function Transactions() {
                           setIsDelete(!isDelete);
                         }}
                       />
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+                    </td> */}
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="transaction-mobile">
+            {filteredTransactionsPerPage?.map(
+              (transaction: TransactionType) => (
+                <div className="transaction-card">
+                  <div className="transaction-category__wrapper">
+                    <button className="icon-button">
+                      {CategoryIcon(transaction.category)}
+                    </button>
+                    <div className="transaction-category__details">
+                      <div className="transaction-category">
+                        {" "}
+                        {transaction.category}
+                      </div>
+                      <div className="transaction-date">
+                        {new Date(transaction.date).toLocaleDateString("en-SE")}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="transaction-amount__wrapper">
+                    <div className="transaction-amount">
+                      {transaction.amount} kr
+                    </div>
+                    <div className="transaction-type">
+                      <button
+                        className={`${
+                          transaction.type === "Income"
+                            ? "tag-button income small"
+                            : "tag-button expense small"
+                        }`}
+                      >
+                        {transaction.type}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
 
           <Pagination
             currentPage={currentPage}

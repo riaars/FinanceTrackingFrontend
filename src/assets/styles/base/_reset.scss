@@ -22,10 +22,12 @@ ul {
 table {
   border-collapse: collapse !important;
   border-spacing: 0 24px !important;
+  width: 100%;
 }
 tr {
   margin-top: 10px;
   margin-bottom: 10px;
+  border-bottom: 0.5px solid var(--border-color);
 }
 td,
 th {
