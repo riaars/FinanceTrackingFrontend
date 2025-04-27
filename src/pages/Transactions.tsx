@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { transactionCreators, State } from "../redux";
 
-import { MdEdit, MdDelete } from "react-icons/md";
 import { FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
 import { IoFastFood } from "react-icons/io5";
@@ -13,7 +12,6 @@ import { FaHome } from "react-icons/fa";
 import { MdMovieFilter } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
 import { IoStarSharp } from "react-icons/io5";
-import { IoCloudDownloadOutline } from "react-icons/io5";
 
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -23,11 +21,9 @@ import DeleteTransactionDialog from "../components/Transactions/DeleteTransactio
 import AddTransactionDialog from "../components/Transactions/AddTransactionDialog";
 
 import { CategoryOptions, TypeOptions } from "../utils/Constant";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import Logo from "../assets/images/logo.png";
 import Content from "../layout/Content";
 import Pagination from "../components/Pagination";
+import { downloadCSV, downloadPDF } from "../utils/downloadFile";
 
 export type TransactionType = {
   date: Date | string;
@@ -145,69 +141,6 @@ function Transactions() {
     JSON.stringify(addTransactionResult),
   ]);
 
-  const downloadCSV = (data: TransactionType[], filename = "data.csv") => {
-    let originalHeaders = Object.keys(data[0]);
-    const headers = originalHeaders.filter(
-      (item) => item !== "email" && item !== "_id" && item !== "__v"
-    );
-    const csv = [
-      headers.join(","), // header row
-      ...data.map((row) => headers.map((field) => `"${row[field]}"`).join(",")),
-    ].join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
-
-  const downloadPDF = (
-    transactions: TransactionType[],
-    fileName = "transactions.pdf"
-  ) => {
-    const doc = new jsPDF();
-    const logo = new Image();
-    logo.src = Logo;
-
-    logo.onload = () => {
-      doc.addImage(logo, "PNG", 14, 10, 14, 14);
-      doc.text("Trexo", 26, 19);
-
-      doc.setFontSize(12);
-      doc.text(loggedInUser, 150, 19);
-      doc.setFontSize(8);
-      doc.text(new Date().toLocaleString(), 150, 24);
-      doc.setFontSize(18);
-      doc.text("Transaction Summary", 14, 40);
-
-      autoTable(doc, {
-        head: [
-          ["Date", "Transaction ID", "Category", "Type", "Detail", "Amount"],
-        ],
-        body: transactions.map((tx: TransactionType) => [
-          tx.date,
-          tx.transaction_id,
-          tx.category,
-          tx.type,
-          tx.detail,
-          `SEK${tx.amount.toFixed(2)}`,
-        ]),
-        styles: {
-          head: {
-            fillColor: [52, 89, 212],
-            textColor: 255,
-            fontStyle: "bold",
-          },
-        },
-        startY: 50,
-      });
-      doc.save(fileName);
-    };
-  };
-
   const CategoryIcon = (category: string) => {
     switch (category) {
       case "Food":
@@ -251,6 +184,14 @@ function Transactions() {
               type="button"
               className="secondary-button add-button-transaction"
               onClick={toggleAddDialog}
+            /> */}
+
+            {/* <Dropdown
+              className="small"
+              options={DownloadOptions}
+              name="type"
+              value={filtered.type}
+              onChange={handleFilterChange}
             /> */}
             <Button
               title=" + Add Transaction"
@@ -316,7 +257,8 @@ function Transactions() {
                 onClick={() =>
                   downloadPDF(
                     transactions as TransactionType[],
-                    `Trexo_Transactions_${new Date().toLocaleDateString()}_${new Date().toLocaleTimeString()}`
+                    `Trexo_Transactions_${new Date().toLocaleDateString()}_${new Date().toLocaleTimeString()}`,
+                    loggedInUser
                   )
                 }
               >
