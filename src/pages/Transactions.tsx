@@ -142,25 +142,6 @@ function Transactions() {
     JSON.stringify(addTransactionResult),
   ]);
 
-  // const CategoryIcon = (category: string) => {
-  //   switch (category) {
-  //     case "Food":
-  //       return <IoFastFood fontSize={"18px"} />;
-  //     case "Transport":
-  //       return <FaCarAlt fontSize={"18px"} />;
-  //     case "Entertainment":
-  //       return <MdMovieFilter fontSize={"18px"} />;
-  //     case "Rent":
-  //       return <FaHome fontSize={"18px"} />;
-  //     case "Salary":
-  //       return <GrMoney fontSize={"18px"} />;
-
-  //     default:
-  //       return <IoStarSharp fontSize={"18px"} />;
-  //   }
-  // };
-
-  console.log(transactions);
   return (
     <Content title="Transactions">
       {(transactions as TransactionType[]).length === 0 ? (

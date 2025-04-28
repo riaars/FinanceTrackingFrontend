@@ -6,7 +6,7 @@ interface PaginationProps {
   currentPage: number;
   totalItemsPerPage: number;
   totalItems: number;
-  handleChange: (pageNumber: number) => void;
+  handleChange: (pageNumber: number | string) => void;
 }
 const Pagination = ({
   currentPage,
@@ -17,22 +17,48 @@ const Pagination = ({
   const totalPage = Math.ceil(totalItems / totalItemsPerPage);
 
   let pageList = [];
-  for (let i = 1; i <= totalPage; i++) {
-    pageList.push(i);
+
+  if (totalPage <= 5) {
+    for (let i = 1; i <= totalPage; i++) {
+      pageList.push(i);
+    }
+  } else {
+    pageList.push(1);
+
+    if (currentPage > 3) {
+      pageList.push("...");
+    }
+
+    const startPage = Math.max(2, currentPage - 1);
+    const endPage = Math.min(totalPage - 1, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageList.push(i);
+    }
+
+    if (currentPage < totalPage - 2) {
+      pageList.push("...");
+    }
+
+    pageList.push(totalPage);
   }
 
   const renderPageNumber = () => {
-    return pageList.map((item, index) => (
-      <div
-        className={`pagination__item ${
-          currentPage === item ? "active" : "inactive"
-        }`}
-        key={index}
-        onClick={() => handleChange(item)}
-      >
-        {item}
-      </div>
-    ));
+    return pageList.map((item, index) =>
+      item === "..." ? (
+        <div className="pagination__item">{item}</div>
+      ) : (
+        <div
+          className={`pagination__item ${
+            currentPage === item ? "active" : "inactive"
+          }`}
+          key={index}
+          onClick={() => handleChange(item)}
+        >
+          {item}
+        </div>
+      )
+    );
   };
 
   return (
