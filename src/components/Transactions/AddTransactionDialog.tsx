@@ -10,6 +10,7 @@ import Dialog from "../Dialog";
 import { formattedDate } from "../../utils/helpers";
 import InputDate from "../Date";
 import Tesseract from "tesseract.js";
+import CategoryGrid from "../CategoryGrid";
 
 type TransactionErrorsFormType = {
   date: string;
@@ -164,12 +165,17 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
               onChange={handleTransactionChange}
             />
 
-            <Dropdown
+            <CategoryGrid
+              setSelectedCategory={handleTransactionChange}
+              selectedCategory={form.category}
+            />
+
+            {/* <Dropdown
               options={CategoryOptions}
               name="category"
               value={form.category}
               onChange={handleTransactionChange}
-            />
+            /> */}
 
             <Input
               type="number"

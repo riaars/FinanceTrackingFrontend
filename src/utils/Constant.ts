@@ -3,10 +3,25 @@ export const DownloadOptions = ["Download", "PDF", "CSV"];
 
 export const CategoryOptions = [
   "Select Category",
-  "Food",
-  "Transport",
-  "Rent",
+  "Food & Dining",
+  "Transportation",
+  "Housing",
   "Entertainment",
+  "Bills & Utilities",
+  "Health & Fitness",
+  "Shopping",
+  "Travel",
+  "Education",
+  "Personal Care",
+  "Insurance",
+  "Miscellaneous",
+];
+
+export const CategoryIncomeOptions = [
   "Salary",
-  "Others",
+  "Business",
+  "Investments",
+  "Gifts",
+  "Rental Income",
+  "Refunds",
 ];

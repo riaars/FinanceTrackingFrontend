@@ -1,0 +1,14 @@
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  margin: 0 auto;
+}
+
+.category-item {
+  padding: 4px;
+}
+
+.category-label {
+  font-size: 12px;
+}
