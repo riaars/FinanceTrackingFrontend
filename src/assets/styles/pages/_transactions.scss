@@ -18,13 +18,28 @@
   margin: 1rem;
 }
 
+.amount-expense {
+  color: $negative-color;
+  font-weight: bold;
+}
+.amount-income {
+  color: $positive-color;
+  font-weight: bold;
+}
+
 .table-cell__icon {
   margin: 0.5rem;
+  &.edit {
+    color: #6b7280;
+  }
+  &.delete {
+    color: #ef4444;
+  }
 }
 
 .table-head {
   padding-top: 1rem !important;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .link {

@@ -9,7 +9,7 @@ import { FaFilePdf } from "react-icons/fa6";
 import { IoFastFood } from "react-icons/io5";
 import { FaCarAlt } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
-import { MdMovieFilter } from "react-icons/md";
+import { MdDelete, MdEdit, MdMovieFilter } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
 import { IoStarSharp } from "react-icons/io5";
 
@@ -227,12 +227,12 @@ function Transactions() {
                 value={filtered.category}
                 onChange={handleFilterChange}
               />
-              <Button
+              {/* <Button
                 title="Reset"
                 type="button"
                 className="secondary-button"
                 onClick={() => setFiltered(initialFiltered)}
-              />
+              /> */}
             </div>
             <div className="transaction-filtered-count">{`Showing ${
               filteredTransactions().length
@@ -274,9 +274,9 @@ function Transactions() {
                   <td className="table-cell">Transaction</td>
                   <td className="table-cell">Amount</td>
                   <td className="table-cell">Date</td>
-                  <td className="table-cell">Type</td>
+                  {/* <td className="table-cell">Type</td> */}
                   <td className="table-cell">Details</td>
-                  {/* <td className="table-cell">Actions</td> */}
+                  <td className="table-cell">Actions</td>
                 </tr>
               </thead>
               <tbody>
@@ -296,36 +296,47 @@ function Transactions() {
                           </div>
                         </div>
                       </td>
-                      <td className="table-cell">{transaction.amount} kr</td>
+                      <td className={`table-cell}`}>
+                        <span
+                          className={`${
+                            transaction.type === "Expense"
+                              ? "amount-expense"
+                              : "amount-income"
+                          }`}
+                        >
+                          {transaction.type === "Expense" ? "-" : "+"}
+                          {transaction.amount} kr
+                        </span>
+                      </td>
 
                       <td className="table-cell">
                         {new Date(transaction.date).toLocaleDateString("en-SE")}
                       </td>
 
                       <td className="table-cell">{transaction.detail}</td>
-                      <td className="table-cell">
+                      {/* <td className="table-cell">
                         <Button
                           title={transaction?.type}
                           className={`tag-button ${transaction?.type?.toLowerCase()}`}
                         />
-                      </td>
+                      </td> */}
 
-                      {/* <td className="table-cell">
-                      <MdEdit
-                        className="table-cell__icon edit"
-                        onClick={() => {
-                          setSelectedTransaction(transaction);
-                          setIsEdit(!isEdit);
-                        }}
-                      />
-                      <MdDelete
-                        className="table-cell__icon delete"
-                        onClick={() => {
-                          setSelectedTransaction(transaction);
-                          setIsDelete(!isDelete);
-                        }}
-                      />
-                    </td> */}
+                      <td className="table-cell">
+                        <MdEdit
+                          className="table-cell__icon edit"
+                          onClick={() => {
+                            setSelectedTransaction(transaction);
+                            setIsEdit(!isEdit);
+                          }}
+                        />
+                        <MdDelete
+                          className="table-cell__icon delete"
+                          onClick={() => {
+                            setSelectedTransaction(transaction);
+                            setIsDelete(!isDelete);
+                          }}
+                        />
+                      </td>
                     </tr>
                   )
                 )}

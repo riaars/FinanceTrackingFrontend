@@ -23,6 +23,17 @@
   padding: 1rem;
 }
 
+@media screen and (max-width: $breakpoint-desktop) {
+  .content {
+    width: 80%;
+  }
+}
+@media screen and (max-width: $breakpoint-tablet) {
+  .content {
+    width: 80%;
+  }
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .content {
     width: 100%;
