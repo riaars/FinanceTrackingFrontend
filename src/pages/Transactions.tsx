@@ -71,7 +71,6 @@ function Transactions() {
   const [filtered, setFiltered] = useState(initialFiltered);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const totalItemsPerPage = 8;
 
   const handlePageChange = (selectedPage: number) => {
     setCurrentPage(selectedPage);
@@ -116,10 +115,16 @@ function Transactions() {
       }
     );
   };
+  const totalItemsPerPage = 8;
+  const start = (currentPage - 1) * totalItemsPerPage + 1;
+  const end = Math.min(
+    currentPage * totalItemsPerPage,
+    filteredTransactions().length
+  );
 
   const filteredTransactionsPerPage = filteredTransactions().slice(
-    (currentPage - 1) * totalItemsPerPage,
-    totalItemsPerPage * currentPage
+    start - 1,
+    end
   );
 
   const toggleAddDialog = () => {
@@ -221,10 +226,9 @@ function Transactions() {
                 onClick={() => setFiltered(initialFiltered)}
               />
             </div>
-            <div className="transaction-filtered-count">{`Showing ${
-              filteredTransactions().length
-            } of ${
-              (transactions as TransactionType[]).length
+            <div className="transaction-filtered-count">{`Showing ${start} - ${end}
+            of ${
+              (filteredTransactions() as TransactionType[]).length
             } transactions`}</div>
 
             <div className="flex flex-right gap-1">
