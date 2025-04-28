@@ -21,7 +21,7 @@ const CategoryGrid = ({
     <div className="category-grid">
       {CategoryOptions.slice(1, CategoryOptions.length).map((option) => (
         <div
-          className={`category-item `}
+          className={`category-item`}
           onClick={() => setSelectedCategory("category", option)}
         >
           <button

@@ -11,6 +11,7 @@ import Input from "../Input";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { transactionCreators } from "../../redux";
+import CategoryGrid from "../CategoryGrid";
 
 const token = localStorage.getItem("token");
 
@@ -49,16 +50,13 @@ function UpdateTransactionDialog({
             onChange={handleChange}
           />
 
-          <Dropdown
-            options={
-              selectedTransaction?.type === "Expense"
-                ? CategoryExpenseOptions
-                : CategoryIncomeOptions
-            }
-            name="category"
-            value={selectedTransaction?.category || ""}
-            onChange={handleChange}
-          />
+          {selectedTransaction?.type !== "Select Type" && (
+            <CategoryGrid
+              type={selectedTransaction?.type}
+              setSelectedCategory={handleChange}
+              selectedCategory={selectedTransaction?.category || ""}
+            />
+          )}
 
           <Input
             type="number"

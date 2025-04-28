@@ -23,6 +23,6 @@ export const CategoryIncomeOptions = [
   "Business",
   "Investments",
   "Gifts",
-  "Rental Income",
+  "Rental",
   "Refunds",
 ];
