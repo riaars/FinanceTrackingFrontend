@@ -21,10 +21,12 @@
 .amount-expense {
   color: $negative-color;
   font-weight: bold;
+  text-align: center !important;
 }
 .amount-income {
   color: $positive-color;
   font-weight: bold;
+  text-align: center !important;
 }
 
 .table-cell__icon {

@@ -274,8 +274,8 @@ function Transactions() {
                   <td className="table-cell">Transaction</td>
                   <td className="table-cell">Amount</td>
                   <td className="table-cell">Date</td>
-                  {/* <td className="table-cell">Type</td> */}
-                  <td className="table-cell">Details</td>
+                  <td className="table-cell">Type</td>
+                  {/* <td className="table-cell">Details</td> */}
                   <td className="table-cell">Actions</td>
                 </tr>
               </thead>
@@ -312,14 +312,14 @@ function Transactions() {
                       <td className="table-cell">
                         {new Date(transaction.date).toLocaleDateString("en-SE")}
                       </td>
-
-                      <td className="table-cell">{transaction.detail}</td>
-                      {/* <td className="table-cell">
+                      <td className="table-cell">
                         <Button
                           title={transaction?.type}
                           className={`tag-button ${transaction?.type?.toLowerCase()}`}
                         />
-                      </td> */}
+                      </td>
+
+                      {/* <td className="table-cell">{transaction.detail}</td> */}
 
                       <td className="table-cell">
                         <MdEdit
@@ -365,9 +365,18 @@ function Transactions() {
 
                   <div className="transaction-amount__wrapper">
                     <div className="transaction-amount">
-                      {transaction.amount} kr
+                      <span
+                        className={`${
+                          transaction.type === "Expense"
+                            ? "amount-expense"
+                            : "amount-income"
+                        }`}
+                      >
+                        {transaction.type === "Expense" ? "-" : "+"}
+                        {transaction.amount} kr
+                      </span>
                     </div>
-                    <div className="transaction-type">
+                    {/* <div className="transaction-type">
                       <button
                         className={`${
                           transaction.type === "Income"
@@ -377,7 +386,7 @@ function Transactions() {
                       >
                         {transaction.type}
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               )
