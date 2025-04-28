@@ -5,7 +5,7 @@ import Dropdown from "../Dropdown";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { transactionCreators } from "../../redux";
-import { CategoryOptions, TypeOptions } from "../../utils/Constant";
+import { TypeOptions } from "../../utils/Constant";
 import Dialog from "../Dialog";
 import { formattedDate } from "../../utils/helpers";
 import InputDate from "../Date";
@@ -165,10 +165,13 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
               onChange={handleTransactionChange}
             />
 
-            <CategoryGrid
-              setSelectedCategory={handleTransactionChange}
-              selectedCategory={form.category}
-            />
+            {form.type !== "Select Type" && (
+              <CategoryGrid
+                type={form.type}
+                setSelectedCategory={handleTransactionChange}
+                selectedCategory={form.category}
+              />
+            )}
 
             {/* <Dropdown
               options={CategoryOptions}

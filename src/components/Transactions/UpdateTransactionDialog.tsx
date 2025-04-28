@@ -2,7 +2,11 @@ import React from "react";
 import Dialog from "../Dialog";
 import Dropdown from "../Dropdown";
 import { TransactionType } from "../../pages/Transactions";
-import { CategoryOptions, TypeOptions } from "../../utils/Constant";
+import {
+  CategoryExpenseOptions,
+  CategoryIncomeOptions,
+  TypeOptions,
+} from "../../utils/Constant";
 import Input from "../Input";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
@@ -46,7 +50,11 @@ function UpdateTransactionDialog({
           />
 
           <Dropdown
-            options={CategoryOptions}
+            options={
+              selectedTransaction?.type === "Expense"
+                ? CategoryExpenseOptions
+                : CategoryIncomeOptions
+            }
             name="category"
             value={selectedTransaction?.category || ""}
             onChange={handleChange}

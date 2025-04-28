@@ -1,7 +1,7 @@
 export const TypeOptions = ["Select Type", "Expense", "Income"];
 export const DownloadOptions = ["Download", "PDF", "CSV"];
 
-export const CategoryOptions = [
+export const CategoryExpenseOptions = [
   "Select Category",
   "Food & Dining",
   "Transportation",
@@ -18,6 +18,7 @@ export const CategoryOptions = [
 ];
 
 export const CategoryIncomeOptions = [
+  "Select Category",
   "Salary",
   "Business",
   "Investments",

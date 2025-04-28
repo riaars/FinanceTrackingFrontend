@@ -6,12 +6,7 @@ import { transactionCreators, State } from "../redux";
 
 import { FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
-import { IoFastFood } from "react-icons/io5";
-import { FaCarAlt } from "react-icons/fa";
-import { FaHome } from "react-icons/fa";
-import { MdDelete, MdEdit, MdMovieFilter } from "react-icons/md";
-import { GrMoney } from "react-icons/gr";
-import { IoStarSharp } from "react-icons/io5";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 import Input from "../components/Input";
 import Dropdown from "../components/Dropdown";
@@ -20,10 +15,15 @@ import UpdateTransactionDialog from "../components/Transactions/UpdateTransactio
 import DeleteTransactionDialog from "../components/Transactions/DeleteTransactionDialog";
 import AddTransactionDialog from "../components/Transactions/AddTransactionDialog";
 
-import { CategoryOptions, TypeOptions } from "../utils/Constant";
+import {
+  CategoryExpenseOptions,
+  CategoryIncomeOptions,
+  TypeOptions,
+} from "../utils/Constant";
 import Content from "../layout/Content";
 import Pagination from "../components/Pagination";
 import { downloadCSV, downloadPDF } from "../utils/downloadFile";
+import { CategoryIcons } from "../utils/categoryIcons";
 
 export type TransactionType = {
   date: Date | string;
@@ -78,6 +78,7 @@ function Transactions() {
   };
 
   const handleFilterChange = (name: string, value: string) => {
+    setCurrentPage(1);
     setFiltered((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -117,7 +118,7 @@ function Transactions() {
   };
 
   const filteredTransactionsPerPage = filteredTransactions().slice(
-    (currentPage - 1) * totalItemsPerPage + 1,
+    (currentPage - 1) * totalItemsPerPage,
     totalItemsPerPage * currentPage
   );
 
@@ -141,24 +142,25 @@ function Transactions() {
     JSON.stringify(addTransactionResult),
   ]);
 
-  const CategoryIcon = (category: string) => {
-    switch (category) {
-      case "Food":
-        return <IoFastFood fontSize={"18px"} />;
-      case "Transport":
-        return <FaCarAlt fontSize={"18px"} />;
-      case "Entertainment":
-        return <MdMovieFilter fontSize={"18px"} />;
-      case "Rent":
-        return <FaHome fontSize={"18px"} />;
-      case "Salary":
-        return <GrMoney fontSize={"18px"} />;
+  // const CategoryIcon = (category: string) => {
+  //   switch (category) {
+  //     case "Food":
+  //       return <IoFastFood fontSize={"18px"} />;
+  //     case "Transport":
+  //       return <FaCarAlt fontSize={"18px"} />;
+  //     case "Entertainment":
+  //       return <MdMovieFilter fontSize={"18px"} />;
+  //     case "Rent":
+  //       return <FaHome fontSize={"18px"} />;
+  //     case "Salary":
+  //       return <GrMoney fontSize={"18px"} />;
 
-      default:
-        return <IoStarSharp fontSize={"18px"} />;
-    }
-  };
+  //     default:
+  //       return <IoStarSharp fontSize={"18px"} />;
+  //   }
+  // };
 
+  console.log(transactions);
   return (
     <Content title="Transactions">
       {(transactions as TransactionType[]).length === 0 ? (
@@ -223,16 +225,20 @@ function Transactions() {
               <Dropdown
                 className="small"
                 name="category"
-                options={CategoryOptions}
+                options={
+                  filtered.type === "Expense"
+                    ? CategoryExpenseOptions
+                    : CategoryIncomeOptions
+                }
                 value={filtered.category}
                 onChange={handleFilterChange}
               />
-              {/* <Button
+              <Button
                 title="Reset"
                 type="button"
                 className="secondary-button"
                 onClick={() => setFiltered(initialFiltered)}
-              /> */}
+              />
             </div>
             <div className="transaction-filtered-count">{`Showing ${
               filteredTransactions().length
@@ -275,7 +281,7 @@ function Transactions() {
                   <td className="table-cell">Amount</td>
                   <td className="table-cell">Date</td>
                   <td className="table-cell">Type</td>
-                  {/* <td className="table-cell">Details</td> */}
+                  <td className="table-cell">Details</td>
                   <td className="table-cell">Actions</td>
                 </tr>
               </thead>
@@ -286,7 +292,7 @@ function Transactions() {
                       <td className="table-cell">
                         <div className="transaction-category__wrapper">
                           <button className="secondary-button">
-                            {CategoryIcon(transaction.category)}
+                            {CategoryIcons(transaction.category)}
                           </button>
                           <div className="transaction-category__details">
                             {transaction.category}
@@ -319,7 +325,7 @@ function Transactions() {
                         />
                       </td>
 
-                      {/* <td className="table-cell">{transaction.detail}</td> */}
+                      <td className="table-cell">{transaction.detail}</td>
 
                       <td className="table-cell">
                         <MdEdit
@@ -347,10 +353,10 @@ function Transactions() {
           <div className="transaction-mobile">
             {filteredTransactionsPerPage?.map(
               (transaction: TransactionType) => (
-                <div className="transaction-card">
+                <div className="transaction-card" key={transaction._id}>
                   <div className="transaction-category__wrapper">
                     <button className="icon-button">
-                      {CategoryIcon(transaction.category)}
+                      {CategoryIcons(transaction.category)}
                     </button>
                     <div className="transaction-category__details">
                       <div className="transaction-category">

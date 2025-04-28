@@ -8,6 +8,7 @@
   min-width: 360px;
   margin: 0.5rem;
   background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
