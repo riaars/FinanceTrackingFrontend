@@ -51,7 +51,7 @@ export const updateTransaction =
     });
     try {
       const response = await fetch(`${API_URL}/updateTransaction`, {
-        method: "POST",
+        method: "PUT",
         credentials: "include",
         body: JSON.stringify(request),
         headers: {
@@ -119,7 +119,7 @@ export const deleteTransaction =
     });
     try {
       const response = await fetch(`${API_URL}/deleteTransaction`, {
-        method: "POST",
+        method: "DELETE",
         credentials: "include",
         body: JSON.stringify({ transaction_id: transaction_id }),
         headers: {
