@@ -147,6 +147,15 @@ function Transactions() {
     JSON.stringify(addTransactionResult),
   ]);
 
+  const getTransactionSummaryCount = () => {
+    if (end > 0) {
+      return `Showing ${start} - ${end}
+            of ${
+              (filteredTransactions() as TransactionType[]).length
+            } transactions`;
+    } else return "Showing 0 transactions";
+  };
+
   return (
     <Content title="Transactions">
       {(transactions as TransactionType[]).length === 0 ? (
@@ -226,10 +235,9 @@ function Transactions() {
                 onClick={() => setFiltered(initialFiltered)}
               />
             </div>
-            <div className="transaction-filtered-count">{`Showing ${start} - ${end}
-            of ${
-              (filteredTransactions() as TransactionType[]).length
-            } transactions`}</div>
+            <div className="transaction-filtered-count">
+              {getTransactionSummaryCount()}
+            </div>
 
             <div className="flex flex-right gap-1">
               <div
