@@ -16,9 +16,11 @@
   padding: 8px;
   color: var(--secondary-color);
   font-weight: bold;
+  cursor: pointer;
 }
 .pagination__item {
   padding: 6px 8px;
+  cursor: pointer;
 
   &.active {
     background-color: var(--secondary-color);

@@ -112,8 +112,6 @@ export const signOut = () => async (dispatch: Dispatch<Action>) => {
         type: ActionTypes.SIGNOUT_RESULT,
         payload: data,
       });
-
-      localStorage.clear();
     }
   } catch (error: any) {
     console.error(error);

@@ -43,8 +43,6 @@ export const CategoryIcons = (category: string) => {
       return <GiLipstick fontSize={"18px"} />;
     case "Insurance":
       return <AiOutlineFileProtect fontSize={"18px"} />;
-    case "Salary":
-      return <GrMoney fontSize={"18px"} />;
     case "Business":
       return <FaBuilding fontSize={"18px"} />;
     case "Rental":

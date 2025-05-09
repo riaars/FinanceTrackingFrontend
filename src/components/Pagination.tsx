@@ -6,7 +6,7 @@ interface PaginationProps {
   currentPage: number;
   totalItemsPerPage: number;
   totalItems: number;
-  handleChange: (pageNumber: number | string) => void;
+  handleChange: (pageNumber: number) => void;
 }
 const Pagination = ({
   currentPage,

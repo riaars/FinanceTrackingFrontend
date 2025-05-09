@@ -392,12 +392,14 @@ function Transactions() {
             )}
           </div>
 
-          <Pagination
-            currentPage={currentPage}
-            totalItemsPerPage={totalItemsPerPage}
-            totalItems={filteredTransactions().length}
-            handleChange={handlePageChange}
-          />
+          {filteredTransactionsPerPage.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalItemsPerPage={totalItemsPerPage}
+              totalItems={filteredTransactions().length}
+              handleChange={handlePageChange}
+            />
+          )}
 
           {isEdit && (
             <UpdateTransactionDialog
