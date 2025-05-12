@@ -7,6 +7,7 @@
   border-width: 1px;
   margin: 0.5rem;
   color: var(--text-button-color);
+  max-width: 360px;
 }
 
 .icon-button {
@@ -34,6 +35,7 @@
   background-color: var(--hover-color);
   color: var(--secondary-color);
   font-weight: bold;
+  max-width: 360px;
 }
 
 .tag-button {
