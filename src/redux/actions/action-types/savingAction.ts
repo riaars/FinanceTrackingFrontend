@@ -14,7 +14,24 @@ interface AddNewSavingPlanErrorAction {
   payload: any;
 }
 
+interface GetUserSavingPlansRequestAction {
+  type: ActionTypes.GET_USER_SAVING_PLANS_REQUEST;
+}
+
+interface GetUserSavingPlansResultAction {
+  type: ActionTypes.GET_USER_SAVING_PLANS_RESULT;
+  payload: Object;
+}
+
+interface GetUserSavingPlansErrorAction {
+  type: ActionTypes.GET_USER_SAVING_PLANS_ERROR;
+  payload: any;
+}
+
 export type Action =
   | AddNewSavingPlanRequestAction
   | AddNewSavingPlanResultAction
-  | AddNewSavingPlanErrorAction;
+  | AddNewSavingPlanErrorAction
+  | GetUserSavingPlansRequestAction
+  | GetUserSavingPlansResultAction
+  | GetUserSavingPlansErrorAction;

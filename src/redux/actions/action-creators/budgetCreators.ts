@@ -33,8 +33,6 @@ export const addMonthlyBudget =
         },
       });
 
-      console.log(request);
-
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
