@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Content from "../layout/Content";
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
 import MonthlyBudgetForm from "../components/MonthlyBudgetForm";
+import SavingPlans from "../components/SavingPlans";
 
 function Settings() {
   const username = localStorage.getItem("username") || null;
@@ -30,7 +31,8 @@ function Settings() {
         </button>
       </div>
 
-      <MonthlyBudgetForm />
+      {/* <MonthlyBudgetForm /> */}
+      <SavingPlans />
 
       {openChangePasswordDialog && (
         <ChangePasswordDialog toggleDialog={togglePasswordChange} />
