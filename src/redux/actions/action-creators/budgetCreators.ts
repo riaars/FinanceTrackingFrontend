@@ -52,3 +52,37 @@ export const addMonthlyBudget =
       });
     }
   };
+
+export const getUserMonthlyBudget =
+  () => async (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionTypes.GET_USER_MONTHLY_BUDGET_REQUEST,
+    });
+    try {
+      const response = await fetch(`${API_URL}/getMonthlyBudget`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data) {
+        dispatch({
+          type: ActionTypes.GET_USER_MONTHLY_BUDGET_RESULT,
+          payload: data,
+        });
+      }
+    } catch (error) {
+      console.error("error");
+      dispatch({
+        type: ActionTypes.GET_USER_MONTHLY_BUDGET_ERROR,
+        payload: error,
+      });
+    }
+  };

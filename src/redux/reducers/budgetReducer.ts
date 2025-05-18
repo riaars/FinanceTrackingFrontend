@@ -5,6 +5,9 @@ const initialState = {
   addMonthlyBudgetRequest: false,
   addMonthlyBudgetResult: null,
   addMonthlyBudgetError: null,
+  getUserMonthlyBudgetRequest: false,
+  getUserMonthlyBudgetResult: null,
+  getUserMonthlyBudgetError: null,
 };
 
 const budgetReducer = (state = initialState, action: Action) => {
@@ -27,6 +30,27 @@ const budgetReducer = (state = initialState, action: Action) => {
         ...state,
         addMonthlyBudgetRequest: false,
         addMonthlyBudgetError: action.payload,
+      };
+    }
+
+    case ActionTypes.GET_USER_MONTHLY_BUDGET_REQUEST: {
+      return {
+        ...state,
+        getUserMonthlyBudgetRequest: true,
+      };
+    }
+    case ActionTypes.GET_USER_MONTHLY_BUDGET_RESULT: {
+      return {
+        ...state,
+        getUserMonthlyBudgetRequest: false,
+        getUserMonthlyBudgetResult: action.payload,
+      };
+    }
+    case ActionTypes.GET_USER_MONTHLY_BUDGET_ERROR: {
+      return {
+        ...state,
+        getUserMonthlyBudgetRequest: false,
+        getUserMonthlyBudgetError: action.payload,
       };
     }
     default: {
