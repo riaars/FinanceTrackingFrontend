@@ -3,26 +3,20 @@ import dayjs from "dayjs";
 import Content from "../layout/Content";
 import { useDispatch, useSelector } from "react-redux";
 import { State, transactionCreators } from "../redux";
-import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import IncomeExpenseChart from "../components/IncomeExpenseChart";
 import CategoryCart from "../components/CategoryCart";
 import BudgetActualChart from "../components/BudgetActualChart";
 import CashFlowChart from "../components/CashFlowChart";
 import Button from "../components/Button";
-import * as PATH from "../config/Path";
 
 const Dashboard = () => {
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const { getAllTransactions } = bindActionCreators(
     transactionCreators,
     dispatch
   );
   const { transactions } = useSelector((state: State) => state.transaction);
-  const { loginResponse } = useSelector((state: State) => state.auth);
 
   const [view, setView] = useState("month");
 

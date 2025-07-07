@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import Input from "../Input";
 import Dropdown from "../Dropdown";
@@ -9,7 +9,6 @@ import { TypeOptions } from "../../utils/Constant";
 import Dialog from "../Dialog";
 import { formattedDate } from "../../utils/helpers";
 import InputDate from "../Date";
-import Tesseract from "tesseract.js";
 import CategoryGrid from "../CategoryGrid";
 
 type TransactionErrorsFormType = {
@@ -50,10 +49,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
 
   const [isFormValid, setIsFormValid] = useState(true);
   const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
-  const [transactionSubmit, setTransactionSubmit] = useState(false);
-  const [receipt, setReceipt] = useState<File>();
-  const [loadingScan, setLoadingScan] = useState(true);
-  const [parsedText, setParsedText] = useState({});
+  const [, setTransactionSubmit] = useState(false);
 
   const handleTransactionChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
@@ -70,6 +66,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
           toggleDialog();
         }
       } catch (error) {
+        console.error("Error adding transaction:", error);
         console.log("Something went wrong");
       }
     } else {
@@ -99,34 +96,6 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
     setIsFormValid(Object.keys(newErrors).length === 0);
 
     return Object.keys(newErrors).length === 0;
-  };
-
-  const handleUploadReceipt = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const file = e.target.files?.[0];
-    console.log("uploading");
-
-    if (file) {
-      setReceipt(file);
-      scanReceipt(file);
-    }
-  };
-
-  const scanReceipt = async (file: File) => {
-    const imageURL = URL.createObjectURL(file);
-    Tesseract.recognize(imageURL, "eng", {
-      logger: (m) => console.log(m),
-    })
-      .then(({ data: { text } }) => {
-        setParsedText(text);
-      })
-      .catch((err) => {
-        console.error("OCR error:", err);
-        setParsedText("Failed to read the receipt.");
-      })
-      .finally(() => {
-        setLoadingScan(false);
-      });
   };
 
   return (

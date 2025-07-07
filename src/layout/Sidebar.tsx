@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as PATH from "../config/Path";
 import { MdMenu } from "react-icons/md";
@@ -8,16 +8,13 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { authCreators, State } from "../redux";
-import { useDispatch, useSelector } from "react-redux";
+import { authCreators } from "../redux";
+import { useDispatch } from "react-redux";
 
 function Sidebar() {
   const loggedInUser = localStorage.getItem("username");
   const dispatch = useDispatch();
   const { signOut } = bindActionCreators(authCreators, dispatch);
-  const { loginResponse, signOutResponse } = useSelector(
-    (state: State) => state.auth
-  );
 
   const navigate = useNavigate();
 

@@ -18,8 +18,6 @@ function Login() {
     (state: State) => state.auth
   );
 
-  const token = localStorage.getItem("token");
-
   const navigate = useNavigate();
 
   const [form, setForm] = useState({

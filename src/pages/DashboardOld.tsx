@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
-import { State, transactionCreators } from "../redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { State } from "../redux";
 import { TransactionType } from "./Transactions";
 import BarChart from "../components/BarChart";
 import Button from "../components/Button";
 import { getPercentage } from "../utils/helpers";
-import * as PATH from "../config/Path";
-import { useNavigate } from "react-router-dom";
 import Content from "../layout/Content";
 
 import {
@@ -34,17 +31,7 @@ export interface MonthlySummary {
 }
 
 function Dashboard() {
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-  const { getAllTransactions } = bindActionCreators(
-    transactionCreators,
-    dispatch
-  );
-
   const { transactions } = useSelector((state: State) => state.transaction);
-  const { loginResponse } = useSelector((state: State) => state.auth);
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
@@ -268,7 +255,7 @@ function Dashboard() {
   ];
   return (
     <Content title="Dashboard">
-      {/* <ul className="dashboard-filter">
+      <ul className="dashboard-filter">
         <li
           className={`dashboard-filter__item ${
             currentTabIndex === 0 ? `active` : ``
@@ -382,7 +369,7 @@ function Dashboard() {
             incomeData={getYearlyData("Income").data}
           />
         </li>
-      </ul> */}
+      </ul>
       <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Spending Over Time */}
         <div className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow">

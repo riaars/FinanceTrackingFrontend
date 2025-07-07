@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Content from "../layout/Content";
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
-import MonthlyBudgetForm from "../components/MonthlyBudgetForm";
 import SavingPlans from "../components/SavingPlans";
 
 function Settings() {

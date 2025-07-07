@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { authCreators, State } from "../redux";
-import * as PATH from "../config/Path";
-import { useNavigate } from "react-router-dom";
 import { isEmailValid } from "../utils/helpers";
 import Dialog from "../components/Dialog";
 import AccountSwitchLink from "../components/AccountSwitchLink";
@@ -20,15 +18,11 @@ type SignupErrorsFormType = {
 };
 
 function Signup() {
-  const token = localStorage.getItem("token");
-
   const dispatch = useDispatch();
   const { signUp } = bindActionCreators(authCreators, dispatch);
   const { signupRequest, signupResponse, signupError } = useSelector(
     (state: State) => state.auth
   );
-
-  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     username: "",

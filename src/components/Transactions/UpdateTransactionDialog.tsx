@@ -2,11 +2,7 @@ import React from "react";
 import Dialog from "../Dialog";
 import Dropdown from "../Dropdown";
 import { TransactionType } from "../../pages/Transactions";
-import {
-  CategoryExpenseOptions,
-  CategoryIncomeOptions,
-  TypeOptions,
-} from "../../utils/Constant";
+import { TypeOptions } from "../../utils/Constant";
 import Input from "../Input";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
