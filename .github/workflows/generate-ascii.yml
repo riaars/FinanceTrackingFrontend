@@ -13,9 +13,7 @@ jobs:
         run: sudo apt-get install cowsay -y
 
       - name: Execture Cowsay CMD
-        run: |
-          echo "Generating ASCII art..."
-          cowsay -f dragon "Welcome to Finance Tracking UI" >> dragon.txt
+        run: cowsay -f dragon "Run for cover, I am a DRAGON .... RAWR" >> dragon.txt
 
       - name: Test file existance
         run: grep -i "dragon" dragon.txt
