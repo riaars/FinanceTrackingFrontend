@@ -16,4 +16,4 @@ jobs:
         run: ls
 
       - name: Read file
-        run: cat FinanceTracking-UI/README.md
+        run: cat README.md
