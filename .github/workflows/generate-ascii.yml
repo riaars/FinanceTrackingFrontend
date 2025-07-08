@@ -15,7 +15,7 @@ jobs:
       - name: Execture Cowsay CMD
         run: |
           echo "Generating ASCII art..."
-          cowsay -f dragon "Welcome to Finance Tracking UI" > dragon.txt
+          cowsay -f dragon "Welcome to Finance Tracking UI" >> dragon.txt
 
       - name: Test file existance
         run: grep -i "dragon" dragon.txt
