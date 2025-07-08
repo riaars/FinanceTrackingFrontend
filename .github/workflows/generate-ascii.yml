@@ -3,28 +3,34 @@ name: Generate ASCII Workflow
 on: push
 
 jobs:
-  generate-ascii-job:
+  build_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Cgheckout Repository
-        uses: actions/checkout@v4
+      - name: Install Cowsay Program
+        run: sudo apt-get install cowsay -y
 
-      - name: List Repo files
-        run: ls -ltra
+      - name: Execture Cowsay CMD
+        run: cowsay -f dragon "Run for cover, I am a DRAGON .... RAWR" >> dragon.txt
 
-      - name: Executing Shell Script
-        run: |
-          chmod +x ascii-script.sh
-          ./ascii-script.sh
+      - name: Sleeps for 30 seconds
+        run: sleep 30
 
-    #   - name: Install Cowsay Program
-    #     run: sudo apt-get install cowsay -y
+  test_job:
+    runs-on: ubuntu-latest
+    needs: build_job
+    steps:
+      - name: Sleeps for 10 seconds
+        run: sleep 10
 
-    #   - name: Execture Cowsay CMD
-    #     run: cowsay -f dragon "Run for cover, I am a DRAGON .... RAWR" >> dragon.txt
+      - name: Test file existance
+        run: grep -i "dragon" dragon.txt
 
-    #   - name: Test file existance
-    #     run: grep -i "dragon" dragon.txt
+  deploy_job:
+    runs-on: ubuntu-latest
+    needs: build_job
+    steps:
+      - name: Read file
+        run: cat dragon.txt
 
-    #   - name: Read File
-    #     run: cat dragon.txt
+      - name: Deploy to Production
+        run: echo "Deploying to Production"
