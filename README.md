@@ -8,7 +8,6 @@ Start the application:
 ├── README.md
 ├── ascii-script.sh
 ├── eslint.config.js
-├── folder-structure.txt
 ├── index.html
 ├── package-lock.json
 ├── package.json
