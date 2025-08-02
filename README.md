@@ -1,8 +1,35 @@
-# React + Vite
+Finance Tracking Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Start the application:
 
-Currently, two official plugins are available:
+`npm run dev`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+├── README.md
+├── ascii-script.sh
+├── eslint.config.js
+├── folder-structure.txt
+├── index.html
+├── package-lock.json
+├── package.json
+├── public
+│   ├── logo.png
+│   ├── vector.png
+│   ├── vector2.png
+│   └── vite.svg
+├── src
+│   ├── App.tsx
+│   ├── assets
+│   ├── components
+│   ├── config
+│   ├── dialogs
+│   ├── hooks
+│   ├── layout
+│   ├── main.tsx
+│   ├── pages
+│   ├── redux
+│   └── utils
+├── tsconfig.json
+└── vite.config.js
+
+```
