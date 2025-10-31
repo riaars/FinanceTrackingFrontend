@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { useResetPassword } from "../hooks/useResetPassword";
 import * as PATH from "@/config/Path";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
@@ -14,7 +13,6 @@ const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || "";
 
-  // const { resetPassword, status } = useResetPassword();
   const [resetPassword, { data, isLoading, isError, error }] =
     useResetPasswordMutation();
   const [
