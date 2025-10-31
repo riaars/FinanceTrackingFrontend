@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import AuthPageLayout from "@/layout/AuthPageLayout";
 import PasswordInput from "../ui/PasswordInput";
+import { useResetPasswordMutation } from "../api";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -13,16 +14,20 @@ const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || "";
 
-  const { resetPassword, status } = useResetPassword();
+  // const { resetPassword, status } = useResetPassword();
+  const [resetPassword, { data, isLoading, isError, error }] =
+    useResetPasswordMutation();
   const [
     openResetPasswordConfirmationDialog,
     setOpenResetPasswordConfirmationDialog,
   ] = useState(false);
 
+  const status = data?.message || (error as any)?.data?.message || "";
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setOpenResetPasswordConfirmationDialog((prev) => !prev);
-    await resetPassword(token, password);
+    await resetPassword({ token, password }).unwrap();
   };
 
   const toggleDialog = () => {
