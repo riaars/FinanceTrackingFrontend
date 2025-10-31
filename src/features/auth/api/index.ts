@@ -24,6 +24,44 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["Me"],
     }),
 
+    verifyEmail: build.mutation<void, { token: string }>({
+      query: (body) => ({
+        url: "/verifyEmail",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    changePassword: build.mutation<
+      { message: string },
+      { oldPassword: string; newPassword: string }
+    >({
+      query: (body) => ({
+        url: "/changePassword",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    forgotPassword: build.mutation<{ message: string }, { email: string }>({
+      query: (body) => ({
+        url: "/forgotPassword",
+        method: "POST",
+        body: body,
+      }),
+    }),
+
+    resetPassword: build.mutation<
+      { message: string },
+      { token: string; password: string }
+    >({
+      query: (body) => ({
+        url: "/resetPassword",
+        method: "POST",
+        body,
+      }),
+    }),
+
     logout: build.mutation<void, void>({
       query: () => ({ url: "/logout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -42,6 +80,10 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation,
   useSignupMutation,
+  useVerifyEmailMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useChangePasswordMutation,
   useLogoutMutation,
   useMeQuery,
 } = authApi;

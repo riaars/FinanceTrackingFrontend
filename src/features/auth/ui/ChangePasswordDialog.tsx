@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dialog from "@/components/Dialog";
 import PasswordInput from "./PasswordInput";
-import { useChangePassword } from "../hooks/useChangePassword";
+import { useChangePasswordMutation } from "../api";
 
 interface ChangePasswordDialogProps {
   toggleDialog: () => void;
@@ -10,11 +10,14 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const { changePassword, status } = useChangePassword();
+  const [changePassword, { data, isLoading, isError, error }] =
+    useChangePasswordMutation();
+
+  const status = data?.message || (error as any)?.data?.message || "";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await changePassword(oldPassword, newPassword);
+    await changePassword({ oldPassword, newPassword }).unwrap();
   };
 
   useEffect(() => {
@@ -22,6 +25,7 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
       toggleDialog();
     }
   }, [status]);
+
   return (
     <Dialog title="Change Password" handleCloseDialog={toggleDialog}>
       <div className="dialog__content">
@@ -47,16 +51,19 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
+            <div className="dialog__actions">
+              <button className="secondary-button" onClick={toggleDialog}>
+                Cancel
+              </button>
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isLoading}
+              >
+                Update Pasword
+              </button>
+            </div>
           </form>
-        </div>
-
-        <div className="dialog__actions">
-          <button className="secondary-button" onClick={toggleDialog}>
-            Cancel
-          </button>
-          <button className="primary-button" onClick={handleSubmit}>
-            Update Pasword
-          </button>
         </div>
       </div>
     </Dialog>

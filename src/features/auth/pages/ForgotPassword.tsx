@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useState } from "react";
-import { useForgotPassword } from "../hooks/useForgotPassword";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import AuthPageLayout from "@/layout/AuthPageLayout";
+import { useForgotPasswordMutation } from "../api";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const { forgotPassword, status } = useForgotPassword();
+  const [forgotPassword, { data }] = useForgotPasswordMutation();
   const [openForgotPasswordDialog, setOpenForgotPasswordDialog] =
     useState(false);
 
@@ -18,7 +18,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setOpenForgotPasswordDialog(true);
     e.preventDefault();
-    await forgotPassword(email);
+    await forgotPassword({ email });
   };
 
   const toggleDialog = () => {
@@ -49,28 +49,29 @@ const ForgotPassword = () => {
         </form>
       </div>
 
-      {openForgotPasswordDialog && status === "Reset link send to email" && (
-        <Dialog
-          title="Reset password link sent!"
-          handleCloseDialog={toggleDialog}
-        >
-          <div className="dialog__content">
-            <p>
-              We sent the reset link to your email{" "}
-              <span className="link">{email}</span>
-            </p>
+      {openForgotPasswordDialog &&
+        data?.message === "Reset link send to email" && (
+          <Dialog
+            title="Reset password link sent!"
+            handleCloseDialog={toggleDialog}
+          >
+            <div className="dialog__content">
+              <p>
+                We sent the reset link to your email{" "}
+                <span className="link">{email}</span>
+              </p>
 
-            <p className="forgot-password__info">
-              You can check your inbox. This link will expire in 15 minutes.{" "}
-            </p>
-          </div>
-          <div className="dialog__actions">
-            <button className="primary-button" onClick={toggleDialog}>
-              OK
-            </button>
-          </div>
-        </Dialog>
-      )}
+              <p className="forgot-password__info">
+                You can check your inbox. This link will expire in 15 minutes.{" "}
+              </p>
+            </div>
+            <div className="dialog__actions">
+              <button className="primary-button" onClick={toggleDialog}>
+                OK
+              </button>
+            </div>
+          </Dialog>
+        )}
     </AuthPageLayout>
   );
 };
