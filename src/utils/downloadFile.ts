@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import { TransactionType } from "../pages/Transactions";
+import { TransactionType } from "../features/transaction/pages/Transactions";
 import autoTable from "jspdf-autotable";
 import Logo from "../assets/images/logo.png";
 

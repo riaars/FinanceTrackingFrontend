@@ -1,24 +1,26 @@
-import Login from "./pages/Login";
+import Login from "@/features/auth/pages/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Signup from "./pages/Signup";
+import Signup from "@/features/auth/pages/Signup";
 
-import * as PATH from "./config/Path";
-import Header from "./layout/Header";
-import Sidebar from "./layout/Sidebar";
-import Transactions from "./pages/Transactions";
+import * as PATH from "@/config/Path";
+import Sidebar from "@/layout/Sidebar";
+import Header from "@/layout/Header";
+
+import Transactions from "@/features/transaction/pages/Transactions";
 import { Provider } from "react-redux";
-import store from "./redux/store";
-import PrivateRoute from "./components/PrivateRoute";
-import React, { useEffect } from "react";
-import Dashboard from "./pages/Dashboard";
-import useTheme from "./hooks/useTheme";
-import Settings from "./pages/Settings";
-import VerifyEmail from "./pages/VerifyEmail";
-import ResetPassword from "./pages/ResetPassword";
-import ForgotPassword from "./pages/ForgotPassword";
+import { store } from "@/app/store";
+import PrivateRoute from "@/components/PrivateRoute";
+import React from "react";
+import Dashboard from "@/features/dashboard/pages/Dashboard";
+import useTheme from "@/hooks/useTheme";
+import Settings from "@/features/settings/pages/Settings";
+import ForgotPassword from "@/features/auth/pages/ForgotPassword";
+import ResetPassword from "@/features/auth/pages/ResetPassword";
+import VerifyEmail from "@/features/auth/pages/VerifyEmail";
+import PublicRoute from "@/components/PublicRoute";
 
 function App() {
-  const { theme } = useTheme();
+  const { theme } = useTheme(); /**Move it later to redux**/
 
   const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -32,25 +34,17 @@ function App() {
     );
   };
 
-  useEffect(() => {
-    if (theme == "dark") {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path={PATH.SIGNUP} element={<Signup />} />
-          <Route path={PATH.LOGIN} element={<Login />} />
-          <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
-          <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
-          <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
+          <Route element={<PublicRoute />}>
+            <Route path={PATH.SIGNUP} element={<Signup />} />
+            <Route path={PATH.LOGIN} element={<Login />} />
+            <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
+            <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
+            <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
+          </Route>
 
           <Route element={<PrivateRoute />}>
             <Route

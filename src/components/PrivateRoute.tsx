@@ -1,9 +1,20 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useMeQuery } from "../features/auth/api";
 
 const PrivateRoute = () => {
-  const token = localStorage.getItem("token");
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useMeQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  console.log("PrivateRoute user:", user);
 
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+  if (isLoading) return <p>Checking session…</p>;
+  if (isError || !user) return <Navigate to="/login" replace />;
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;

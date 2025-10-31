@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import * as PATH from "../config/Path";
+import * as PATH from "@/config/Path";
 import { MdMenu } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import { IoLogOutOutline } from "react-icons/io5";
 
 import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
 import { AiOutlineTransaction } from "react-icons/ai";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { authCreators } from "../redux";
-import { useDispatch } from "react-redux";
+import { useLogoutMutation, useMeQuery } from "../features/auth/api";
 
 function Sidebar() {
-  const loggedInUser = localStorage.getItem("username");
-  const dispatch = useDispatch();
-  const { signOut } = bindActionCreators(authCreators, dispatch);
+  const { data: user, isLoading, isError } = useMeQuery();
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
+  console.log("Sidebar user:", user?.username);
 
   const navigate = useNavigate();
 
@@ -37,8 +35,8 @@ function Sidebar() {
     { title: "Logout", path: "", icon: <IoLogOutOutline /> },
   ];
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await logout().unwrap();
     navigate(PATH.LOGIN);
   };
 
@@ -58,7 +56,7 @@ function Sidebar() {
       </div>
       <div className={`sidebar-container ${openSidebar ? "open" : "close"}`}>
         <ul className={`sidebar-container__menu`}>
-          <div className="sidebar-container__header">{loggedInUser}</div>
+          <div className="sidebar-container__header">{user?.username}</div>
           {sideMenus.map((sideMenu) => (
             <li
               key={sideMenu.title}

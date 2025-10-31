@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosNotifications } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
-import Theme from "../components/Theme";
+import Theme from "@/components/Theme";
 
 function Header() {
   return (

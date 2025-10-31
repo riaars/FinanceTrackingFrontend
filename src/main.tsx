@@ -4,7 +4,7 @@ import "./assets/styles/main.scss";
 import { ErrorBoundary } from "react-error-boundary";
 
 import App from "./App";
-import ErrorFallback from "./components/ErrorFallback";
+import ErrorFallback from "@/components/ErrorFallback";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
