@@ -17,8 +17,7 @@ type SignupErrorsFormType = {
 };
 
 function Signup() {
-  const [signup, { data, isLoading, isError, error, isSuccess }] =
-    useSignupMutation();
+  const [signup, { data, isLoading, error }] = useSignupMutation();
 
   const [form, setForm] = useState<SignUpRequest>({
     username: "",

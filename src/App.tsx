@@ -7,12 +7,9 @@ import Sidebar from "@/layout/Sidebar";
 import Header from "@/layout/Header";
 
 import Transactions from "@/features/transaction/pages/Transactions";
-import { Provider } from "react-redux";
-import { store } from "@/app/store";
 import PrivateRoute from "@/components/PrivateRoute";
 import React, { useEffect } from "react";
 import Dashboard from "@/features/dashboard/pages/Dashboard";
-import useTheme from "@/hooks/useTheme";
 import Settings from "@/features/settings/pages/Settings";
 import ForgotPassword from "@/features/auth/pages/ForgotPassword";
 import ResetPassword from "@/features/auth/pages/ResetPassword";

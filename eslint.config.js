@@ -26,6 +26,8 @@ export default [
     rules: {
       "@typescript-eslint/no-unused-vars": ["warn"],
       "react/react-in-jsx-scope": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
     },
     settings: {
       react: {

@@ -13,8 +13,7 @@ const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || "";
 
-  const [resetPassword, { data, isLoading, isError, error }] =
-    useResetPasswordMutation();
+  const [resetPassword, { data, error }] = useResetPasswordMutation();
   const [
     openResetPasswordConfirmationDialog,
     setOpenResetPasswordConfirmationDialog,

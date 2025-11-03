@@ -10,7 +10,7 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [changePassword, { data, isLoading, isError, error }] =
+  const [changePassword, { data, isLoading, error }] =
     useChangePasswordMutation();
 
   const status = data?.message || (error as any)?.data?.message || "";
@@ -24,7 +24,7 @@ const ChangePasswordDialog = ({ toggleDialog }: ChangePasswordDialogProps) => {
     if (status === "Password has been successfully updated") {
       toggleDialog();
     }
-  }, [status]);
+  }, [status, toggleDialog]);
 
   return (
     <Dialog title="Change Password" handleCloseDialog={toggleDialog}>

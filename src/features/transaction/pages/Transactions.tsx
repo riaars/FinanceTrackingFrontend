@@ -31,20 +31,10 @@ const initialFiltered = {
 };
 
 function Transactions() {
-  const {
-    data: user,
-    isLoading: isUserLoading,
-    isError: isUserError,
-    error: userError,
-  } = useMeQuery();
+  const { data: user } = useMeQuery();
   const email = user?.email || "";
 
-  const {
-    data: transactionsData,
-    isLoading: isTrxLoading,
-    isError: isTrxError,
-    error: trxError,
-  } = useGetAllTransactionsQuery();
+  const { data: transactionsData } = useGetAllTransactionsQuery();
   const transactions = transactionsData || [];
 
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({

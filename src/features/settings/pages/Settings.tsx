@@ -5,7 +5,7 @@ import SavingPlans from "@/components/SavingPlans";
 import { useMeQuery } from "@/features/auth";
 
 function Settings() {
-  const { data: user, isLoading, isError } = useMeQuery();
+  const { data: user } = useMeQuery();
 
   const [openChangePasswordDialog, setOpenChangePasswordDialog] =
     useState(false);
