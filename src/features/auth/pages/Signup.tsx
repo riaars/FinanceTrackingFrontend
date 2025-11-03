@@ -1,81 +1,29 @@
-import React, { useState } from "react";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import { isEmailValid } from "@/utils/helpers";
+import React, { useEffect, useState } from "react";
 import Dialog from "@/components/Dialog";
 import AccountSwitchLink from "../ui/AccountSwitchLink";
 import AuthPageLayout from "@/layout/AuthPageLayout";
-import PasswordInput from "../ui/PasswordInput";
 import { useSignupMutation } from "../api";
-import { SignUpRequest } from "../api/type";
-
-type SignupErrorsFormType = {
-  username: string;
-  email: string;
-  password: string;
-  repassword: string;
-};
+import SignupForm from "../ui/SignupForm";
 
 function Signup() {
-  const [signup, { data, isLoading, error }] = useSignupMutation();
-
-  const [form, setForm] = useState<SignUpRequest>({
-    username: "",
-    email: "",
-    password: "",
-    repassword: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({
-    username: "",
-    email: "",
-    password: "",
-    repassword: "",
-  });
-
-  const [isFormValid, setIsFormValid] = useState(false);
   const [openVerifyEmailDialog, setOpenVerifyEmailDialog] = useState(false);
-  const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
   const [openSignupErrorDialog, setOpenSignupErrorDialog] = useState(false);
+  const [email, setEmail] = useState("");
+  const [, setSignupError] = useState<any>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+  const [, { error, isLoading, isSuccess }] = useSignupMutation();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateSignupForm()) {
-      signup(form);
-      setOpenSignupErrorDialog(true);
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
       setOpenVerifyEmailDialog(true);
-    } else {
-      setOpenUserInputDialog(true);
     }
-  };
+  }, [isLoading, isSuccess]);
 
-  const validateSignupForm = () => {
-    const newErrors: SignupErrorsFormType = {} as SignupErrorsFormType;
-    if (form.username === "") {
-      newErrors.username = "Username is required";
+  useEffect(() => {
+    if (!isLoading && error) {
+      setOpenSignupErrorDialog(true);
     }
-    if (form.email === "") {
-      newErrors.email = "Email is required";
-    } else if (!isEmailValid(form.email)) {
-      newErrors.email = "Email is not valid";
-    }
-
-    if (form.password.length < 6) {
-      newErrors.password = "Password is too short";
-    } else if (form.password !== form.repassword) {
-      newErrors.repassword = "Password is not match";
-    }
-
-    setFormErrors(newErrors);
-    setIsFormValid(Object.keys(newErrors).length === 0);
-
-    return Object.keys(newErrors).length === 0;
-  };
+  }, [isLoading, error]);
 
   return (
     <AuthPageLayout>
@@ -89,46 +37,20 @@ function Signup() {
         </div>
         <div className="signup__form">
           <h1>Create Account</h1>
-          <Input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={form.username}
-            onChange={handleChange}
-          />
-          <Input
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-          />
-
-          <PasswordInput
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-          />
-
-          <PasswordInput
-            name="repassword"
-            placeholder="Confirm Password"
-            value={form.repassword}
-            onChange={handleChange}
-          />
-
-          <Button
-            title="Create Account"
-            className="primary-button"
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit(e as React.FormEvent<HTMLFormElement>);
+          <SignupForm
+            onSuccess={(email) => {
+              setEmail(email);
+              setOpenVerifyEmailDialog(true);
+            }}
+            onError={(error) => {
+              setSignupError(error);
+              setOpenSignupErrorDialog(true);
             }}
           />
+
           <AccountSwitchLink source="Signup" />
 
-          {!isLoading && data?.message && openVerifyEmailDialog && (
+          {openVerifyEmailDialog && (
             <Dialog
               title="You're almost there!"
               handleCloseDialog={() =>
@@ -138,13 +60,13 @@ function Signup() {
               <div className="dialog__content">
                 <p>
                   {" "}
-                  We have sent a verification email to <a>{form.email} </a>
+                  We have sent a verification email to <a>{email} </a>
                 </p>
                 <p>Just click the link to activate your account.</p>
               </div>
               <div className="dialog__actions">
                 <button
-                  className="primary-button"
+                  className="action-button"
                   onClick={() =>
                     setOpenVerifyEmailDialog(!setOpenVerifyEmailDialog)
                   }
@@ -155,39 +77,7 @@ function Signup() {
             </Dialog>
           )}
 
-          {!isFormValid && openUserInputDialog && (
-            <Dialog
-              title="Incomplete Request"
-              handleCloseDialog={() =>
-                setOpenUserInputDialog(!openUserInputDialog)
-              }
-            >
-              <div className="dialog__content">
-                <p>
-                  Oops! We couldn’t register because some required fields are
-                  missing. Please fill in the following:
-                </p>
-                <ul>
-                  {Object.entries(formErrors).map(([key, value]) => (
-                    <li key={key}>{value}</li>
-                  ))}
-                </ul>
-                <p>
-                  Make sure all required fields are completed before submitting.
-                </p>
-              </div>
-              <div className="dialog__actions">
-                <button
-                  className="primary-button"
-                  onClick={() => setOpenUserInputDialog(!openUserInputDialog)}
-                >
-                  OK
-                </button>
-              </div>
-            </Dialog>
-          )}
-
-          {error && openSignupErrorDialog && (
+          {openSignupErrorDialog && (
             <Dialog
               title="Registration Failed"
               handleCloseDialog={() =>
@@ -200,7 +90,7 @@ function Signup() {
               </div>
               <div className="dialog__actions">
                 <button
-                  className="primary-button"
+                  className="action-button"
                   onClick={() =>
                     setOpenSignupErrorDialog(!openSignupErrorDialog)
                   }
