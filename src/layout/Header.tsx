@@ -3,11 +3,12 @@ import { IoIosNotifications } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
 import Theme from "@/components/Theme";
+import ThemeSwitcher from "@/features/theme/ui/ThemeSwitcher";
 
 function Header() {
   return (
     <div className="header">
-      <Theme />
+      <ThemeSwitcher />
       <IoIosNotifications />
       <FaUserCircle />
     </div>

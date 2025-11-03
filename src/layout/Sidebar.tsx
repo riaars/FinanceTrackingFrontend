@@ -10,9 +10,8 @@ import { AiOutlineTransaction } from "react-icons/ai";
 import { useLogoutMutation, useMeQuery } from "../features/auth/api";
 
 function Sidebar() {
-  const { data: user, isLoading, isError } = useMeQuery();
-  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
-  console.log("Sidebar user:", user?.username);
+  const { data: user } = useMeQuery();
+  const [logout] = useLogoutMutation();
 
   const navigate = useNavigate();
 

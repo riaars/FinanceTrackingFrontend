@@ -10,7 +10,7 @@ import Transactions from "@/features/transaction/pages/Transactions";
 import { Provider } from "react-redux";
 import { store } from "@/app/store";
 import PrivateRoute from "@/components/PrivateRoute";
-import React from "react";
+import React, { useEffect } from "react";
 import Dashboard from "@/features/dashboard/pages/Dashboard";
 import useTheme from "@/hooks/useTheme";
 import Settings from "@/features/settings/pages/Settings";
@@ -18,9 +18,14 @@ import ForgotPassword from "@/features/auth/pages/ForgotPassword";
 import ResetPassword from "@/features/auth/pages/ResetPassword";
 import VerifyEmail from "@/features/auth/pages/VerifyEmail";
 import PublicRoute from "@/components/PublicRoute";
+import { useAppSelector } from "./app/hooks";
 
 function App() {
-  const { theme } = useTheme(); /**Move it later to redux**/
+  const theme = useAppSelector((s) => s.theme.currentTheme);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark-mode", theme === "dark");
+  }, [theme]);
 
   const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -35,48 +40,46 @@ function App() {
   };
 
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PublicRoute />}>
-            <Route path={PATH.SIGNUP} element={<Signup />} />
-            <Route path={PATH.LOGIN} element={<Login />} />
-            <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
-            <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
-            <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
-          </Route>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PublicRoute />}>
+          <Route path={PATH.SIGNUP} element={<Signup />} />
+          <Route path={PATH.LOGIN} element={<Login />} />
+          <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
+          <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
+          <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
+        </Route>
 
-          <Route element={<PrivateRoute />}>
-            <Route
-              path={PATH.DASHBOARD}
-              element={
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              }
-            />
+        <Route element={<PrivateRoute />}>
+          <Route
+            path={PATH.DASHBOARD}
+            element={
+              <Layout>
+                <Dashboard />
+              </Layout>
+            }
+          />
 
-            <Route
-              path={PATH.TRANSACTIONS}
-              element={
-                <Layout>
-                  <Transactions />
-                </Layout>
-              }
-            />
-            <Route
-              path={PATH.SETTINGS}
-              element={
-                <Layout>
-                  <Settings />
-                </Layout>
-              }
-            />
-          </Route>
-        </Routes>
-        {/* </Suspense> */}
-      </BrowserRouter>
-    </Provider>
+          <Route
+            path={PATH.TRANSACTIONS}
+            element={
+              <Layout>
+                <Transactions />
+              </Layout>
+            }
+          />
+          <Route
+            path={PATH.SETTINGS}
+            element={
+              <Layout>
+                <Settings />
+              </Layout>
+            }
+          />
+        </Route>
+      </Routes>
+      {/* </Suspense> */}
+    </BrowserRouter>
   );
 }
 

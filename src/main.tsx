@@ -5,6 +5,8 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import App from "./App";
 import ErrorFallback from "@/components/ErrorFallback";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
@@ -12,7 +14,9 @@ createRoot(document.getElementById("root") as HTMLElement).render(
       FallbackComponent={ErrorFallback}
       onReset={() => window.location.reload()}
     >
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ErrorBoundary>
   </StrictMode>
 );

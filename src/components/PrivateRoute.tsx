@@ -9,7 +9,6 @@ const PrivateRoute = () => {
   } = useMeQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  console.log("PrivateRoute user:", user);
 
   if (isLoading) return <p>Checking session…</p>;
   if (isError || !user) return <Navigate to="/login" replace />;

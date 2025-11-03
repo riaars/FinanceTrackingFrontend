@@ -34,8 +34,7 @@ function Login() {
     if (isFormValid()) {
       try {
         await login(form).unwrap();
-        console.log("Login successful");
-        navigate("/"); // if using react-router
+        navigate("/");
       } catch {
         // handled by isError + error below
       }
