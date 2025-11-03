@@ -7,7 +7,17 @@
   border-width: 1px;
   margin: 0.5rem;
   color: var(--text-button-color);
-  max-width: 360px;
+  border: 1px solid var(--border-color);
+  width: 360px;
+}
+.action-button {
+  background-color: var(--secondary-color);
+  padding: 12px;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  margin: 0.5rem;
+  color: var(--text-button-color);
+  border: 1px solid var(--border-color);
 }
 
 .icon-button {

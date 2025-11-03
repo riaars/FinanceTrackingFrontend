@@ -6,8 +6,8 @@ interface PasswordInputProps {
   className?: string;
   name: string;
   placeholder: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const PasswordInput = (props: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);

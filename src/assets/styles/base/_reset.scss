@@ -1,4 +1,9 @@
 @use "../utils/variables" as *;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html,
 body {

@@ -24,6 +24,10 @@
   text-align: right;
   color: var(--secondary-color);
 }
+.error-input {
+  color: $negative-color;
+  padding: 12px;
+}
 
 @media screen and (max-width: $breakpoint-mobile) {
   .login__body {
