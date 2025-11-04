@@ -66,7 +66,7 @@ const ForgotPassword = () => {
               </p>
             </div>
             <div className="dialog__actions">
-              <button className="primary-button" onClick={toggleDialog}>
+              <button className="action-button" onClick={toggleDialog}>
                 OK
               </button>
             </div>
