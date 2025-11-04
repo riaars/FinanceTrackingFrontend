@@ -24,7 +24,7 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["Me"],
     }),
 
-    verifyEmail: build.mutation<void, { token: string }>({
+    verifyEmail: build.mutation<{ message: string }, { token: string }>({
       query: (body) => ({
         url: "/verifyEmail",
         method: "POST",
