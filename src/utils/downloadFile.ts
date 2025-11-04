@@ -1,10 +1,10 @@
 import jsPDF from "jspdf";
-import { TransactionType } from "../features/transaction/pages/Transactions";
 import autoTable from "jspdf-autotable";
 import Logo from "../assets/images/logo.png";
+import { Transaction } from "@/features/transaction/api/type";
 
 export const downloadPDF = (
-  transactions: TransactionType[],
+  transactions: Transaction[],
   fileName = "transactions.pdf",
   userInfo: any
 ) => {
@@ -27,7 +27,7 @@ export const downloadPDF = (
       head: [
         ["Date", "Transaction ID", "Category", "Type", "Detail", "Amount"],
       ],
-      body: transactions.map((tx: TransactionType) => [
+      body: transactions.map((tx: Transaction) => [
         tx.date,
         tx.transaction_id,
         tx.category,
@@ -48,7 +48,7 @@ export const downloadPDF = (
   };
 };
 
-export const downloadCSV = (data: TransactionType[], filename = "data.csv") => {
+export const downloadCSV = (data: Transaction[], filename = "data.csv") => {
   let originalHeaders = Object.keys(data[0]);
   const headers = originalHeaders.filter(
     (item) => item !== "email" && item !== "_id" && item !== "__v"

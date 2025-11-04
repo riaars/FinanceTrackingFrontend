@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
@@ -7,6 +7,10 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import Input from "@/components/Input";
 import Dropdown from "@/components/Dropdown";
 import Button from "@/components/Button";
+import Pagination from "@/components/Pagination";
+
+import Content from "@/layout/Content";
+
 import UpdateTransactionDialog from "../ui/Transactions/UpdateTransactionDialog";
 import DeleteTransactionDialog from "../ui/Transactions/DeleteTransactionDialog";
 import AddTransactionDialog from "../ui/Transactions/AddTransactionDialog";
@@ -16,13 +20,14 @@ import {
   CategoryIncomeOptions,
   TypeOptions,
 } from "@/utils/Constant";
-import Content from "@/layout/Content";
-import Pagination from "@/components/Pagination";
-import { downloadCSV, downloadPDF } from "@/utils/downloadFile";
 import { CategoryIcons } from "@/utils/categoryIcons";
+import { downloadCSV, downloadPDF } from "@/utils/downloadFile";
+
 import { useMeQuery } from "@/features/auth";
 import { useGetAllTransactionsQuery } from "../api";
 import { Transaction } from "../api/type";
+
+import useDebounce from "@/hooks/useDebounce";
 
 const initialFiltered = {
   type: "Select Type",
@@ -35,7 +40,10 @@ function Transactions() {
   const email = user?.email || "";
 
   const { data: transactionsData } = useGetAllTransactionsQuery();
-  const transactions = transactionsData || [];
+  const transactions = useMemo(
+    () => transactionsData || [],
+    [transactionsData]
+  );
 
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({
     date: "",
@@ -51,6 +59,7 @@ function Transactions() {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [filtered, setFiltered] = useState(initialFiltered);
+  const debounceFilter = useDebounce(filtered.detail, 500);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -63,44 +72,42 @@ function Transactions() {
     setFiltered((prev) => ({ ...prev, [name]: value }));
   };
 
-  const filteredTransactions = () => {
-    let transactionList = transactions;
+  const filteredTransactions = useMemo(() => {
+    const term = debounceFilter.toLowerCase();
+    return transactions?.filter((transaction: Transaction) => {
+      const matchQuery = term
+        ? transaction.transaction_id.toLowerCase().includes(term) ||
+          transaction.detail.toLowerCase().includes(term)
+        : true;
 
-    if (
-      filtered.type === "Select Type" &&
-      filtered.category === "Select Category" &&
-      filtered.detail === ""
-    ) {
-      return transactionList;
-    }
-
-    return transactions.filter((transaction: Transaction) => {
-      const matchTransactionIDDetails =
-        filtered.detail === "" ||
-        transaction.transaction_id.includes(filtered.detail) ||
-        transaction.detail
-          .toLowerCase()
-          .includes(filtered.detail.toLowerCase());
       const matchType =
         filtered.type === "Select Type" || transaction.type === filtered.type;
       const matchCategory =
         filtered.category === "Select Category" ||
         transaction.category === filtered.category;
 
-      return matchTransactionIDDetails && matchType && matchCategory;
+      return matchCategory && matchType && matchQuery;
     });
-  };
+  }, [transactions, debounceFilter, filtered.type, filtered.category]);
+
   const totalItemsPerPage = 8;
   const start = (currentPage - 1) * totalItemsPerPage + 1;
   const end = Math.min(
     currentPage * totalItemsPerPage,
-    filteredTransactions().length
+    filteredTransactions?.length || 0
   );
 
-  const filteredTransactionsPerPage = filteredTransactions().slice(
+  const filteredTransactionsPerPage = filteredTransactions?.slice(
     start - 1,
     end
   );
+
+  const getTransactionSummaryCount = () => {
+    if (end > 0) {
+      return `Showing ${start} - ${end}
+            of ${filteredTransactions?.length} transactions`;
+    } else return "Showing 0 transactions";
+  };
 
   const toggleAddDialog = () => {
     setIsAdded(!isAdded);
@@ -113,16 +120,9 @@ function Transactions() {
   const toggleDeleteDialog = () => {
     setIsDelete(!isDelete);
   };
-  const getTransactionSummaryCount = () => {
-    if (end > 0) {
-      return `Showing ${start} - ${end}
-            of ${filteredTransactions().length} transactions`;
-    } else return "Showing 0 transactions";
-  };
-
   return (
     <Content title="Transactions">
-      {transactions.length === 0 ? (
+      {transactions?.length === 0 ? (
         <div className="empty-transactions">
           <div className="empty-transactions__text">
             You don't have any transaction yet. Please add it here.
@@ -359,7 +359,7 @@ function Transactions() {
             <Pagination
               currentPage={currentPage}
               totalItemsPerPage={totalItemsPerPage}
-              totalItems={filteredTransactions().length}
+              totalItems={filteredTransactions.length}
               handleChange={handlePageChange}
             />
           )}
