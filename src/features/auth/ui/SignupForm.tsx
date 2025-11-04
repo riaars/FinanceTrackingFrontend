@@ -40,7 +40,6 @@ function SignupForm({
       onError(error);
     }
   };
-  console.log(isSubmitting);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

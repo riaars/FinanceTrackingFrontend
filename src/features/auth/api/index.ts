@@ -65,8 +65,14 @@ export const authApi = baseApi.injectEndpoints({
     logout: build.mutation<void, void>({
       query: () => ({ url: "/logout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        await queryFulfilled;
-        dispatch(baseApi.util.resetApiState());
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.log(error);
+        } finally {
+          dispatch(baseApi.util.resetApiState());
+          window.location.assign("/login");
+        }
       },
     }),
 
