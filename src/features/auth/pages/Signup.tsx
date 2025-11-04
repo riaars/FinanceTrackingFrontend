@@ -60,7 +60,8 @@ function Signup() {
               <div className="dialog__content">
                 <p>
                   {" "}
-                  We have sent a verification email to <a>{email} </a>
+                  We have sent a verification email to{" "}
+                  <span className="link">{email}</span>
                 </p>
                 <p>Just click the link to activate your account.</p>
               </div>

@@ -19,7 +19,7 @@ const VerifyEmail = () => {
     if (isVerified) {
       navigate(PATH.LOGIN);
     }
-  }, [status]);
+  }, [status, navigate, isVerified]);
 
   return (
     <AuthPageLayout>
