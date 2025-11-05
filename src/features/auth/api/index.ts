@@ -43,7 +43,10 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    forgotPassword: build.mutation<{ message: string }, { email: string }>({
+    forgotPassword: build.mutation<
+      { code: String; message: string },
+      { email: string }
+    >({
       query: (body) => ({
         url: "/forgotPassword",
         method: "POST",
@@ -52,7 +55,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     resetPassword: build.mutation<
-      { message: string },
+      { code: string; message: string },
       { token: string; password: string }
     >({
       query: (body) => ({
@@ -76,7 +79,7 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
 
-    me: build.query<User, void>({
+    me: build.query<{ code: string; data: User }, void>({
       query: () => ({ url: "/getCurrentUser" }),
       providesTags: ["Me"],
     }),

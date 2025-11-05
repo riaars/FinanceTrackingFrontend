@@ -23,15 +23,22 @@ export const transactionApi = baseApi.injectEndpoints({
       ],
     }),
 
-    getAllTransactions: build.query<Transaction[], void>({
+    getAllTransactions: build.query<
+      { code: string; data: Transaction[] },
+      void
+    >({
       query: () => "/getAllTransactions",
-      providesTags: (result = []) => [
-        { type: "Transaction", id: "LIST" },
-        ...result.map(({ transaction_id }) => ({
-          type: "Transaction" as const,
-          id: transaction_id,
-        })),
-      ],
+      providesTags: (result) => {
+        const listTag = [{ type: "Transaction" as const, id: "LIST" }];
+        if (!result || !result.data) return listTag;
+        return [
+          ...listTag,
+          ...result.data.map(({ transaction_id }) => ({
+            type: "Transaction" as const,
+            id: transaction_id,
+          })),
+        ];
+      },
     }),
 
     deleteTransaction: build.mutation<void, string>({

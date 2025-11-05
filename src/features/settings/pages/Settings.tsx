@@ -17,9 +17,9 @@ function Settings() {
     <Content title={"Settings"}>
       <div>
         <h2>Profile</h2>
-        <p>Username: {user?.username}</p>
+        <p>Username: {user?.data.username}</p>
         <p>
-          Email: <span className="link">{user?.email} </span>{" "}
+          Email: <span className="link">{user?.data.email} </span>{" "}
         </p>
 
         <button

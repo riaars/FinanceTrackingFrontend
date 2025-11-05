@@ -11,7 +11,7 @@ import { Transaction } from "@/features/transaction/api/type";
 
 const Dashboard = () => {
   const { data: transactionsData } = useGetAllTransactionsQuery();
-  const transactions = transactionsData || [];
+  const transactions = transactionsData?.data || [];
 
   const [view, setView] = useState("month");
 

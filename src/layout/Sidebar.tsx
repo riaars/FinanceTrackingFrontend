@@ -55,7 +55,7 @@ function Sidebar() {
       </div>
       <div className={`sidebar-container ${openSidebar ? "open" : "close"}`}>
         <ul className={`sidebar-container__menu`}>
-          <div className="sidebar-container__header">{user?.username}</div>
+          <div className="sidebar-container__header">{user?.data.username}</div>
           {sideMenus.map((sideMenu) => (
             <li
               key={sideMenu.title}

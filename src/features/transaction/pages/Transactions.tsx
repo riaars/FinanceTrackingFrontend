@@ -41,7 +41,7 @@ function Transactions() {
 
   const { data: transactionsData } = useGetAllTransactionsQuery();
   const transactions = useMemo(
-    () => transactionsData || [],
+    () => transactionsData?.data || [],
     [transactionsData]
   );
 

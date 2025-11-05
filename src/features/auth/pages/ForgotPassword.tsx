@@ -9,6 +9,7 @@ import {
   ForgotPasswordSchema,
 } from "@/schemas/ForgotPasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthCode } from "@/utils/Constant";
 
 const ForgotPassword = () => {
   const [forgotPassword, { data, error, isSuccess, isLoading }] =
@@ -57,8 +58,7 @@ const ForgotPassword = () => {
   }, [error, isLoading]);
 
   const email = getValues("email");
-
-  let errorMessage = (error as any)?.data.message;
+  const errorData = (error as any)?.data;
 
   return (
     <AuthPageLayout>
@@ -95,48 +95,48 @@ const ForgotPassword = () => {
         </form>
       </div>
 
-      {openForgotPasswordDialog &&
-        data?.message === "Reset link send to email" && (
-          <Dialog
-            title="Reset password link sent!"
-            handleCloseDialog={toggleDialog}
-          >
-            <div className="dialog__content">
-              <p>
-                We sent the reset link to your email{" "}
-                <span className="link">{email}</span>
-              </p>
-
-              <p className="forgot-password__info">
-                You can check your inbox. This link will expire in 15 minutes.{" "}
-              </p>
-            </div>
-            <div className="dialog__actions">
-              <button className="action-button" onClick={toggleDialog}>
-                OK
-              </button>
-            </div>
-          </Dialog>
-        )}
-
-      {openForgotPasswordErrorDialog && errorMessage === "User not found" && (
+      {openForgotPasswordDialog && data?.code === AuthCode.RESET_LINK_SENT && (
         <Dialog
-          title="Reset password is not successful!"
+          title="Reset password link sent!"
           handleCloseDialog={toggleDialog}
         >
           <div className="dialog__content">
             <p>
-              Oops! The email <span className="link">{email}</span> is not
-              registered in our system.
+              We sent the reset link to your email{" "}
+              <span className="link">{email}</span>
+            </p>
+
+            <p className="forgot-password__info">
+              You can check your inbox. This link will expire in 15 minutes.{" "}
             </p>
           </div>
           <div className="dialog__actions">
-            <button className="action-button" onClick={toggleErrorDialog}>
+            <button className="action-button" onClick={toggleDialog}>
               OK
             </button>
           </div>
         </Dialog>
       )}
+
+      {openForgotPasswordErrorDialog &&
+        errorData?.code === AuthCode.USER_NOT_FOUND && (
+          <Dialog
+            title="Reset password is not successful!"
+            handleCloseDialog={toggleDialog}
+          >
+            <div className="dialog__content">
+              <p>
+                Oops! The email <span className="link">{email}</span> is not
+                registered in our system.
+              </p>
+            </div>
+            <div className="dialog__actions">
+              <button className="action-button" onClick={toggleErrorDialog}>
+                OK
+              </button>
+            </div>
+          </Dialog>
+        )}
     </AuthPageLayout>
   );
 };
