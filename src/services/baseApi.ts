@@ -5,7 +5,6 @@ import {
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
-import { log } from "console";
 
 const API_URL = import.meta.env.VITE_API_URL;
 let hasLoggedOut = false; // guard against cascaded 401s
