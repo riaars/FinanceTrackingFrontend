@@ -54,10 +54,11 @@ function UpdateTransactionDialog({
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           />
 
-          <Input
-            type="text"
+          <textarea
+            className="input-field"
             name="detail"
-            placeholder="Detail"
+            rows={3}
+            placeholder="Details"
             value={selectedTransaction?.detail || ""}
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           />

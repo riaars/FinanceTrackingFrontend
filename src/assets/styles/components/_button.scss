@@ -130,3 +130,84 @@
     margin-left: 0.5rem;
   }
 }
+
+.category-icon-button {
+  padding: 12px;
+  border-radius: 0.5rem;
+  border-width: 0px;
+  margin: 0.5rem;
+  border: 0px solid var(--secondary-color);
+  // background-color: var(--hover-color);
+  // color: var(--secondary-color);
+  font-weight: bold;
+  max-width: 360px;
+
+  &.food-and-dining {
+    background-color: #fef2f2;
+    color: #b91c1c;
+  }
+  &.transportation {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+  }
+  &.entertainment {
+    background-color: #fdf4ff;
+    color: #9333ea;
+  }
+  &.housing {
+    background-color: #f0fdf4;
+    color: #166534;
+  }
+  &.shopping {
+    background-color: #fef9c3;
+    color: #854d0e;
+  }
+  &.health-and-fitness {
+    background-color: #ecfdf5;
+    color: #047857;
+  }
+  &.travel {
+    background-color: #e0f2fe;
+    color: #075985;
+  }
+  &.education {
+    background-color: #eef2ff;
+    color: #3730a3;
+  }
+  &.salary {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  &.bills-and-utilities {
+    background-color: #f1f5f9;
+    color: #334155;
+  }
+  &.personal-care {
+    background-color: #fff1f2;
+    color: #9d174d;
+  }
+  &.insurance {
+    background-color: #f0f9ff;
+    color: #0369a1;
+  }
+  &.business {
+    background-color: #f3f4f6;
+    color: #1f2937;
+  }
+  &.rental {
+    background-color: #faf5ff;
+    color: #6d28d9;
+  }
+  &.gifts {
+    background-color: #fef2f2;
+    color: #9f1239;
+  }
+  &.investments {
+    background-color: #f0fdf4;
+    color: #15803d;
+  }
+  &.refunds {
+    background-color: #ecfdf5;
+    color: #065f46;
+  }
+}

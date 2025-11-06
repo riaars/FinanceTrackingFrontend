@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import { Transaction } from "@/features/transaction/api/type";
 import { CategoryIcons } from "@/utils/categoryIcons";
 import React from "react";
+import { formattedCategory } from "../utils/transactionUtils";
 
 const LatestTransaction = ({
   transactions,
@@ -18,19 +19,23 @@ const LatestTransaction = ({
               <tr key={transaction.transaction_id} className="table-row">
                 <td className="table-cell">
                   <div className="transaction-category__wrapper">
-                    <button className="secondary-button">
+                    <button
+                      className={`category-icon-button ${formattedCategory(
+                        transaction.category
+                      )}`}
+                    >
                       {CategoryIcons(transaction.category)}
                     </button>
                     <div className="transaction-category__details">
-                      {transaction.category}
-                      <a href="" className="transaction-id">
-                        {transaction.detail}
-                      </a>
+                      <div>{transaction.category}</div>
+                      <div className="transaction-detail">
+                        {transaction.detail.slice(0, 40)}
+                      </div>
                     </div>
                   </div>
                 </td>
                 <td className="table-cell">
-                  {new Date(transaction.date).toLocaleDateString("en-SE")}
+                  {new Date(transaction.createdAt).toLocaleString("en-SE")}
                 </td>
                 <td className={`table-cell}`}>
                   <span
@@ -45,12 +50,12 @@ const LatestTransaction = ({
                   </span>
                 </td>
 
-                <td className="table-cell">
+                {/* <td className="table-cell">
                   <Button
                     title={transaction?.type}
                     className={`tag-button ${transaction?.type?.toLowerCase()}`}
                   />
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

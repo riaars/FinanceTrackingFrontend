@@ -28,6 +28,7 @@ import { useGetAllTransactionsQuery } from "../api";
 import { Transaction } from "../api/type";
 
 import useDebounce from "@/hooks/useDebounce";
+import { formattedCategory } from "@/features/dashboard/utils/transactionUtils";
 
 const initialFiltered = {
   type: "Select Type",
@@ -44,6 +45,8 @@ function Transactions() {
     () => transactionsData?.data || [],
     [transactionsData]
   );
+
+  console.log(transactions);
 
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({
     date: "",
@@ -101,6 +104,7 @@ function Transactions() {
     start - 1,
     end
   );
+  console.log(filteredTransactionsPerPage);
 
   const getTransactionSummaryCount = () => {
     if (end > 0) {
@@ -120,6 +124,7 @@ function Transactions() {
   const toggleDeleteDialog = () => {
     setIsDelete(!isDelete);
   };
+
   return (
     <Content title="Transactions">
       {transactions?.length === 0 ? (
@@ -235,10 +240,10 @@ function Transactions() {
               <thead className="table-head">
                 <tr className="table-row-head">
                   <td className="table-cell">Transaction</td>
-                  <td className="table-cell">Amount</td>
                   <td className="table-cell">Date</td>
-                  <td className="table-cell">Type</td>
-                  <td className="table-cell">Details</td>
+                  <td className="table-cell">Amount</td>
+                  {/* <td className="table-cell">Type</td> */}
+                  <td className="table-cell">Description</td>
                   <td className="table-cell">Actions</td>
                 </tr>
               </thead>
@@ -247,16 +252,24 @@ function Transactions() {
                   <tr key={transaction.transaction_id} className="table-row">
                     <td className="table-cell">
                       <div className="transaction-category__wrapper">
-                        <button className="secondary-button">
+                        <button
+                          className={`category-icon-button ${formattedCategory(
+                            transaction.category
+                          )}`}
+                        >
                           {CategoryIcons(transaction.category)}
                         </button>
                         <div className="transaction-category__details">
                           {transaction.category}
                           <a href="" className="transaction-id">
-                            {transaction.transaction_id}
+                            {transaction.transaction_id.slice(0, 30)}
                           </a>
                         </div>
                       </div>
+                    </td>
+                    <td className="table-cell">
+                      {new Date(transaction.createdAt).toLocaleString("en-SE")}{" "}
+                      {/* {new Date(transaction.createdAt).toLocaleTimeString()} */}
                     </td>
                     <td className={`table-cell}`}>
                       <span
@@ -271,17 +284,16 @@ function Transactions() {
                       </span>
                     </td>
 
-                    <td className="table-cell">
-                      {new Date(transaction.date).toLocaleDateString("en-SE")}
-                    </td>
-                    <td className="table-cell">
+                    {/* <td className="table-cell">
                       <Button
                         title={transaction?.type}
                         className={`tag-button ${transaction?.type?.toLowerCase()}`}
                       />
-                    </td>
+                    </td> */}
 
-                    <td className="table-cell">{transaction.detail}</td>
+                    <td className="table-cell transaction-detail">
+                      {transaction.detail.slice(0, 80)}
+                    </td>
 
                     <td className="table-cell">
                       <MdEdit
@@ -321,7 +333,7 @@ function Transactions() {
                       {transaction.category}
                     </div>
                     <div className="transaction-date">
-                      {new Date(transaction.date).toLocaleDateString("en-SE")}
+                      {new Date(transaction.createdAt).toLocaleString("en-SE")}
                     </div>
                   </div>
                 </div>

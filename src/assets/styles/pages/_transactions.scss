@@ -105,6 +105,12 @@
 .transaction-amount {
   font-size: 18px;
 }
+.transaction-detail {
+  width: 300px; /* or any max width */
+  word-wrap: break-word; /* old syntax */
+  overflow-wrap: break-word; /* modern syntax */
+  white-space: normal; /* allow wrapping */
+}
 
 .transaction-card {
   border: 1px solid var(--border-color);

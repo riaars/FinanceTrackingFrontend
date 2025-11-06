@@ -1,5 +1,6 @@
 import { Transaction } from "@/features/transaction/api/type";
 import dayjs from "dayjs";
+import CategoryCart from "../ui/CategoryCart";
 
 export const groupTransactionByKey = (data: Transaction[], key: string) => {
   return data.reduce((acc, transaction) => {
@@ -41,4 +42,8 @@ export const formatCurrencyShort = (num: number): string => {
   if (Math.abs(num) >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
   if (Math.abs(num) >= 1_000) return `${(num / 1_000).toFixed(0)}K`;
   return num.toString();
+};
+
+export const formattedCategory = (category: string) => {
+  return category.replace(/&/g, "and").replace(/\s+/g, "-").toLowerCase();
 };
