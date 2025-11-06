@@ -121,7 +121,7 @@ function SignupForm({
 
       <Button
         title={isSubmitting ? "Creating Account" : "Create Account"}
-        className="primary-button"
+        className="primary-button full-width"
         type="submit"
         disabled={isSubmitting}
       />

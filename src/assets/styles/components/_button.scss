@@ -8,7 +8,26 @@
   margin: 0.5rem;
   color: var(--text-button-color);
   border: 1px solid var(--border-color);
-  width: 360px;
+  &.full-width {
+    width: 360px;
+  }
+}
+
+.filter-button {
+  padding: 8px;
+  margin: 0 0.5rem 0 0;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  color: var(--secondary-color);
+  border: 0px solid var(--secondary-color);
+  font-weight: bold;
+
+  &.active {
+    background-color: var(--hover-color);
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-button-color);
+  }
 }
 .action-button {
   background-color: var(--secondary-color);

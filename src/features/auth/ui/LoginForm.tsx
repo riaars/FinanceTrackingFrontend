@@ -91,7 +91,7 @@ function LoginForm({
       <Button
         type="submit"
         title={isSubmitting ? "Logging in..." : "Login"}
-        className="primary-button"
+        className="primary-button full-width"
         disabled={isSubmitting}
       />
     </form>
