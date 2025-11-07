@@ -1,0 +1,127 @@
+name: Frontend CI & Deploy (EC2)
+
+on:
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
+  pull_request:
+    branches: ["main", "master"]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: |
+          npm run build
+          # Detect Vite vs CRA output folder
+          if [ -d "dist" ]; then echo "OUTDIR=dist" >> $GITHUB_ENV; else echo "OUTDIR=build" >> $GITHUB_ENV; fi
+
+      - name: Test (if present)
+        run: npm test --if-present
+
+      - name: Pack static assets
+        run: tar -czf ../frontend.tgz -C ${{ env.OUTDIR }} .
+
+      - name: Upload artifact (PR only for debugging)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-pr-build
+          path: frontend/${{ env.OUTDIR }}
+          retention-days: 7
+
+  deploy:
+    name: Deploy to EC2
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure archive exists
+        run: |
+          if [ ! -f frontend.tgz ]; then
+            echo "Recreating frontend.tgz from fresh build (fallback)..."
+            cd frontend
+            npm ci
+            npm run build
+            if [ -d "dist" ]; then OUTDIR=dist; else OUTDIR=build; fi
+            tar -czf ../frontend.tgz -C "$OUTDIR" .
+          fi
+
+      - name: (Optional) Add known_hosts
+        if: secrets.SSH_KNOWN_HOSTS != ''
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Upload static bundle to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "frontend.tgz"
+          target: "/home/${{ secrets.EC2_USER }}/"
+
+      - name: Remote publish to Nginx root
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+
+            # ensure target dirs
+            sudo mkdir -p /var/www/app/frontend
+            sudo chown -R ${USER}:${USER} /var/www/app
+
+            # extract bundle to a temp dir, then rsync into place atomically
+            tmpdir="/var/www/app/.frontend_tmp_$$"
+            mkdir -p "$tmpdir"
+            tar -xzf ~/frontend.tgz -C "$tmpdir"
+
+            # sync (delete old files that don't exist in new build)
+            rsync -a --delete "$tmpdir"/ /var/www/app/frontend/
+            rm -rf "$tmpdir"
+
+            # Nginx on Amazon Linux runs as 'nginx'
+            sudo chown -R nginx:nginx /var/www/app/frontend
+
+            # reload nginx
+            sudo nginx -t && sudo systemctl reload nginx
+
+            # quick smoke check (optional)
+            curl -I -sS http://127.0.0.1/ | head -n1 || true
