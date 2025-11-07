@@ -3,14 +3,8 @@ name: Frontend CI & Deploy (EC2, repo root)
 on:
   push:
     branches: ["main", "master"]
-    paths:
-      - "**"
-      - ".github/workflows/deploy.yml"
   pull_request:
     branches: ["main", "master"]
-    paths:
-      - "**"
-      - ".github/workflows/deploy.yml"
 
 permissions:
   contents: read
@@ -21,20 +15,14 @@ concurrency:
 
 jobs:
   build:
-    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show repo structure
-        run: |
-          pwd
-          ls -la
-          test -f package.json && echo "FOUND package.json at repo root"
-          test -f package-lock.json && echo "FOUND package-lock.json" || echo "NO package-lock.json"
+      - name: Show API base to be baked
+        run: echo "VITE_API_URL=${{ vars.VITE_API_URL || secrets.VITE_API_URL }}"
 
-      # Setup Node 24 with npm cache only if lockfile exists
-      - name: Setup Node (with cache)
+      - name: Setup Node 24 (with cache if lockfile exists)
         if: ${{ hashFiles('package-lock.json') != '' }}
         uses: actions/setup-node@v4
         with:
@@ -42,62 +30,46 @@ jobs:
           cache: "npm"
           cache-dependency-path: package-lock.json
 
-      - name: Setup Node (no cache fallback)
+      - name: Setup Node 24 (no cache)
         if: ${{ hashFiles('package-lock.json') == '' }}
         uses: actions/setup-node@v4
         with:
           node-version: "24"
 
+      # CI-only .env.production (NOT committed)
+      - name: Write .env.production for Vite
+        run: |
+          cat > .env.production <<'EOF'
+          VITE_API_URL=${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+          EOF
+
       - name: Install deps
         run: npm ci
 
       - name: Build
-        env:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: |
-          echo "VITE_API_URL=$VITE_API_URL"
           npm run build
-          if [ -d "dist" ]; then echo "OUTDIR=dist" >> $GITHUB_ENV; elif [ -d "build" ]; then echo "OUTDIR=build" >> $GITHUB_ENV; else exit 1; fi
+          if [ -d "dist" ]; then echo "OUTDIR=dist" >> $GITHUB_ENV; elif [ -d "build" ]; then echo "OUTDIR=build" >> $GITHUB_ENV; else echo "No build output found!" && exit 1; fi
+          echo "OUTDIR=$OUTDIR"
 
-      - name: Test (if present)
-        run: npm test --if-present
-
-      # Package only the built static files
       - name: Pack static bundle
         run: tar -czf frontend.tgz -C "$OUTDIR" .
 
-      - name: Upload artifact (PR only, optional)
-        if: github.event_name == 'pull_request'
+      - name: Upload bundle artifact
         uses: actions/upload-artifact@v4
         with:
-          name: frontend-pr-build
-          path: ${{ env.OUTDIR }}
+          name: fe-bundle
+          path: frontend.tgz
           retention-days: 7
 
   deploy:
-    name: Deploy to EC2
-    # Only deploy on push to main/master (not on PRs)
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      # In case job boundary dropped the tgz, rebuild quickly
-      - name: Ensure bundle exists
-        run: |
-          if [ ! -f frontend.tgz ]; then
-            echo "Rebuilding bundle for deploy..."
-            # Setup Node (no cache needed here, quick path)
-            echo "::group::Rebuild"
-            echo "Installing & building again..."
-            node -v || true
-            echo "::endgroup::"
-            npm ci
-            npm run build
-            if [ -d "dist" ]; then OUTDIR=dist; elif [ -d "build" ]; then OUTDIR=build; else echo "No build output found!" && exit 1; fi
-            tar -czf frontend.tgz -C "$OUTDIR" .
-          fi
+      - uses: actions/download-artifact@v4
+        with:
+          name: fe-bundle
 
       - name: Add known_hosts (optional)
         env:
@@ -107,20 +79,16 @@ jobs:
             mkdir -p ~/.ssh
             echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
             chmod 644 ~/.ssh/known_hosts
-          else
-            echo "No SSH_KNOWN_HOSTS provided, continuing."
           fi
 
       - name: Upload bundle to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }} # e.g., ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }} # full private key contents
-          port: 22
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           source: "frontend.tgz"
           target: "/home/${{ secrets.EC2_USER }}/"
-          timeout: "120s"
 
       - name: Remote publish to Nginx root
         uses: appleboy/ssh-action@v1.2.0
@@ -128,27 +96,16 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
           script_stop: true
-          timeout: "180s"
           script: |
             set -euo pipefail
-
-            # Ensure target and a temp unpack dir
             sudo mkdir -p /var/www/app/frontend
             sudo chown -R ${USER}:${USER} /var/www/app
-
             tmpdir="/var/www/app/.fe_tmp_$$"
             mkdir -p "$tmpdir"
             tar -xzf ~/frontend.tgz -C "$tmpdir"
-
-            # Atomic-ish publish via rsync (cleans removed files)
             rsync -a --delete "$tmpdir"/ /var/www/app/frontend/
             rm -rf "$tmpdir"
-
-            # Nginx on Amazon Linux runs as 'nginx'
             sudo chown -R nginx:nginx /var/www/app/frontend
-
-            # Reload Nginx and quick smoke check
             sudo nginx -t && sudo systemctl reload nginx
             curl -I -sS http://127.0.0.1/ | head -n1 || true
