@@ -2,7 +2,7 @@ import Button from "@/components/Button";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useSignupMutation } from "../api";
-import { SignupInput, SignupSchema } from "@/schemas/signupSchema";
+import { SignupInput, SignupSchema } from "@/schemas/SignupSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";

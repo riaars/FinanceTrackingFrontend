@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import { Transaction } from "@/features/transaction/api/type";
 import { CategoryIcons } from "@/utils/categoryIcons";
 import React from "react";

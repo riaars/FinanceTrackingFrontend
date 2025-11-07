@@ -1,6 +1,5 @@
 import { Transaction } from "@/features/transaction/api/type";
 import dayjs from "dayjs";
-import CategoryCart from "../ui/CategoryCart";
 
 export const groupTransactionByKey = (data: Transaction[], key: string) => {
   return data.reduce((acc, transaction) => {
