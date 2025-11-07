@@ -52,11 +52,11 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: |
           npm run build
-          # Detect output folder: Vite=dist, CRA=build
-          if [ -d "dist" ]; then echo "OUTDIR=dist" >> $GITHUB_ENV; elif [ -d "build" ]; then echo "OUTDIR=build" >> $GITHUB_ENV; else echo "No build output found!" && exit 1; fi
-          echo "Using OUTDIR=$OUTDIR"
+          if [ -d "dist" ]; then echo "OUTDIR=dist" >> $GITHUB_ENV; elif [ -d "build" ]; then echo "OUTDIR=build" >> $GITHUB_ENV; else exit 1; fi
 
       - name: Test (if present)
         run: npm test --if-present
