@@ -55,6 +55,7 @@ jobs:
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: |
+          echo "VITE_API_URL=$VITE_API_URL"
           npm run build
           if [ -d "dist" ]; then echo "OUTDIR=dist" >> $GITHUB_ENV; elif [ -d "build" ]; then echo "OUTDIR=build" >> $GITHUB_ENV; else exit 1; fi
 
