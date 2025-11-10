@@ -123,6 +123,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
             />
             <Dropdown
               options={TypeOptions}
+              className="add-transaction__dropdown"
               name="type"
               value={form.type}
               onChange={handleTransactionChange}
@@ -147,7 +148,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
               type="number"
               name="amount"
               placeholder="Amount"
-              value={form.amount}
+              value={form.amount > 0 ? form.amount : ""}
               onChange={(e) =>
                 handleTransactionChange(e.target.name, e.target.value)
               }
