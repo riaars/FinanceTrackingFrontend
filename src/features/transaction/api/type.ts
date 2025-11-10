@@ -14,4 +14,8 @@ export type NewTransaction = {
   detail: string;
   category: string;
   type: "Income" | "Expense" | "Select Type";
+  isRecurring: boolean;
+  interval?: "daily" | "weekly" | "monthly" | "yearly";
+  nextDate?: string;
+  timezone?: string;
 };

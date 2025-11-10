@@ -124,6 +124,10 @@
   color: var(--secondary-color);
   font-weight: bold;
 }
+.small-option-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
 
 @media screen and (max-width: $breakpoint-mobile) {
   .add-button-transaction {

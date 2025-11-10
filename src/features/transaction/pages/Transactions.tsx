@@ -46,8 +46,6 @@ function Transactions() {
     [transactionsData]
   );
 
-  console.log(transactions);
-
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({
     date: "",
     transaction_id: "",
@@ -104,7 +102,6 @@ function Transactions() {
     start - 1,
     end
   );
-  console.log(filteredTransactionsPerPage);
 
   const getTransactionSummaryCount = () => {
     if (end > 0) {

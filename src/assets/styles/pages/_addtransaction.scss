@@ -6,3 +6,19 @@
 .add-transaction__form {
   align-self: center;
 }
+.add-transaction__recurring-checkbox {
+  width: 360px;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.add-transaction__recurring-options {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.add-transaction__recurring-options .filter-button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+}
