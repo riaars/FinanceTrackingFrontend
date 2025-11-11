@@ -11,7 +11,6 @@ const COLORS = ["#3459d4", "#FF8042", "#00C49F", "#FFBB28", "#8884d8"];
 
 const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
   const [view, setView] = React.useState("month");
-  console.log(filterTransactionsByView(transactions, view));
   const categoryDataObj = groupTransactionByKey(
     filterTransactionsByView(transactions, view).filter(
       (t: Transaction) => t.type === "Expense"
