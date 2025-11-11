@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import { FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { IoIosRepeat } from "react-icons/io";
 
 import Input from "@/components/Input";
 import Dropdown from "@/components/Dropdown";
@@ -257,7 +258,12 @@ function Transactions() {
                           {CategoryIcons(transaction.category)}
                         </button>
                         <div className="transaction-category__details">
-                          {transaction.category}
+                          <span>
+                            {" "}
+                            {transaction.category}{" "}
+                            {transaction?.isRecurring && <IoIosRepeat />}
+                          </span>
+
                           <a href="" className="transaction-id">
                             {transaction.transaction_id.slice(0, 30)}
                           </a>

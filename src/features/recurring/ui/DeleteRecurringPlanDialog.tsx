@@ -21,9 +21,9 @@ const DeleteRecurringPlanDialog = ({
   }, [isLoading, isSuccess, toggleDialog]);
 
   return (
-    <Dialog title="Delete Transaction" handleCloseDialog={toggleDialog}>
+    <Dialog title="Delete Recurring Plan" handleCloseDialog={toggleDialog}>
       <div className="dialog__content">
-        <p>Are you sure want to delete this transaction?</p>
+        <p>Are you sure want to delete this recurring plan?</p>
       </div>
       <div className="dialog__actions">
         <button className="secondary-button" onClick={toggleDialog}>

@@ -32,7 +32,7 @@ const Recurring = () => {
             <tr className="table-row-head">
               <td className="table-cell">Transaction</td>
               <td className="table-cell">Amount</td>
-              <td className="table-cell">Interval</td>
+              <td className="table-cell">Period</td>
               <td className="table-cell">Next Date</td>
               <td className="table-cell">Actions</td>
             </tr>
