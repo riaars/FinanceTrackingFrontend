@@ -7,6 +7,7 @@ interface InputProps {
   value?: string | number;
   className?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isDisabled?: boolean;
 }
 function Input(props: InputProps) {
   return (
@@ -17,6 +18,7 @@ function Input(props: InputProps) {
       placeholder={props.placeholder}
       value={props.value}
       onChange={props.onChange}
+      disabled={props.isDisabled}
     />
   );
 }

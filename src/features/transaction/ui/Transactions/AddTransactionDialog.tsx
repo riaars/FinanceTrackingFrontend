@@ -9,6 +9,7 @@ import InputDate from "@/components/Date";
 import CategoryGrid from "./CategoryGrid";
 import { useAddTransactionMutation } from "../../api";
 import { NewTransaction } from "../../api/type";
+const options = ["daily", "weekly", "monthly", "yearly"];
 
 type TransactionErrorsFormType = {
   date: string;
@@ -24,6 +25,7 @@ type AddTransactionDialogProps = {
 
 function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   const [addTransaction] = useAddTransactionMutation();
+  // const [selectedInterval, setSelectedInterval] = useState("monthly");
 
   let date = new Date(Date.now());
 
@@ -33,6 +35,10 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
     type: "Select Type",
     detail: "",
     amount: 0,
+    isRecurring: false,
+    interval: "monthly",
+    nextDate: "",
+    timezone: "UTC",
   });
 
   const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
@@ -47,7 +53,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   const [openUserInputDialog, setOpenUserInputDialog] = useState(false);
   const [, setTransactionSubmit] = useState(false);
 
-  const handleTransactionChange = (name: string, value: string) => {
+  const handleTransactionChange = (name: string, value: string | boolean) => {
     setForm({ ...form, [name]: value });
   };
 
@@ -121,6 +127,38 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
               min="1970-01-01"
               max={formattedDate(new Date(Date.now()).toISOString())}
             />
+
+            <span className="add-transaction__recurring-checkbox ">
+              <input
+                type="checkbox"
+                name="isRecurring"
+                checked={form.isRecurring}
+                onChange={(e) =>
+                  handleTransactionChange(e.target.name, e.target.checked)
+                }
+              />
+              <label htmlFor="isRecurring" className="checkbox-label">
+                Recurring transaction
+              </label>
+            </span>
+
+            {form.isRecurring && (
+              <div className="add-transaction__recurring-options">
+                {options.map((option) => (
+                  <button
+                    key={option}
+                    className={` ${
+                      form.interval === option
+                        ? "filter-button active"
+                        : "filter-button"
+                    }`}
+                    onClick={() => handleTransactionChange("interval", option)}
+                  >
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </button>
+                ))}
+              </div>
+            )}
             <Dropdown
               options={TypeOptions}
               className="add-transaction__dropdown"

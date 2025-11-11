@@ -16,6 +16,8 @@ import ResetPassword from "@/features/auth/pages/ResetPassword";
 import VerifyEmail from "@/features/auth/pages/VerifyEmail";
 import PublicRoute from "@/components/PublicRoute";
 import { useAppSelector } from "./app/hooks";
+import Budgets from "./features/budgets/pages/Budgets";
+import Recurring from "./features/recurring/pages/Recurring";
 
 function App() {
   const theme = useAppSelector((s) => s.theme.currentTheme);
@@ -62,6 +64,24 @@ function App() {
             element={
               <Layout>
                 <Transactions />
+              </Layout>
+            }
+          />
+
+          <Route
+            path={PATH.BUDGETS}
+            element={
+              <Layout>
+                <Budgets />
+              </Layout>
+            }
+          />
+
+          <Route
+            path={PATH.RECURRING}
+            element={
+              <Layout>
+                <Recurring />
               </Layout>
             }
           />

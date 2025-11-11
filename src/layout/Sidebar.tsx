@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as PATH from "@/config/Path";
+
 import { MdMenu } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import { IoLogOutOutline } from "react-icons/io5";
+import { IoIosRepeat } from "react-icons/io";
+import { IoWalletOutline } from "react-icons/io5";
 
 import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
 import { AiOutlineTransaction } from "react-icons/ai";
@@ -29,6 +32,16 @@ function Sidebar() {
       title: "Transactions",
       path: PATH.TRANSACTIONS,
       icon: <AiOutlineTransaction />,
+    },
+    {
+      title: "Budgets",
+      path: PATH.BUDGETS,
+      icon: <IoWalletOutline />,
+    },
+    {
+      title: "Recurring",
+      path: PATH.RECURRING,
+      icon: <IoIosRepeat />,
     },
     { title: "Settings", path: PATH.SETTINGS, icon: <LuSettings /> },
     { title: "Logout", path: "", icon: <IoLogOutOutline /> },

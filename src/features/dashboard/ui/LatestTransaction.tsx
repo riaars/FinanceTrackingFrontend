@@ -48,13 +48,6 @@ const LatestTransaction = ({
                     {transaction.amount} kr
                   </span>
                 </td>
-
-                {/* <td className="table-cell">
-                  <Button
-                    title={transaction?.type}
-                    className={`tag-button ${transaction?.type?.toLowerCase()}`}
-                  />
-                </td> */}
               </tr>
             ))}
           </tbody>
