@@ -9,9 +9,9 @@ const ProgressBar = (props: ProgressBarProps) => {
     <div className="progress-container">
       <div
         className="progress-bar"
-        style={{ "--progress": `${props.percentage}%` }}
+        style={{ "--progress": `${props.percentage.toFixed(2)}%` }}
       >
-        <span className="progress-label">{props.percentage}%</span>
+        <span className="progress-label">{props.percentage.toFixed(2)}%</span>
       </div>
     </div>
   );

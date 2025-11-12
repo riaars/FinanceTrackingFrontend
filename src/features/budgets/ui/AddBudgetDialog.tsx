@@ -1,7 +1,6 @@
 import Dialog from "@/components/Dialog";
 import Input from "@/components/Input";
 import React, { useEffect, useState } from "react";
-import { Budget } from "../api/type";
 import { useAddMonthlyBudgetMutation } from "../api";
 
 type AddBudgetDialogProps = {
@@ -62,7 +61,7 @@ const AddBudgetDialog = ({ toggleDialog }: AddBudgetDialogProps) => {
           className="primary-button"
           onClick={() => {
             if (budget) {
-              addMonthlyBudget(budget);
+              addMonthlyBudget({ budget_per_categories: budget });
               toggleDialog();
             }
           }}

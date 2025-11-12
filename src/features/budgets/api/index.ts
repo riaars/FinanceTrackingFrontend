@@ -3,7 +3,7 @@ import { Budget } from "./type";
 
 export const budgetApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    addMonthlyBudget: build.mutation<void, Budget>({
+    addMonthlyBudget: build.mutation<void, { budget_per_category: Budget }>({
       query: (body) => ({
         url: "/addMonthlyBudget",
         method: "POST",
