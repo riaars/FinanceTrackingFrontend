@@ -27,6 +27,21 @@ export const CategoryIncomeOptions = [
   "Refunds",
 ];
 
+export const CategoryExpenseObject = [
+  { type: "food_dining", label: "Food & Dining" },
+  { type: "transportation", label: "Transportation" },
+  { type: "entertainment", label: "Entertainment" },
+  { type: "housing", label: "Housing" },
+  { type: "bills_utilities", label: "Bills & Utilities" },
+  { type: "health_fitness", label: "Health & Fitness" },
+  { type: "shopping", label: "Shopping" },
+  { type: "travel", label: "Travel" },
+  { type: "education", label: "Education" },
+  { type: "personal_care", label: "Personal Care" },
+  { type: "insurance", label: "Insurance" },
+  { type: "miscellaneous", label: "Miscellaneous" },
+];
+
 export enum AuthCode {
   SIGNUP_SUCCESS = "SIGNUP_SUCCESS",
   SIGNUP_ERROR = "SIGNUP_ERROR",

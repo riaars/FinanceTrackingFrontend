@@ -1,0 +1,24 @@
+@use "../utils/variables" as *;
+
+.budget-card__container {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.5rem;
+}
+
+.budget-card__category {
+  font-size: $font-medium;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.budget-card__progress {
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+.budget-card__action {
+  display: flex;
+  justify-content: flex-end;
+}
