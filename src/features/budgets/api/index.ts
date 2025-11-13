@@ -9,7 +9,7 @@ export const budgetApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: "Budget", id: "LIST" }],
+      invalidatesTags: [{ type: "Budget" }],
     }),
 
     getMonthlyBudget: build.query<
