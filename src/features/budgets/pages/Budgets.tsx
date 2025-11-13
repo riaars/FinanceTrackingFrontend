@@ -41,9 +41,10 @@ const Budgets = () => {
         <div className="budgets__grid">
           {CategoryExpenseObject.map((expense_item) => (
             <BudgetCard
-              category={expense_item.label}
+              category_type={expense_item.type}
+              category_label={expense_item.label}
               current_balance={200}
-              total_budget={
+              category_budget={
                 getCategoryBudget(expense_item.type) > 0
                   ? getCategoryBudget(expense_item.type)
                   : 200

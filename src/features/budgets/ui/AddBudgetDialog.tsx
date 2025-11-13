@@ -35,9 +35,6 @@ const AddBudgetDialog = ({ toggleDialog }: AddBudgetDialogProps) => {
     }
   }, [isLoading, isSuccess, toggleDialog]);
 
-  console.log(budget);
-  console.log(Object.keys(budget));
-
   return (
     <Dialog title="Add Budget Dialog" handleCloseDialog={toggleDialog}>
       <div className="dialog__content">
