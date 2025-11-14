@@ -1,0 +1,13 @@
+@use "../utils/variables" as *;
+
+.tooltip__main-text {
+  font-size: 18px;
+  font-weight: 700;
+  fill: var(--text-color);
+}
+
+.tooltip__caption-text {
+  font-size: 12px;
+  font-weight: 300;
+  fill: var(--text-color);
+}

@@ -1,0 +1,27 @@
+@use "../utils/variables" as *;
+
+.progress-container {
+  margin: 0.5rem;
+  background-color: var(--border-color);
+  border-radius: 10px;
+  height: 0.8rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  // background: var(--secondary-color);
+  height: 100%;
+  width: var(--progress, 0);
+  border-radius: inherit;
+  position: relative;
+  transition: width 0.3s ease-in-out;
+}
+
+.progress-label {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  font-size: 0.8rem;
+  color: white;
+}

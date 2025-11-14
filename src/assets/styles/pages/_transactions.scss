@@ -16,6 +16,9 @@
 .table-cell {
   padding: 1rem 1rem;
   margin: 1rem;
+  &.compact {
+    padding: 0.5rem 2rem;
+  }
 }
 
 .amount-expense {

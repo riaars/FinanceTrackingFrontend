@@ -13,6 +13,9 @@
 @use "components/categorygrid";
 @use "components/pagination";
 @use "components/monthlybudget";
+@use "components/budgetcard";
+@use "components/progressbar";
+@use "components/categorychart";
 
 @use "layout/content";
 @use "layout/header";
@@ -29,6 +32,7 @@
 @use "pages/transactions";
 @use "pages/settings";
 @use "pages/verifyemail";
+@use "pages/budgets";
 
 @use "utils/variables";
 @use "utils/mixin";

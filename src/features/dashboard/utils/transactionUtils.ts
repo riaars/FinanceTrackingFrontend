@@ -1,3 +1,4 @@
+import { Budget } from "@/features/budgets/api/type";
 import { Transaction } from "@/features/transaction/api/type";
 import dayjs from "dayjs";
 
@@ -24,6 +25,20 @@ export const filterTransactionsByView = (
     return true;
   });
 };
+
+export const getCurrentMonthTransactionsCategory = (
+  current_month_transactions: Transaction[],
+  category: string
+) => {
+  return current_month_transactions
+    .filter((transaction) => transaction.category === category)
+    .reduce((sum, t: Transaction) => sum + t.amount, 0);
+};
+
+export const getBudgetByCategory = (budget: Budget, category: string) => {
+  return budget?.budget_per_categories[category];
+};
+
 export const groupIncomeVsExpense = (transactions: Transaction[]) => {
   const grouped = transactions.reduce<
     Record<string, { date: string; Income: number; Expense: number }>

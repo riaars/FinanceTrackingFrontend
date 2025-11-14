@@ -8,6 +8,14 @@ import DashboardOverview from "../ui/DashboardOverview";
 import LatestTransaction from "../ui/LatestTransaction";
 import UpcomingTransactionWidget from "../ui/UpcomingTransactionWidget";
 import { useGetActiveRecurringsQuery } from "@/features/recurring/api";
+import BulletChart from "../ui/BudgetActualChart";
+import {
+  filterTransactionsByView,
+  getBudgetByCategory,
+  getCurrentMonthTransactionsCategory,
+} from "../utils/transactionUtils";
+import { useGetMonthlyBudgetQuery } from "@/features/budgets/api";
+import { CategoryExpenseObject } from "@/utils/Constant";
 
 const Dashboard = () => {
   const { data: transactionsData } = useGetAllTransactionsQuery();
@@ -24,6 +32,24 @@ const Dashboard = () => {
   const today = new Date();
   const upcomingTransactions = sortedRecurrings.filter((recurring) => {
     return new Date(recurring?.nextDate) > today;
+  });
+
+  const { data: budget_data } = useGetMonthlyBudgetQuery();
+  const budgetData = budget_data?.data;
+
+  const current_month_transactions = filterTransactionsByView(
+    transactions,
+    "month"
+  );
+  const budgetActualSpent = CategoryExpenseObject.map((item) => {
+    const category = item.label;
+    const spent = getCurrentMonthTransactionsCategory(
+      current_month_transactions,
+      item.label
+    );
+    const budget = getBudgetByCategory(budgetData, item.type);
+
+    return { category, budget, spent };
   });
 
   return (
@@ -80,8 +106,8 @@ const Dashboard = () => {
           className="dashboard-summary__item"
           style={{ flexGrow: 1, flexShrink: 1 }}
         >
-          <div className="chart__title">Budget Insights (Placeholder)</div>
-          {/* <CashFlowChart transactions={sortedTransactions} /> */}
+          <div className="chart__title">Budget Insights</div>
+          <BulletChart data={budgetActualSpent} />
         </div>
       </div>
     </div>

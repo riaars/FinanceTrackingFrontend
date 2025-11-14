@@ -30,6 +30,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
       const item = payload[0];
       return (
         <div
+          className="custom-tooltip__container"
           style={{
             background: "#fff",
             border: "1px solid #ddd",
@@ -91,11 +92,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
             y="50%"
             textAnchor="middle"
             dominantBaseline="middle"
-            style={{
-              fontSize: "18px",
-              fontWeight: 700,
-              fill: "#333",
-            }}
+            className="tooltip__main-text"
           >
             {total.toLocaleString()}kr
           </text>
@@ -104,11 +101,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
             y="60%"
             textAnchor="middle"
             dominantBaseline="middle"
-            style={{
-              fontSize: "12px",
-              fontWeight: 300,
-              fill: "#333",
-            }}
+            className="tooltip__caption-text"
           >
             This {view} expenses
           </text>

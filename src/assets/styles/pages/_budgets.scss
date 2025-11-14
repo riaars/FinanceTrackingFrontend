@@ -1,0 +1,10 @@
+@use "../utils/variables" as *;
+
+.budgets__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.budgets__option-view {
+  margin: 1rem;
+}
