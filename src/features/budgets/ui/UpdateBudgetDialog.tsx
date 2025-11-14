@@ -2,7 +2,7 @@ import Dialog from "@/components/Dialog";
 import Input from "@/components/Input";
 import React, { useEffect, useState } from "react";
 import { useAddMonthlyBudgetMutation } from "../api";
-import { Budget } from "../api/type";
+import Button from "@/components/Button";
 
 type UpdateBudgetDialogProps = {
   toggleDialog: () => void;
@@ -17,7 +17,7 @@ const UpdateBudgetDialog = ({
   category_type,
   category_label,
 }: UpdateBudgetDialogProps) => {
-  const [addMonthlyBudget, { isLoading, isSuccess, isError }] =
+  const [addMonthlyBudget, { isLoading, isSuccess }] =
     useAddMonthlyBudgetMutation();
 
   const [budget, setBudget] = useState({
@@ -38,6 +38,17 @@ const UpdateBudgetDialog = ({
     };
   };
 
+  const updateBudgetPercentage = (percentage: number) => {
+    const newBudget = Math.round(
+      (budget.category_budget * (100 + percentage)) / 100
+    );
+    setBudget({ ...budget, ["category_budget"]: newBudget });
+  };
+
+  const resetEditedBudget = () => {
+    setBudget({ ...budget, ["category_budget"]: category_budget });
+  };
+
   useEffect(() => {
     if (!isLoading && isSuccess) {
       toggleDialog();
@@ -45,18 +56,12 @@ const UpdateBudgetDialog = ({
   }, [isLoading, isSuccess, toggleDialog]);
 
   return (
-    <Dialog title="Update Budget Dialog" handleCloseDialog={toggleDialog}>
+    <Dialog
+      title={`Quick edit: ${category_label}`}
+      handleCloseDialog={toggleDialog}
+    >
       <div className="dialog__content">
         <div className="dialog__content__body">
-          <Input
-            placeholder={`${category_label}`}
-            value={budget.category_label || ""}
-            type="string"
-            name={"category_label"}
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
-            isDisabled
-          />
-
           <Input
             type="number"
             name={"category_budget"}
@@ -64,6 +69,24 @@ const UpdateBudgetDialog = ({
             value={budget.category_budget || ""}
             onChange={(e) => handleChange(e.target.name, e.target.value)}
           />
+
+          <div>
+            <Button
+              title="5%"
+              className="secondary-button medium"
+              onClick={() => updateBudgetPercentage(5)}
+            ></Button>
+            <Button
+              title="-5%"
+              className="secondary-button medium"
+              onClick={() => updateBudgetPercentage(-5)}
+            ></Button>
+            <Button
+              title="Reset"
+              className="secondary-button medium"
+              onClick={() => resetEditedBudget()}
+            ></Button>
+          </div>
         </div>
       </div>
       <div className="dialog__actions">
@@ -78,7 +101,7 @@ const UpdateBudgetDialog = ({
             }
           }}
         >
-          Update Budget
+          Save Budget
         </button>
       </div>
     </Dialog>

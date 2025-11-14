@@ -1,60 +1,39 @@
-import Button from "@/components/Button";
 import Content from "@/layout/Content";
 import React, { useState } from "react";
-import AddBudgetDialog from "../ui/AddBudgetDialog";
-import BudgetCard from "../ui/BudgetCard";
-import { CategoryExpenseObject } from "@/utils/Constant";
-import { useGetMonthlyBudgetQuery } from "../api";
+import { BsGrid } from "react-icons/bs";
+import { LuTable } from "react-icons/lu";
+import ManageBudgetList from "../ui/ManageBudgetList";
+import ManageBudgetCard from "../ui/ManageBudgetCard";
 
 const Budgets = () => {
-  const [isAdded, setIsAdded] = useState(false);
-
-  const {
-    isLoading,
-    isSuccess,
-    data: budget_data,
-  } = useGetMonthlyBudgetQuery();
-
-  const budget = budget_data?.data;
-  const toggleAddBudget = () => {
-    setIsAdded(!isAdded);
-  };
-
-  const getCategoryBudget = (type: string) => {
-    return budget?.budget_per_categories[type];
-  };
+  const [manageBudget, setManageBudget] = useState(false);
 
   return (
     <Content title="Budgets">
-      <div>
-        <Button
-          title=" + Update Monthly Budget"
-          type="button"
-          className="primary-button add-button-transaction"
-          onClick={() => {
-            setIsAdded(true);
-          }}
-        />
-
-        {/* {new Date(Date.now()).toISOString()} */}
-
-        <div className="budgets__grid">
-          {CategoryExpenseObject.map((expense_item) => (
-            <BudgetCard
-              category_type={expense_item.type}
-              category_label={expense_item.label}
-              current_balance={200}
-              category_budget={
-                getCategoryBudget(expense_item.type) > 0
-                  ? getCategoryBudget(expense_item.type)
-                  : 200
-              }
-            />
-          ))}
-        </div>
+      <div className="budgets__option-view">
+        <button
+          className={`${
+            !manageBudget ? "primary-button" : "secondary-button"
+          } `}
+          onClick={() => setManageBudget(false)}
+        >
+          <span className="button-icon__wrapper">
+            <BsGrid />
+            <span> Budget Overview </span>
+          </span>
+        </button>
+        <button
+          className={`${manageBudget ? "primary-button" : "secondary-button"} `}
+          onClick={() => setManageBudget(true)}
+        >
+          <span className="button-icon__wrapper">
+            <LuTable />
+            <span> Manage Budget </span>
+          </span>
+        </button>
       </div>
 
-      {isAdded && <AddBudgetDialog toggleDialog={toggleAddBudget} />}
+      {!manageBudget ? <ManageBudgetCard /> : <ManageBudgetList />}
     </Content>
   );
 };

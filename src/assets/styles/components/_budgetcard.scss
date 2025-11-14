@@ -7,10 +7,23 @@
   border-radius: 0.5rem;
 }
 
+.budget-card__category-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .budget-card__category {
   font-size: $font-medium;
   font-weight: bold;
   margin-bottom: 1rem;
+}
+
+.budget-card__spending-budget-overview {
+  font-size: 11px;
+  border: 1px solid var(--border-color);
+  background-color: var(--border-color);
+  padding: 4px 8px;
+  border-radius: 9999px;
 }
 
 .budget-card__progress {
@@ -18,7 +31,21 @@
   padding: 0 0.5rem;
 }
 
+.budget-card__stats-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 1rem;
+}
+.budget-card__remaining,
+.budget-card__used {
+  font-size: small;
+}
+
 .budget-card__action {
   display: flex;
   justify-content: flex-end;
+  margin: 1rem;
+}
+.budget-card__negative {
+  color: $negative-color;
 }

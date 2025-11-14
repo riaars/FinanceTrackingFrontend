@@ -4,15 +4,24 @@ type ProgressBarProps = {
   percentage: number;
 };
 
-const ProgressBar = (props: ProgressBarProps) => {
+const ProgressBar = ({ percentage }: ProgressBarProps) => {
+  const adjustColorByPercentage = () => {
+    const roundPercentage = Math.round(percentage);
+    if (roundPercentage > 70 && roundPercentage < 90) {
+      return "orange";
+    } else if (roundPercentage > 90) {
+      return "#ee5656";
+    } else return "#3459d4";
+  };
   return (
     <div className="progress-container">
       <div
         className="progress-bar"
-        style={{ "--progress": `${props.percentage.toFixed(2)}%` }}
-      >
-        <span className="progress-label">{props.percentage.toFixed(2)}%</span>
-      </div>
+        style={{
+          "--progress": `${Math.round(percentage)}%`,
+          backgroundColor: adjustColorByPercentage(),
+        }}
+      ></div>
     </div>
   );
 };

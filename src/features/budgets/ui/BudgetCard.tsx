@@ -17,30 +17,61 @@ const BudgetCard = (props: BudgetCardProps) => {
   const toggleUpdateBudget = () => {
     setUpdateBudget(!updateBudget);
   };
+
+  const balanceRemaining = props.category_budget - props.current_balance;
+  const percentageUsed = (props.current_balance / props.category_budget) * 100;
+
   return (
     <div className="budget-card__container">
-      <div className="budget-card-category__wrapper">
-        <button
-          className={`category-icon-button ${formattedCategory(
-            props.category_label
-          )}`}
-        >
-          {CategoryIcons(props.category_label)}
-        </button>
-
-        {props.category_label}
+      <div className="budget-card__category-wrapper">
+        <div>
+          <button
+            className={`category-icon-button ${formattedCategory(
+              props.category_label
+            )}`}
+          >
+            {CategoryIcons(props.category_label)}
+          </button>
+          {props.category_label}
+        </div>
+        <div>
+          <span className="budget-card__spending-budget-overview">
+            {props.current_balance} kr / {props.category_budget} kr
+          </span>
+        </div>
       </div>
       <div className="budget-card__progress">
-        <ProgressBar
-          percentage={(props.current_balance / props.category_budget) * 100}
-        />
+        <ProgressBar percentage={percentageUsed} />
+      </div>
+
+      <div className="budget-card__stats-wrapper">
+        <div className="budget-card__used">
+          Used: <strong>{Math.min(percentageUsed, 100).toFixed(0)}%</strong>
+        </div>
+        <div className="budget-card__remaining">
+          Remaining:{" "}
+          <strong>
+            <span
+              className={`${
+                balanceRemaining < 0 ? "budget-card__negative" : "inherit"
+              }`}
+            >
+              {balanceRemaining} kr
+            </span>
+          </strong>
+        </div>
       </div>
 
       <div className="budget-card__action">
-        <MdEdit
-          className="table-cell__icon edit"
+        <button
+          className="secondary-button medium"
           onClick={() => toggleUpdateBudget()}
-        />
+        >
+          <span className="button-icon__wrapper">
+            <MdEdit />
+            <span> Quick edit </span>
+          </span>
+        </button>
       </div>
 
       {updateBudget && (
