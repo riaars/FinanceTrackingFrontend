@@ -25,3 +25,9 @@
   font-size: 0.8rem;
   color: white;
 }
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .progress-container {
+    margin: 0.5rem 0rem;
+  }
+}

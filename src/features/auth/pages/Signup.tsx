@@ -30,13 +30,13 @@ function Signup() {
       <div className="signup__body">
         <div className="signup__info">
           <div className="signup__info__logo">
-            <h1>Let’s get started with </h1>{" "}
-            <h1 className="signup__info__logo name">Trexo</h1>
+            <span className="signup__form-title">Let’s get started with </span>{" "}
+            <span className="signup__info__logo name">Trexo</span>
           </div>
           <p>Create your free account and take control of your finances.</p>
         </div>
         <div className="signup__form">
-          <h1>Create Account</h1>
+          <div className="signup__form-title">Create Account</div>
           <SignupForm
             onSuccess={(email) => {
               setEmail(email);

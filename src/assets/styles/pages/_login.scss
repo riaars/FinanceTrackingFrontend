@@ -18,6 +18,12 @@
   flex-direction: column;
 }
 
+.login__form-title {
+  font-size: $font-large;
+  font-weight: bold;
+  margin-bottom: $font-medium;
+}
+
 .forgot-password {
   font-size: 0.9rem;
   text-decoration: none;

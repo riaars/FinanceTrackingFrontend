@@ -14,6 +14,7 @@ import {
 } from "../utils/transactionUtils";
 import { useGetMonthlyBudgetQuery } from "@/features/budgets/api";
 import { CategoryExpenseObject } from "@/utils/Constant";
+import Content from "@/layout/Content";
 
 const Dashboard = () => {
   const { data: transactionsData } = useGetAllTransactionsQuery();
@@ -51,7 +52,7 @@ const Dashboard = () => {
   });
 
   return (
-    <div>
+    <Content>
       <DashboardOverview transactions={transactions} />
 
       <div className="dashboard__item">
@@ -76,7 +77,7 @@ const Dashboard = () => {
           <BudgetActualChart data={budgetActualSpent} />
         </div>
       </div>
-    </div>
+    </Content>
   );
 };
 

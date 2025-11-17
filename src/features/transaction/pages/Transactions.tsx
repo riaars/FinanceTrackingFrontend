@@ -124,7 +124,7 @@ function Transactions() {
   };
 
   return (
-    <Content title="Transactions">
+    <Content>
       {transactions?.length === 0 ? (
         <div className="empty-transactions">
           <div className="empty-transactions__text">
@@ -142,21 +142,6 @@ function Transactions() {
       ) : (
         <div className="transactions">
           <div>
-            {/* <Button
-              icon={<IoCloudDownloadOutline />}
-              title="Download Report"
-              type="button"
-              className="secondary-button add-button-transaction"
-              onClick={toggleAddDialog}
-            /> */}
-
-            {/* <Dropdown
-              className="small"
-              options={DownloadOptions}
-              name="type"
-              value={filtered.type}
-              onChange={handleFilterChange}
-            /> */}
             <Button
               title=" + Add Transaction"
               type="button"
@@ -178,14 +163,12 @@ function Transactions() {
               />
 
               <Dropdown
-                className="small"
                 options={TypeOptions}
                 name="type"
                 value={filtered.type}
                 onChange={handleFilterChange}
               />
               <Dropdown
-                className="small"
                 name="category"
                 options={
                   filtered.type === "Expense"
@@ -327,7 +310,11 @@ function Transactions() {
                 key={transaction.transaction_id}
               >
                 <div className="transaction-category__wrapper">
-                  <button className="icon-button">
+                  <button
+                    className={`category-icon-button ${formattedCategory(
+                      transaction.category
+                    )}`}
+                  >
                     {CategoryIcons(transaction.category)}
                   </button>
                   <div className="transaction-category__details">

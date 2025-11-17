@@ -32,7 +32,7 @@ function App() {
         <Sidebar />
         <div className="content">
           <Header />
-          <div>{children}</div>
+          {children}
         </div>
       </div>
     );

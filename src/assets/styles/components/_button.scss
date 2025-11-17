@@ -150,6 +150,11 @@
   .filter-button {
     padding: 6px;
   }
+  .primary-button {
+    &.full-width {
+      width: 240px;
+    }
+  }
 }
 
 .category-icon-button {
