@@ -111,6 +111,12 @@
   white-space: normal;
 }
 
+.transaction-id {
+  text-decoration: none;
+  color: $disabled-color;
+  font-size: $font-medium * 0.8;
+}
+
 .transaction-amount {
   font-size: 18px;
 }
