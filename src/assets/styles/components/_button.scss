@@ -17,10 +17,11 @@
   padding: 8px;
   margin: 0 0.5rem 0 0;
   border-radius: 0.5rem;
-  border-width: 1px;
-  color: var(--secondary-color);
-  border: 0px solid var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  background-color: var(--border-color);
   font-weight: bold;
+  font-size: $font-small;
 
   &.active {
     background-color: var(--hover-color);
@@ -145,6 +146,9 @@
 @media screen and (max-width: $breakpoint-mobile) {
   .add-button-transaction {
     margin-left: 0.5rem;
+  }
+  .filter-button {
+    padding: 6px;
   }
 }
 

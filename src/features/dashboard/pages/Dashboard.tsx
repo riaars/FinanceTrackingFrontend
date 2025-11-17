@@ -2,13 +2,11 @@ import { useGetAllTransactionsQuery } from "@/features/transaction/api";
 import React from "react";
 import CashFlowChart from "../ui/CashFlowChart";
 import CategoryCart from "../ui/CategoryCart";
-import { Link } from "react-router-dom";
-import * as PATH from "@/config/Path";
 import DashboardOverview from "../ui/DashboardOverview";
 import LatestTransaction from "../ui/LatestTransaction";
 import UpcomingTransactionWidget from "../ui/UpcomingTransactionWidget";
 import { useGetActiveRecurringsQuery } from "@/features/recurring/api";
-import BulletChart from "../ui/BudgetActualChart";
+import BudgetActualChart from "../ui/BudgetActualChart";
 import {
   filterTransactionsByView,
   getBudgetByCategory,
@@ -54,60 +52,28 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="dashboard-summary">
-        <DashboardOverview transactions={transactions} />
-      </div>
+      <DashboardOverview transactions={transactions} />
 
-      <div className="dashboard-summary__item">
-        <div className="chart__title">Financial Insights</div>
+      <div className="dashboard__item">
         <CashFlowChart transactions={sortedTransactions} />
       </div>
 
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <div
-          className="dashboard-summary__item"
-          style={{ flexGrow: 1, flexShrink: 1 }}
-        >
-          <div className="chart__title">Expense Overview</div>
-
+      <div className="dashboard__wrapper">
+        <div className="dashboard__item auto-fill">
           <CategoryCart transactions={sortedTransactions} />
         </div>
 
-        <div
-          className="dashboard-summary__item"
-          style={{ flexGrow: 1, flexShrink: 1 }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "1rem",
-              margin: "1rem",
-            }}
-          >
-            <div className="chart__title">Latest Transactions</div>
-            <Link to={PATH.TRANSACTIONS} className="link">
-              View All
-            </Link>
-          </div>
+        <div className="dashboard__item auto-fill">
           <LatestTransaction transactions={transactions} />
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <div
-          className="dashboard-summary__item"
-          style={{ flexGrow: 1, flexShrink: 1 }}
-        >
-          <div className="chart__title">Upcoming Transactions</div>
+      <div className="dashboard__wrapper">
+        <div className="dashboard__item auto-fill">
           <UpcomingTransactionWidget transactions={upcomingTransactions} />
         </div>
-        <div
-          className="dashboard-summary__item"
-          style={{ flexGrow: 1, flexShrink: 1 }}
-        >
-          <div className="chart__title">Budget Insights</div>
-          <BulletChart data={budgetActualSpent} />
+        <div className="dashboard__item auto-fill">
+          <BudgetActualChart data={budgetActualSpent} />
         </div>
       </div>
     </div>
