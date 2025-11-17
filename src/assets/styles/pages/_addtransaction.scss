@@ -22,3 +22,12 @@
   padding: 0.4rem 0.7rem;
   font-size: 0.8rem;
 }
+
+@media screen and (max-width: $breakpoint-mobile) {
+  .add-transaction__recurring-checkbox {
+    width: 220px;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+}

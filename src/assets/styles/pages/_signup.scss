@@ -11,6 +11,8 @@
 
 .signup__info__logo {
   font-weight: bold;
+  font-size: $font-large;
+  margin-bottom: $font-medium;
 
   &.name {
     color: var(--secondary-color);
@@ -30,9 +32,19 @@
   flex-direction: column;
 }
 
+.signup__form-title {
+  font-size: $font-large;
+  font-weight: bold;
+  margin-bottom: $font-medium;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .signup__body {
     flex-direction: column;
     justify-content: center;
+  }
+  .signup__info__logo {
+    gap: 0rem;
+    display: inline;
   }
 }

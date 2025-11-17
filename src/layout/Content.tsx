@@ -2,12 +2,7 @@ import React, { ReactNode } from "react";
 
 interface ContentProps {
   children: ReactNode;
-  title:
-    | "Dashboard"
-    | "Settings"
-    | "Transactions"
-    | "Recurring Transactions"
-    | "Budgets";
+  title?: "Dashboard" | "Settings" | "Transactions" | "Recurring" | "Budgets";
 }
 function Content({ children, title }: ContentProps) {
   return (

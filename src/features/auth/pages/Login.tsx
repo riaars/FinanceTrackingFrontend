@@ -37,7 +37,7 @@ function Login() {
           </p>
         </div>
         <div className="login__form">
-          <h1>Login</h1>
+          <div className="login__form-title">Login</div>
           <LoginForm
             onSuccess={() => {
               setOpenLoginError(false);
