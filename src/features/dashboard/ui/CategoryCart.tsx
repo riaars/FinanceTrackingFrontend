@@ -24,7 +24,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
 
   const total = data.reduce((sum: number, d: any) => sum + d.value, 0);
 
-  export const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const item = payload[0];
       return (
