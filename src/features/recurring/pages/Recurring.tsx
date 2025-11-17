@@ -25,7 +25,7 @@ const Recurring = () => {
   };
 
   return (
-    <Content title="Recurring Transactions">
+    <Content title="Recurring">
       <div className="transaction-desktop">
         <table className="transaction-table">
           <thead className="table-head">
@@ -51,9 +51,9 @@ const Recurring = () => {
                     </button>
                     <div className="transaction-category__details">
                       {recurringItem.category}
-                      <a href="" className="transaction-id">
+                      <div className="transaction-detail">
                         {recurringItem.detail.slice(0, 30)}
-                      </a>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -71,7 +71,7 @@ const Recurring = () => {
                   </span>
                 </td>
 
-                <td className="table-cell transaction-detail">
+                <td className="table-cell transaction-interval">
                   {recurringItem.interval}
                 </td>
                 <td className="table-cell">
@@ -112,6 +112,47 @@ const Recurring = () => {
             toggleDialog={toggleDeleteDialog}
           />
         )}
+      </div>
+
+      <div className="transaction-mobile">
+        {recurringsData.map((recurring) => (
+          <div className="transaction-card" key={recurring.transaction_id}>
+            <div className="transaction-category__wrapper">
+              <button
+                className={`category-icon-button ${formattedCategory(
+                  recurring.category
+                )}`}
+              >
+                {CategoryIcons(recurring.category)}
+              </button>
+
+              <div className="transaction-category__details">
+                <div className="transaction-category">{recurring.category}</div>
+                <div className="transaction-date">
+                  <div>{recurring.interval}</div>
+                </div>
+                <div className="transaction-date">
+                  {new Date(recurring.nextDate).toLocaleDateString("en-SE")}
+                </div>
+              </div>
+            </div>
+
+            <div className="transaction-amount__wrapper">
+              <div className="transaction-amount">
+                <span
+                  className={`${
+                    recurring.type === "Expense"
+                      ? "amount-expense"
+                      : "amount-income"
+                  }`}
+                >
+                  {recurring.type === "Expense" ? "-" : "+"}
+                  {recurring.amount} kr
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </Content>
   );

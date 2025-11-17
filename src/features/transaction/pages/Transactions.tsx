@@ -124,7 +124,7 @@ function Transactions() {
   };
 
   return (
-    <Content title="Transactions">
+    <Content>
       {transactions?.length === 0 ? (
         <div className="empty-transactions">
           <div className="empty-transactions__text">

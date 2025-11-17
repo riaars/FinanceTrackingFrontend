@@ -32,7 +32,7 @@ const BudgetCard = (props: BudgetCardProps) => {
           >
             {CategoryIcons(props.category_label)}
           </button>
-          {props.category_label}
+          <span className="transaction-category"> {props.category_label}</span>
         </div>
         <div>
           <span className="budget-card__spending-budget-overview">
