@@ -2,12 +2,11 @@ import React from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import {
   filterTransactionsByView,
+  getColorByCategory,
   groupTransactionByKey,
 } from "../utils/transactionUtils";
 import FilterAction from "./FilterAction";
 import { Transaction } from "@/features/transaction/api/type";
-
-const COLORS = ["#3459d4", "#FF8042", "#00C49F", "#FFBB28", "#8884d8"];
 
 const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
   const [view, setView] = React.useState("month");
@@ -29,33 +28,9 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
     if (active && payload && payload.length) {
       const item = payload[0];
       return (
-        <div
-          className="custom-tooltip__container"
-          style={{
-            background: "#fff",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "8px 12px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-          }}
-        >
-          <p
-            style={{
-              margin: 0,
-              fontSize: "13px",
-              fontWeight: 600,
-              color: "#333",
-            }}
-          >
-            {item.name}
-          </p>
-          <p
-            style={{
-              margin: 0,
-              fontSize: "12px",
-              color: "#555",
-            }}
-          >
+        <div className="custom-tooltip__container">
+          <p className="custom-tooltip__key">{item.name}</p>
+          <p className="custom-tooltip__value">
             {item.value.toLocaleString()} kr
           </p>
         </div>
@@ -65,6 +40,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
   };
   return (
     <>
+      <div className="chart__title">Expense Overview</div>
       <FilterAction view={view} setView={setView} />
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -79,10 +55,12 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
             isAnimationActive={true}
             paddingAngle={5}
           >
-            {data.map((_, index: number) => (
+            {data.map((item: any, index: number) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={getColorByCategory(item.name)}
+                stroke="none"
+                strokeWidth={0}
               />
             ))}
           </Pie>

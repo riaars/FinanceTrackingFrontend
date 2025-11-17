@@ -39,7 +39,7 @@ const DashboardOverview = ({
   }
 
   return (
-    <>
+    <div className="dashboard-summary">
       <div className="dashboard-summary__item">
         <div className="dashboard-summary__item__details">
           <p className="summary-text">Current Balance </p>
@@ -63,7 +63,7 @@ const DashboardOverview = ({
         </div>
         <p className="total-amount">{totalExpense.toLocaleString()} kr</p>
       </div>
-    </>
+    </div>
   );
 };
 

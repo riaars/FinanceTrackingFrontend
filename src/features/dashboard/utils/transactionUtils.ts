@@ -61,3 +61,44 @@ export const formatCurrencyShort = (num: number): string => {
 export const formattedCategory = (category: string) => {
   return category.replace(/&/g, "and").replace(/\s+/g, "-").toLowerCase();
 };
+
+export const getColorByCategory = (category: string) => {
+  switch (category) {
+    case "Food & Dining":
+      return "#b91c1c";
+    case "Transportation":
+      return "#1d4ed8";
+    case "Entertainment":
+      return "#9333ea";
+    case "Housing":
+      return "#166534";
+    case "Shopping":
+      return "#854d0e";
+    case "Health & Fitness":
+      return "#047857";
+    case "Travel":
+      return "#075985";
+    case "Education":
+      return "#3730a3";
+    case "Salary":
+      return "#166534";
+    case "Bills & Utilities":
+      return "#334155";
+    case "Personal Care":
+      return "#9d174d";
+    case "Insurance":
+      return "#0369a1";
+    case "Business":
+      return "#1f2937";
+    case "Rental":
+      return "#6d28d9";
+    case "Gifts":
+      return "#9f1239";
+    case "Investments":
+      return "#15803d";
+    case "Refunds":
+      return "#065f46";
+    default:
+      return "#8884d8";
+  }
+};

@@ -27,8 +27,27 @@ const CashFlowChart = ({ transactions }: any) => {
     net: entry.Income - entry.Expense,
   }));
 
+  const CustomTooltip = ({ active, label, payload }: any) => {
+    if (!active || !payload?.length) return null;
+
+    return (
+      <div className="custom-tooltip__container">
+        <p className="custom-tooltip__key">
+          {dayjs(label).format("DD MMM YYYY")}
+        </p>
+        {payload.map((item, i) => (
+          <p key={i} className="custom-tooltip__value">
+            <span className="custom-tooltip__key">{item.name}</span>:{" "}
+            <span className="custom-tooltip__value">{item.value} kr</span>
+          </p>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div>
+      <div className="chart__title">Financial Insights</div>
       <FilterAction view={view} setView={setView} />
 
       <ResponsiveContainer width="100%" height={300}>
@@ -45,18 +64,7 @@ const CashFlowChart = ({ transactions }: any) => {
             stroke="#ccc"
             width={40}
           />
-          <Tooltip
-            labelFormatter={(d: string) => dayjs(d).format("DD MMM YYYY")}
-            labelStyle={{
-              fontSize: "13px",
-              fontWeight: 600,
-              color: "#333",
-              marginBottom: "4px",
-            }}
-            itemStyle={{
-              fontSize: "12px",
-            }}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Legend
             verticalAlign="top"
             height={30}
