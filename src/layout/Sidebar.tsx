@@ -7,8 +7,7 @@ import { LuSettings } from "react-icons/lu";
 import { IoLogOutOutline } from "react-icons/io5";
 import { IoIosRepeat } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
-
-import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
+import { RiDashboardLine } from "react-icons/ri";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { useLogoutMutation, useMeQuery } from "../features/auth/api";
 
@@ -26,7 +25,7 @@ function Sidebar() {
     {
       title: "Dashboard",
       path: PATH.DASHBOARD,
-      icon: <LuChartNoAxesColumnIncreasing />,
+      icon: <RiDashboardLine />,
     },
     {
       title: "Transactions",
@@ -88,6 +87,11 @@ function Sidebar() {
             </li>
           ))}
         </ul>
+        {/* <button className="sidebar-container__item settings">
+          <div className="sidebar-container-icon">
+            <LuSettings />
+          </div>
+        </button> */}
       </div>
     </div>
   );

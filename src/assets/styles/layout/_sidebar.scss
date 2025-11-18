@@ -16,9 +16,6 @@
   flex-direction: column;
   width: 100%;
 }
-.sidebar-container__menu {
-  padding: 2rem;
-}
 
 .sidebar-container__header {
   text-align: center;
@@ -26,6 +23,13 @@
   font-size: 1.5rem;
   padding: 1rem;
 }
+
+.sidebar-container__menu {
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
 .sidebar-container__item {
   list-style: none;
   text-align: left;
@@ -33,6 +37,12 @@
   color: var(--text-color);
   margin-top: 1rem;
 }
+
+.settings {
+  border: 0px;
+  background-color: var(--primary-color);
+}
+
 .sidebar-container-icon {
   display: flex;
   align-items: center;
@@ -46,7 +56,7 @@
 }
 .sidebar-container__item:hover {
   color: var(--secondary-color);
-  background-color: var(--hover-color);
+  cursor: pointer;
 }
 
 .sidebar-collapse-menu {
