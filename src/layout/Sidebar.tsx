@@ -43,7 +43,7 @@ function Sidebar() {
       icon: <IoIosRepeat />,
     },
     { title: "Settings", path: PATH.SETTINGS, icon: <LuSettings /> },
-    { title: "Logout", path: "", icon: <IoLogOutOutline /> },
+    // { title: "Logout", path: "", icon: <IoLogOutOutline /> },
   ];
 
   const handleSignOut = async () => {
