@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { TypeOptions } from "@/utils/Constant";
 import { formattedDate } from "@/utils/helpers";
 import Dialog from "@/components/Dialog";
-import Dropdown from "@/components/Dropdown";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import InputDate from "@/components/Date";
@@ -21,9 +19,13 @@ type TransactionErrorsFormType = {
 
 type AddTransactionDialogProps = {
   toggleDialog: () => void;
+  type: "Income" | "Expense";
 };
 
-function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
+function AddTransactionDialog({
+  toggleDialog,
+  type,
+}: AddTransactionDialogProps) {
   const [addTransaction] = useAddTransactionMutation();
   // const [selectedInterval, setSelectedInterval] = useState("monthly");
 
@@ -32,7 +34,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   const [form, setForm] = useState<NewTransaction>({
     date: date.toISOString().split("T")[0],
     category: "Select Category",
-    type: "Select Type",
+    type: type,
     detail: "",
     amount: 0,
     isRecurring: false,
@@ -44,7 +46,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   const [formErrors, setFormErrors] = useState<TransactionErrorsFormType>({
     date: "",
     category: "",
-    type: "",
+    type: type,
     detail: "",
     amount: "",
   });
@@ -77,9 +79,7 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   const isFormTransactionValid = () => {
     const newErrors: TransactionErrorsFormType =
       {} as TransactionErrorsFormType;
-    if (form.type === "Select Type") {
-      newErrors.type = "Type is required";
-    }
+
     if (form.category === "Select category") {
       newErrors.category = "Category is required";
     }
@@ -99,7 +99,10 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
   };
 
   return (
-    <Dialog title="Add New Transaction" handleCloseDialog={toggleDialog}>
+    <Dialog
+      title={`Add Transaction:  ${type}`}
+      handleCloseDialog={toggleDialog}
+    >
       <div className="add-transaction__dialog">
         <div
           className="add-transaction__form"
@@ -108,15 +111,6 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
           }}
         >
           <div className="dialog__content__body">
-            {/* <input
-              type="file"
-              name="receipt"
-              placeholder="Upload Receipt"
-              accept="image/*"
-              onChange={handleUploadReceipt}
-              className="input-field"
-            /> */}
-
             <InputDate
               name="date"
               value={form.date}
@@ -126,6 +120,33 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
               }
               min="1970-01-01"
               max={formattedDate(new Date(Date.now()).toISOString())}
+            />
+
+            <CategoryGrid
+              type={type}
+              setSelectedCategory={handleTransactionChange}
+              selectedCategory={form.category}
+            />
+
+            <Input
+              type="number"
+              name="amount"
+              placeholder="Amount"
+              value={form.amount > 0 ? form.amount : ""}
+              onChange={(e) =>
+                handleTransactionChange(e.target.name, e.target.value)
+              }
+            />
+
+            <textarea
+              className="input-field"
+              name="detail"
+              rows={3}
+              placeholder="Details"
+              value={form.detail}
+              onChange={(e) =>
+                handleTransactionChange(e.target.name, e.target.value)
+              }
             />
 
             <span className="add-transaction__recurring-checkbox ">
@@ -159,49 +180,6 @@ function AddTransactionDialog({ toggleDialog }: AddTransactionDialogProps) {
                 ))}
               </div>
             )}
-            <Dropdown
-              options={TypeOptions}
-              className="add-transaction__dropdown"
-              name="type"
-              value={form.type}
-              onChange={handleTransactionChange}
-            />
-
-            {form.type !== "Select Type" && (
-              <CategoryGrid
-                type={form.type}
-                setSelectedCategory={handleTransactionChange}
-                selectedCategory={form.category}
-              />
-            )}
-
-            {/* <Dropdown
-              options={CategoryOptions}
-              name="category"
-              value={form.category}
-              onChange={handleTransactionChange}
-            /> */}
-
-            <Input
-              type="number"
-              name="amount"
-              placeholder="Amount"
-              value={form.amount > 0 ? form.amount : ""}
-              onChange={(e) =>
-                handleTransactionChange(e.target.name, e.target.value)
-              }
-            />
-
-            <textarea
-              className="input-field"
-              name="detail"
-              rows={3}
-              placeholder="Details"
-              value={form.detail}
-              onChange={(e) =>
-                handleTransactionChange(e.target.name, e.target.value)
-              }
-            />
           </div>
           <div className="dialog__actions">
             <button className="secondary-button" onClick={toggleDialog}>

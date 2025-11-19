@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 
-import { FaFileCsv } from "react-icons/fa6";
+import { FaArrowTrendDown, FaArrowTrendUp, FaFileCsv } from "react-icons/fa6";
 import { FaFilePdf } from "react-icons/fa6";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosRepeat } from "react-icons/io";
@@ -58,6 +58,7 @@ function Transactions() {
   });
 
   const [isAdded, setIsAdded] = useState(false);
+  const [trxType, setTrxType] = useState("Expense");
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [filtered, setFiltered] = useState(initialFiltered);
@@ -130,25 +131,55 @@ function Transactions() {
           <div className="empty-transactions__text">
             You don't have any transaction yet. Please add it here.
           </div>
-          <Button
-            title=" + Add Transaction"
-            type="button"
-            className="primary-button add-button-transaction"
-            onClick={() => {
-              setIsAdded(true);
-            }}
-          />
+          <div>
+            <Button
+              icon={<FaArrowTrendUp />}
+              title="Add Income"
+              type="button"
+              className="secondary-button add-button-transaction income"
+              onClick={() => {
+                toggleAddDialog();
+                setTrxType("Income");
+              }}
+            />
+            <Button
+              icon={<FaArrowTrendDown />}
+              title="Add Expense"
+              type="button"
+              className="secondary-button add-button-transaction expense"
+              onClick={() => {
+                toggleAddDialog();
+                setTrxType("Expense");
+              }}
+            />
+          </div>
         </div>
       ) : (
         <div className="transactions">
           <div>
             <Button
-              title=" + Add Transaction"
+              icon={<FaArrowTrendUp />}
+              title="Add Income"
               type="button"
-              className="primary-button add-button-transaction"
-              onClick={toggleAddDialog}
+              className="secondary-button add-button-transaction income"
+              onClick={() => {
+                toggleAddDialog();
+                setTrxType("Income");
+              }}
+            />
+
+            <Button
+              icon={<FaArrowTrendDown />}
+              title="Add Expense"
+              type="button"
+              className="secondary-button add-button-transaction expense"
+              onClick={() => {
+                toggleAddDialog();
+                setTrxType("Expense");
+              }}
             />
           </div>
+
           <div>
             <div className="transaction-filter">
               <Input
@@ -382,7 +413,9 @@ function Transactions() {
         </div>
       )}
 
-      {isAdded && <AddTransactionDialog toggleDialog={toggleAddDialog} />}
+      {isAdded && (
+        <AddTransactionDialog toggleDialog={toggleAddDialog} type={trxType} />
+      )}
     </Content>
   );
 }
