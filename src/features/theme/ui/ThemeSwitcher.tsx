@@ -13,14 +13,14 @@ const ThemeSwitcher = () => {
         onClick={() => dispatch(toggleTheme())}
         className={`theme ${theme === "dark" ? "active" : "inherit"}`}
       >
-        {theme === "dark" ? <MdDarkMode /> : <MdLightMode />}
+        <MdDarkMode />
       </div>
 
       <div
         onClick={() => dispatch(toggleTheme())}
         className={`theme ${theme === "dark" ? "inherit" : "active"}`}
       >
-        {theme === "dark" ? <MdLightMode /> : <MdDarkMode />}
+        <MdLightMode />
       </div>
     </div>
   );

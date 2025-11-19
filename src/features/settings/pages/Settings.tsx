@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Content from "@/layout/Content";
 import Account from "../ui/Account";
-import Password from "./Password";
+import Password from "../ui/Password";
 
-const options = ["Account", "Password", "Notification"];
+const options = ["Account", "Password"];
 
 function Settings() {
   const [view, setView] = useState("Account");
@@ -25,12 +25,12 @@ function Settings() {
             </button>
           ))}
         </div>
+
+        <div className="settings__content">
+          {view === "Account" && <Account />}
+          {view === "Password" && <Password />}
+        </div>
       </div>
-      <div className="settings__content">
-        {view === "Account" && <Account />}
-        {view === "Password" && <Password />}
-      </div>
-      <div className="settings__container"></div>
     </Content>
   );
 }
