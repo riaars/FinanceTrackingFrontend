@@ -30,8 +30,13 @@
   text-align: right;
   color: var(--secondary-color);
 }
-.error-input {
+.error-input,
+.error-response {
   color: $negative-color;
+  padding: 12px;
+}
+.success-response {
+  color: $positive-color;
   padding: 12px;
 }
 

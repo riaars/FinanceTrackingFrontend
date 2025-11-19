@@ -3,7 +3,7 @@ import Content from "@/layout/Content";
 import Account from "../ui/Account";
 import Password from "../ui/Password";
 
-const options = ["Account", "Password"];
+const options = ["Account", "Manage Password"];
 
 function Settings() {
   const [view, setView] = useState("Account");
@@ -28,7 +28,7 @@ function Settings() {
 
         <div className="settings__content">
           {view === "Account" && <Account />}
-          {view === "Password" && <Password />}
+          {view === "Manage Password" && <Password />}
         </div>
       </div>
     </Content>
