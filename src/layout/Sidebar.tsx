@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as PATH from "@/config/Path";
-
+import Logo from "@/assets/images/logo.png";
 import { MdMenu } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
-import { IoLogOutOutline } from "react-icons/io5";
 import { IoIosRepeat } from "react-icons/io";
 import { IoWalletOutline } from "react-icons/io5";
 import { RiDashboardLine } from "react-icons/ri";
 import { AiOutlineTransaction } from "react-icons/ai";
 import { useLogoutMutation, useMeQuery } from "../features/auth/api";
+import ThemeSwitcher from "@/features/theme/ui/ThemeSwitcher";
 
 function Sidebar() {
   const { data: user } = useMeQuery();
@@ -43,7 +43,6 @@ function Sidebar() {
       icon: <IoIosRepeat />,
     },
     { title: "Settings", path: PATH.SETTINGS, icon: <LuSettings /> },
-    // { title: "Logout", path: "", icon: <IoLogOutOutline /> },
   ];
 
   const handleSignOut = async () => {
@@ -67,7 +66,12 @@ function Sidebar() {
       </div>
       <div className={`sidebar-container ${openSidebar ? "open" : "close"}`}>
         <ul className={`sidebar-container__menu`}>
-          <div className="sidebar-container__header">{user?.data.username}</div>
+          <div className="auth__header">
+            <Link to={PATH.DASHBOARD} className="auth__logo">
+              <img className="logo__icon" src={Logo} />
+              <h3>Trexo</h3>
+            </Link>
+          </div>
           {sideMenus.map((sideMenu) => (
             <li
               key={sideMenu.title}
@@ -87,11 +91,19 @@ function Sidebar() {
             </li>
           ))}
         </ul>
-        {/* <button className="sidebar-container__item settings">
-          <div className="sidebar-container-icon">
-            <LuSettings />
-          </div>
-        </button> */}
+
+        <div>
+          <ul className="sidebar-container__item">
+            <li>
+              <div className="sidebar__bottom">
+                <span className="sidebar-container__username">
+                  {user?.data.email}
+                </span>
+                <ThemeSwitcher />
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

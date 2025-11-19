@@ -4,7 +4,6 @@ import Signup from "@/features/auth/pages/Signup";
 
 import * as PATH from "@/config/Path";
 import Sidebar from "@/layout/Sidebar";
-import Header from "@/layout/Header";
 
 import Transactions from "@/features/transaction/pages/Transactions";
 import PrivateRoute from "@/components/PrivateRoute";
@@ -31,7 +30,7 @@ function App() {
       <div className="app">
         <Sidebar />
         <div className="content">
-          <Header />
+          {/* <Header /> */}
           {children}
         </div>
       </div>

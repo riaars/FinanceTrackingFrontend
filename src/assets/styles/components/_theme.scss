@@ -1,4 +1,20 @@
 .theme {
   font-size: 1rem;
-  padding-left: 0.5rem;
+  padding: 0.25rem;
+}
+
+.theme-switcher {
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.25rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: var(--border-color);
+}
+.active {
+  background-color: var(--primary-color);
+  border-radius: 0.5rem;
 }

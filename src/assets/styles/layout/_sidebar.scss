@@ -19,13 +19,11 @@
 
 .sidebar-container__header {
   text-align: center;
-  font-weight: bold;
-  font-size: 1.5rem;
   padding: 1rem;
 }
 
 .sidebar-container__menu {
-  padding: 2rem;
+  padding: 1rem 2rem;
   flex: 1;
   overflow-y: auto;
 }
@@ -38,11 +36,6 @@
   margin-top: 1rem;
 }
 
-.settings {
-  border: 0px;
-  background-color: var(--primary-color);
-}
-
 .sidebar-container-icon {
   display: flex;
   align-items: center;
@@ -52,11 +45,22 @@
 
 .sidebar-container__item.active {
   color: var(--secondary-color);
-  font-weight: bold;
+  background-color: var(--border-color);
+  border-radius: 0.5rem;
 }
+
 .sidebar-container__item:hover {
   color: var(--secondary-color);
   cursor: pointer;
+}
+
+.sidebar__bottom {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+  border-top: 1px solid var(--border-color);
+  justify-content: center;
+  align-items: center;
 }
 
 .sidebar-collapse-menu {
