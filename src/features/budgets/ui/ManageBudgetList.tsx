@@ -1,32 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAddMonthlyBudgetMutation, useGetMonthlyBudgetQuery } from "../api";
+import { useAddMonthlyBudgetMutation } from "../api";
 import { CategoryExpenseObject } from "@/utils/Constant";
-import { useGetAllTransactionsQuery } from "@/features/transaction/api";
 import {
-  filterTransactionsByView,
   formattedCategory,
   getCurrentMonthTransactionsCategory,
 } from "@/features/dashboard/utils/transactionUtils";
 import { CategoryIcons } from "@/utils/categoryIcons";
 
-const ManageBudgetList = () => {
-  const { data: budget_data } = useGetMonthlyBudgetQuery();
-  const currentBudget = budget_data?.data;
-
-  const { data: transactionsData } = useGetAllTransactionsQuery();
+const ManageBudgetList = ({ current_month_transactions, budget }: any) => {
   const [addMonthlyBudget] = useAddMonthlyBudgetMutation();
 
-  const [budget, setBudget] = useState(currentBudget?.budget_per_categories);
-
-  const transactions = transactionsData?.data || [];
-
-  const current_month_transactions = filterTransactionsByView(
-    transactions,
-    "month"
+  const [monthlyBudget, setMonthlyBudget] = useState(
+    budget?.budget_per_categories
   );
 
   const getCategoryBudget = (type: string) => {
-    return budget?.[type];
+    return monthlyBudget?.[type];
   };
 
   const budgetPerCategories = (type: string, value: number) => {
@@ -40,7 +29,7 @@ const ManageBudgetList = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChange = (name: string, value: string) => {
-    setBudget({ ...budget, [name]: value });
+    setMonthlyBudget({ ...budget, [name]: value });
 
     if (timerRef?.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {

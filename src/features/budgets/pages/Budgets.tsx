@@ -4,9 +4,24 @@ import { BsGrid } from "react-icons/bs";
 import { LuTable } from "react-icons/lu";
 import ManageBudgetList from "../ui/ManageBudgetList";
 import ManageBudgetCard from "../ui/ManageBudgetCard";
+import { useGetMonthlyBudgetQuery } from "../api";
+import { useGetAllTransactionsQuery } from "@/features/transaction/api";
+import { filterTransactionsByView } from "@/features/dashboard/utils/transactionUtils";
 
 const Budgets = () => {
   const [manageBudget, setManageBudget] = useState(false);
+
+  const { data: budget_data } = useGetMonthlyBudgetQuery();
+  const { data: transactionsData } = useGetAllTransactionsQuery();
+
+  const transactions = transactionsData?.data || [];
+
+  const current_month_transactions = filterTransactionsByView(
+    transactions,
+    "month"
+  );
+
+  const budget = budget_data?.data;
 
   return (
     <Content title="Budgets">
@@ -32,8 +47,17 @@ const Budgets = () => {
           </span>
         </button>
       </div>
-
-      {!manageBudget ? <ManageBudgetCard /> : <ManageBudgetList />}
+      {!manageBudget ? (
+        <ManageBudgetCard
+          current_month_transactions={current_month_transactions}
+          budget={budget}
+        />
+      ) : (
+        <ManageBudgetList
+          current_month_transactions={current_month_transactions}
+          budget={budget}
+        />
+      )}
     </Content>
   );
 };

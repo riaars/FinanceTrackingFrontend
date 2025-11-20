@@ -1,27 +1,12 @@
 import { CategoryExpenseObject } from "@/utils/Constant";
 import React from "react";
-import { useGetMonthlyBudgetQuery } from "../api";
-import { useGetAllTransactionsQuery } from "@/features/transaction/api";
 import {
-  filterTransactionsByView,
   getBudgetByCategory,
   getCurrentMonthTransactionsCategory,
 } from "@/features/dashboard/utils/transactionUtils";
 import BudgetCard from "./BudgetCard";
 
-const ManageBudgetCard = () => {
-  const { data: budget_data } = useGetMonthlyBudgetQuery();
-  const { data: transactionsData } = useGetAllTransactionsQuery();
-
-  const transactions = transactionsData?.data || [];
-
-  const current_month_transactions = filterTransactionsByView(
-    transactions,
-    "month"
-  );
-
-  const budget = budget_data?.data;
-
+const ManageBudgetCard = ({ current_month_transactions, budget }: any) => {
   return (
     <div className="budgets__grid">
       {CategoryExpenseObject.filter(
