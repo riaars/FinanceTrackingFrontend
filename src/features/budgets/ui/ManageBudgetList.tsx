@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAddMonthlyBudgetMutation } from "../api";
-import { CategoryExpenseObject } from "@/utils/Constant";
 import {
   formattedCategory,
   getCurrentMonthTransactionsCategory,
 } from "@/features/dashboard/utils/transactionUtils";
 import { CategoryIcons } from "@/utils/categoryIcons";
 
-const ManageBudgetList = ({ current_month_transactions, budget }: any) => {
+const ManageBudgetList = ({
+  data,
+  current_month_transactions,
+  budget,
+}: any) => {
   const [addMonthlyBudget] = useAddMonthlyBudgetMutation();
 
   const [monthlyBudget, setMonthlyBudget] = useState(
@@ -56,7 +59,7 @@ const ManageBudgetList = ({ current_month_transactions, budget }: any) => {
       </thead>
 
       <tbody>
-        {CategoryExpenseObject.map((item) => (
+        {data.map((item: any) => (
           <tr className="table-row ">
             <td className="table-cell compact">
               <div className="transaction-category__wrapper">

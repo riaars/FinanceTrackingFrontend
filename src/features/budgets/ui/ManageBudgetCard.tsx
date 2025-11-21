@@ -1,4 +1,3 @@
-import { CategoryExpenseObject } from "@/utils/Constant";
 import React from "react";
 import {
   getBudgetByCategory,
@@ -6,12 +5,14 @@ import {
 } from "@/features/dashboard/utils/transactionUtils";
 import BudgetCard from "./BudgetCard";
 
-const ManageBudgetCard = ({ current_month_transactions, budget }: any) => {
+const ManageBudgetCard = ({
+  data,
+  current_month_transactions,
+  budget,
+}: any) => {
   return (
     <div className="budgets__grid">
-      {CategoryExpenseObject.filter(
-        (item) => getBudgetByCategory(budget, item.type) > 0
-      ).map((expense_item) => (
+      {data.map((expense_item: any) => (
         <BudgetCard
           category_type={expense_item.type}
           category_label={expense_item.label}

@@ -1,15 +1,17 @@
 import Content from "@/layout/Content";
 import React, { useState } from "react";
-import { BsGrid } from "react-icons/bs";
-import { LuTable } from "react-icons/lu";
 import ManageBudgetList from "../ui/ManageBudgetList";
 import ManageBudgetCard from "../ui/ManageBudgetCard";
 import { useGetMonthlyBudgetQuery } from "../api";
 import { useGetAllTransactionsQuery } from "@/features/transaction/api";
 import { filterTransactionsByView } from "@/features/dashboard/utils/transactionUtils";
+import SearchBar from "@/components/SearchBar";
+import useDebounce from "@/hooks/useDebounce";
+import { CategoryExpenseObject } from "@/utils/Constant";
+import BudgetMenu from "../ui/BudgetMenu";
 
 const Budgets = () => {
-  const [manageBudget, setManageBudget] = useState(false);
+  const [isManageBudget, setManageBudget] = useState(false);
 
   const { data: budget_data } = useGetMonthlyBudgetQuery();
   const { data: transactionsData } = useGetAllTransactionsQuery();
@@ -23,37 +25,44 @@ const Budgets = () => {
 
   const budget = budget_data?.data;
 
+  const [search, setSearch] = useState("");
+  const debounceSearch = useDebounce(search, 500);
+
+  const filteredCategory = () => {
+    const term = debounceSearch.toLowerCase();
+
+    return CategoryExpenseObject.filter((expense_item) => {
+      const matchQuery = term
+        ? expense_item.label.toLowerCase().includes(term) ||
+          expense_item.type.toLowerCase().includes(term)
+        : true;
+      return matchQuery;
+    });
+  };
+
   return (
     <Content title="Budgets">
-      <div className="budgets__option-view">
-        <button
-          className={`${
-            !manageBudget ? "primary-button" : "secondary-button"
-          } `}
-          onClick={() => setManageBudget(false)}
-        >
-          <span className="button-icon__wrapper">
-            <BsGrid />
-            <span> Budget Overview </span>
-          </span>
-        </button>
-        <button
-          className={`${manageBudget ? "primary-button" : "secondary-button"} `}
-          onClick={() => setManageBudget(true)}
-        >
-          <span className="button-icon__wrapper">
-            <LuTable />
-            <span> Manage Budget </span>
-          </span>
-        </button>
-      </div>
-      {!manageBudget ? (
-        <ManageBudgetCard
+      <BudgetMenu
+        isManageBudget={isManageBudget}
+        setManageBudget={setManageBudget}
+      />
+
+      <SearchBar
+        placeholder="Search for Budgets Category, e.g,: food, entertainment"
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
+        name="search"
+      />
+
+      {isManageBudget ? (
+        <ManageBudgetList
+          data={filteredCategory()}
           current_month_transactions={current_month_transactions}
           budget={budget}
         />
       ) : (
-        <ManageBudgetList
+        <ManageBudgetCard
+          data={filteredCategory()}
           current_month_transactions={current_month_transactions}
           budget={budget}
         />
