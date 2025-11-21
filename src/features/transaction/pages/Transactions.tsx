@@ -39,7 +39,7 @@ const initialFiltered = {
 
 function Transactions() {
   const { data: user } = useMeQuery();
-  const email = user?.email || "";
+  const email = user?.data.email || "";
 
   const { data: transactionsData } = useGetAllTransactionsQuery();
   const transactions = useMemo(
@@ -47,8 +47,10 @@ function Transactions() {
     [transactionsData]
   );
 
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({
-    date: "",
+  const [selectedTransaction, setSelectedTransaction] = useState<
+    Partial<Transaction>
+  >({
+    createdAt: "",
     transaction_id: "",
     email: "",
     category: "",

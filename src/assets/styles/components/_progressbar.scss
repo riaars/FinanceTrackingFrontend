@@ -21,9 +21,9 @@
 .progress-label {
   position: absolute;
   right: 8px;
-  top: 4px;
+  top: 0px;
   font-size: 0.8rem;
-  color: white;
+  color: var(--text-color);
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
