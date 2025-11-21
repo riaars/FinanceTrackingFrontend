@@ -9,7 +9,7 @@ export type Transaction = {
   type: "Income" | "Expense" | "Select Type";
   isRecurring: boolean;
   interval?: "daily" | "weekly" | "monthly" | "yearly";
-  nextDate?: string;
+  nextDate?: Date | string;
   timezone?: string;
 };
 
