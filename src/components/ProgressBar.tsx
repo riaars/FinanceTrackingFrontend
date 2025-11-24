@@ -23,9 +23,6 @@ const ProgressBar = ({ percentage }: ProgressBarProps) => {
           backgroundColor: adjustColorByPercentage(),
         }}
       ></div>
-      {/* <div className="progress-label">
-        <strong>{Math.min(percentage, 100).toFixed(0)}%</strong>
-      </div> */}
     </div>
   );
 };
