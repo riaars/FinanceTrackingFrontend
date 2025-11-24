@@ -13,7 +13,6 @@
   align-items: center;
 }
 .budget-card__category {
-  margin-bottom: 1rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -48,8 +47,10 @@
 .budget-card__action {
   display: flex;
   justify-content: flex-end;
-  margin: 1rem;
+  align-items: flex-end;
+  margin: 1rem 1rem 0 0;
 }
+
 .budget-card__negative {
   color: $negative-color;
 }
