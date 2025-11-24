@@ -13,6 +13,7 @@ const ProgressBar = ({ percentage }: ProgressBarProps) => {
       return "#ee5656";
     } else return "#3459d4";
   };
+
   return (
     <div className="progress-container">
       <div
