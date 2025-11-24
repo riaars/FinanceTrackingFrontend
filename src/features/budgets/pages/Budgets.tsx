@@ -22,7 +22,6 @@ const Budgets = () => {
     transactions,
     "month"
   );
-  console.log(current_month_transactions);
 
   const budget = budget_data?.data;
 
@@ -40,8 +39,6 @@ const Budgets = () => {
       return matchQuery;
     });
   };
-
-  console.log(filteredCategory());
 
   return (
     <Content title="Budgets">

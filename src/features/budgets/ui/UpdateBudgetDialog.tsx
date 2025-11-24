@@ -26,6 +26,8 @@ const UpdateBudgetDialog = ({
     category_budget: category_budget,
   });
 
+  const [selectedQuickBtn, setSelectedQuickBtn] = useState("");
+
   const handleChange = (name: string, value: string) => {
     setBudget({ ...budget, [name]: value });
   };
@@ -72,18 +74,39 @@ const UpdateBudgetDialog = ({
           <div>
             <Button
               title="5%"
-              className="secondary-button medium"
-              onClick={() => updateBudgetPercentage(5)}
+              className={`${
+                selectedQuickBtn === "plusFivePercent"
+                  ? "primary-button"
+                  : "secondary-button"
+              } medium`}
+              onClick={() => {
+                updateBudgetPercentage(5);
+                setSelectedQuickBtn("plusFivePercent");
+              }}
             ></Button>
             <Button
               title="-5%"
-              className="secondary-button medium"
-              onClick={() => updateBudgetPercentage(-5)}
+              className={`${
+                selectedQuickBtn === "minusFivePercent"
+                  ? "primary-button"
+                  : "secondary-button"
+              } medium`}
+              onClick={() => {
+                updateBudgetPercentage(-5);
+                setSelectedQuickBtn("minusFivePercent");
+              }}
             ></Button>
             <Button
               title="Reset"
-              className="secondary-button medium"
-              onClick={() => resetEditedBudget()}
+              className={`${
+                selectedQuickBtn === "resetPercent"
+                  ? "primary-button"
+                  : "secondary-button"
+              } medium`}
+              onClick={() => {
+                resetEditedBudget();
+                setSelectedQuickBtn("resetPercent");
+              }}
             ></Button>
           </div>
         </div>
