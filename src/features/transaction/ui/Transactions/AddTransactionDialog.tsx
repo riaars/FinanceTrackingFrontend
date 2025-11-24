@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { formattedDate } from "@/utils/helpers";
 import Dialog from "@/components/Dialog";
-import Input from "@/components/Input";
 import Button from "@/components/Button";
 import InputDate from "@/components/Date";
 import CategoryGrid from "./CategoryGrid";
 import { useAddTransactionMutation } from "../../api";
-import { NewTransaction, Transaction } from "../../api/type";
+import { Transaction } from "../../api/type";
+import CurrencyInput from "@/components/CurrencyInput";
 const options = ["daily", "weekly", "monthly", "yearly"];
 
 type TransactionErrorsFormType = {
@@ -130,8 +130,7 @@ function AddTransactionDialog({
               selectedCategory={form.category}
             />
 
-            <Input
-              type="number"
+            <CurrencyInput
               name="amount"
               placeholder="Amount"
               value={form.amount > 0 ? form.amount : ""}

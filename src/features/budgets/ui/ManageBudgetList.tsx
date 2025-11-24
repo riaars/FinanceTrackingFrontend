@@ -7,6 +7,7 @@ import {
 } from "@/features/dashboard/utils/transactionUtils";
 import { CategoryIcons } from "@/utils/categoryIcons";
 import { Budget } from "../api/type";
+import CurrencyInput from "@/components/CurrencyInput";
 
 const ManageBudgetList = ({
   data,
@@ -81,8 +82,8 @@ const ManageBudgetList = ({
               kr
             </td>
             <td className="table-cell compact">
-              <input
-                type="number"
+              <CurrencyInput
+                placeholder={`${item.label} Monthly Budget`}
                 value={
                   getBudgetByCategory(monthlyBudget, item.type) !== null
                     ? String(getBudgetByCategory(monthlyBudget, item.type))
@@ -90,9 +91,7 @@ const ManageBudgetList = ({
                 }
                 name={item.type}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
-                className="input-field"
               />
-              kr
             </td>
           </tr>
         ))}

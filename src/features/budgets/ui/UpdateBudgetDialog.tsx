@@ -1,8 +1,8 @@
 import Dialog from "@/components/Dialog";
-import Input from "@/components/Input";
 import React, { useEffect, useState } from "react";
 import { useAddMonthlyBudgetMutation } from "../api";
 import Button from "@/components/Button";
+import CurrencyInput from "@/components/CurrencyInput";
 
 type UpdateBudgetDialogProps = {
   toggleDialog: () => void;
@@ -62,8 +62,7 @@ const UpdateBudgetDialog = ({
     >
       <div className="dialog__content">
         <div className="dialog__content__body">
-          <Input
-            type="number"
+          <CurrencyInput
             name={"category_budget"}
             placeholder={`Budget ${category_label}`}
             value={budget.category_budget || ""}
