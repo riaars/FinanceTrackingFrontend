@@ -22,7 +22,6 @@ const Budgets = () => {
     transactions,
     "month"
   );
-  console.log(current_month_transactions);
 
   const budget = budget_data?.data;
 
@@ -41,8 +40,6 @@ const Budgets = () => {
     });
   };
 
-  console.log(filteredCategory());
-
   return (
     <Content title="Budgets">
       <BudgetMenu
@@ -51,7 +48,7 @@ const Budgets = () => {
       />
 
       <SearchBar
-        placeholder="Search for Budgets Category, e.g,: food, entertainment"
+        placeholder="Search for category, e.g., food, entertainment, etc"
         onChange={(e) => setSearch(e.target.value)}
         value={search}
         name="search"

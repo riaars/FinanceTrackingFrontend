@@ -1,8 +1,8 @@
 import Dialog from "@/components/Dialog";
-import Input from "@/components/Input";
 import React, { useEffect, useState } from "react";
 import { useAddMonthlyBudgetMutation } from "../api";
 import Button from "@/components/Button";
+import CurrencyInput from "@/components/CurrencyInput";
 
 type UpdateBudgetDialogProps = {
   toggleDialog: () => void;
@@ -25,6 +25,8 @@ const UpdateBudgetDialog = ({
     category_type: category_type,
     category_budget: category_budget,
   });
+
+  const [selectedQuickBtn, setSelectedQuickBtn] = useState("");
 
   const handleChange = (name: string, value: string) => {
     setBudget({ ...budget, [name]: value });
@@ -62,8 +64,7 @@ const UpdateBudgetDialog = ({
     >
       <div className="dialog__content">
         <div className="dialog__content__body">
-          <Input
-            type="number"
+          <CurrencyInput
             name={"category_budget"}
             placeholder={`Budget ${category_label}`}
             value={budget.category_budget || ""}
@@ -73,18 +74,39 @@ const UpdateBudgetDialog = ({
           <div>
             <Button
               title="5%"
-              className="secondary-button medium"
-              onClick={() => updateBudgetPercentage(5)}
+              className={`${
+                selectedQuickBtn === "plusFivePercent"
+                  ? "primary-button"
+                  : "secondary-button"
+              } medium`}
+              onClick={() => {
+                updateBudgetPercentage(5);
+                setSelectedQuickBtn("plusFivePercent");
+              }}
             ></Button>
             <Button
               title="-5%"
-              className="secondary-button medium"
-              onClick={() => updateBudgetPercentage(-5)}
+              className={`${
+                selectedQuickBtn === "minusFivePercent"
+                  ? "primary-button"
+                  : "secondary-button"
+              } medium`}
+              onClick={() => {
+                updateBudgetPercentage(-5);
+                setSelectedQuickBtn("minusFivePercent");
+              }}
             ></Button>
             <Button
               title="Reset"
-              className="secondary-button medium"
-              onClick={() => resetEditedBudget()}
+              className={`${
+                selectedQuickBtn === "resetPercent"
+                  ? "primary-button"
+                  : "secondary-button"
+              } medium`}
+              onClick={() => {
+                resetEditedBudget();
+                setSelectedQuickBtn("resetPercent");
+              }}
             ></Button>
           </div>
         </div>

@@ -19,14 +19,12 @@ const BudgetCard = (props: BudgetCardProps) => {
   };
 
   const monthlyBudget = props.category_budget > 0 ? props.category_budget : 0;
-  const balanceRemaining = props.category_budget - props.current_balance;
-  const percentageUsed = (props.current_balance / props.category_budget) * 100;
+  const balanceRemaining = monthlyBudget - props.current_balance;
+  const percentageUsed =
+    monthlyBudget > 0
+      ? (props.current_balance / props.category_budget) * 100
+      : 0;
 
-  console.log(
-    props.category_label,
-    props.category_budget,
-    props.current_balance
-  );
   return (
     <div className="budget-card__container">
       <div>

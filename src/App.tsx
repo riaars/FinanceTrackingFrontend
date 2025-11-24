@@ -17,6 +17,7 @@ import PublicRoute from "@/components/PublicRoute";
 import { useAppSelector } from "./app/hooks";
 import Budgets from "./features/budgets/pages/Budgets";
 import Recurring from "./features/recurring/pages/Recurring";
+import BottomBar from "./layout/BottomBar";
 
 function App() {
   const theme = useAppSelector((s) => s.theme.currentTheme);
@@ -32,6 +33,7 @@ function App() {
         <div className="content">
           {/* <Header /> */}
           {children}
+          <BottomBar />
         </div>
       </div>
     );

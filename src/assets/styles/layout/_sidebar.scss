@@ -80,6 +80,9 @@
 }
 
 @media screen and (max-width: $breakpoint-mobile) {
+  // .sidebar {
+  //   display: none;
+  // }
   .sidebar {
     position: fixed;
     z-index: 10;

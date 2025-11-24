@@ -1,11 +1,28 @@
 import React from "react";
-import Input, { InputProps } from "./Input";
 
-const CurrencyInput = (props: InputProps) => {
+interface CurrencyProps {
+  name: string;
+  placeholder: string;
+  value: number | string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const CurrencyInput = ({
+  name,
+  placeholder,
+  value,
+  onChange,
+}: CurrencyProps) => {
   return (
-    <div className="input-with-icon">
-      <span>kr</span>
-      <Input {...props} />
+    <div className="currency-box">
+      <span className="icon">kr</span>
+      <input
+        className="input-search"
+        type="number"
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 };

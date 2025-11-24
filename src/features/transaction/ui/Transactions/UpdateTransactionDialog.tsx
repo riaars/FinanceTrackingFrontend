@@ -2,10 +2,10 @@ import React from "react";
 import Dialog from "@/components/Dialog";
 import Dropdown from "@/components/Dropdown";
 import { TypeOptions } from "@/utils/Constant";
-import Input from "@/components/Input";
 import CategoryGrid from "./CategoryGrid";
 import { useUpdateTransactionMutation } from "../../api";
 import { Transaction } from "../../api/type";
+import CurrencyInput from "@/components/CurrencyInput";
 
 interface UpdateTransactionDialogProps {
   selectedTransaction: Transaction;
@@ -46,8 +46,7 @@ function UpdateTransactionDialog({
             />
           )}
 
-          <Input
-            type="number"
+          <CurrencyInput
             name="amount"
             placeholder="Amount"
             value={selectedTransaction?.amount || ""}

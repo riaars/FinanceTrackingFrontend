@@ -30,6 +30,7 @@ import { Transaction } from "../api/type";
 
 import useDebounce from "@/hooks/useDebounce";
 import { formattedCategory } from "@/features/dashboard/utils/transactionUtils";
+import SearchBar from "@/components/SearchBar";
 
 const initialFiltered = {
   type: "Select Type",
@@ -184,15 +185,13 @@ function Transactions() {
 
           <div>
             <div className="transaction-filter">
-              <Input
-                className="search-field"
-                type="text"
-                name="detail"
-                placeholder="Search Transaction"
-                value={filtered.detail}
+              <SearchBar
+                placeholder="Search for transaction e.g., gym, uber, coffee, etc"
                 onChange={(e) =>
                   handleFilterChange(e.target.name, e.target.value)
                 }
+                value={filtered.detail}
+                name="detail"
               />
 
               <Dropdown

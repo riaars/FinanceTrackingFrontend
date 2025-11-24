@@ -2,6 +2,7 @@ import React from "react";
 import {
   Bar,
   BarChart,
+  Cell,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -24,6 +25,15 @@ const BudgetActualChart = ({ data }: any) => {
         ))}
       </div>
     );
+  };
+
+  const adjustColorByPercentage = (percentage: number) => {
+    const roundPercentage = Math.round(percentage);
+    if (roundPercentage > 70 && roundPercentage < 90) {
+      return "orange";
+    } else if (roundPercentage > 90) {
+      return "#ee5656";
+    } else return "#3459d4";
   };
   return (
     <>
@@ -52,8 +62,24 @@ const BudgetActualChart = ({ data }: any) => {
               fontWeight: 600,
             }}
           />
-          <Bar dataKey="budget" fill="#E5E7EB" name="Budget" />
-          <Bar dataKey="spent" fill="#3B82F6" name="Spent" />
+          <Bar
+            dataKey="budget"
+            name="Budget"
+            fill="#333"
+            className="bar-budget"
+          />
+          <Bar dataKey="spent" name="Spent" fill="#3459d4">
+            {data.map((entry, index) => {
+              const percentage =
+                entry.budget > 0 ? (entry.spent / entry.budget) * 100 : 0;
+              return (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={adjustColorByPercentage(percentage)}
+                />
+              );
+            })}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </>
