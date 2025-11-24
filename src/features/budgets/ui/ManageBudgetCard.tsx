@@ -12,8 +12,9 @@ const ManageBudgetCard = ({
 }: any) => {
   return (
     <div className="budgets__grid">
-      {data.map((expense_item: any) => (
+      {data.map((expense_item: any, index: number) => (
         <BudgetCard
+          key={index}
           category_type={expense_item.type}
           category_label={expense_item.label}
           current_balance={getCurrentMonthTransactionsCategory(
