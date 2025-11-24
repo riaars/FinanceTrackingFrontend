@@ -29,7 +29,7 @@ const Recurring = () => {
   return (
     <Content title="Recurring">
       <SearchBar
-        placeholder="Search for Recurrings, e.g,: category and details"
+        placeholder="Search for recurrings, e.g., business, skincare, etc"
         onChange={(e) => setSearch(e.target.value)}
         value={search}
         name="search"

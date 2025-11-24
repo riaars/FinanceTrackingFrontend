@@ -51,7 +51,7 @@ const Budgets = () => {
       />
 
       <SearchBar
-        placeholder="Search for Budgets Category, e.g,: food, entertainment"
+        placeholder="Search for category, e.g., food, entertainment, etc"
         onChange={(e) => setSearch(e.target.value)}
         value={search}
         name="search"

@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "./Input";
 
 type SearchBarType = {
   value: string | number;
@@ -9,14 +8,17 @@ type SearchBarType = {
 };
 const SearchBar = ({ value, onChange, placeholder, name }: SearchBarType) => {
   return (
-    <Input
-      className="search-field"
-      type="text"
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
+    <div className="search-box">
+      <i className="fa fa-search icon"></i>
+      <input
+        className="input-search"
+        type="text"
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 

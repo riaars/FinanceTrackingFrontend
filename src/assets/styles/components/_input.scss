@@ -18,10 +18,35 @@
   margin: 0 0.5rem;
 }
 
+.search-box {
+  position: relative;
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.search-box .icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--secondary-color);
+  padding: 12px;
+  text-align: center;
+}
+
+.search-box input {
+  padding: 12px 12px 12px 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+  background-color: var(--primary-color);
+  min-width: 360px;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .input-field,
-  .search-field {
-    // padding: 12px 0px 12px 12px;
+  .search-field,
+  .search-box input {
     min-width: 240px;
   }
 }
