@@ -11,5 +11,6 @@ export type Budget = {
     personal_care: number;
     shopping: number;
     transportation: number;
+    travel: number;
   };
 };

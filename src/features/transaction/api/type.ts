@@ -1,6 +1,7 @@
 export type Transaction = {
   transaction_id: string;
   amount: number;
+  date: string;
   createdAt: Date | string;
   detail: string;
   category: string;
@@ -8,7 +9,7 @@ export type Transaction = {
   type: "Income" | "Expense" | "Select Type";
   isRecurring: boolean;
   interval?: "daily" | "weekly" | "monthly" | "yearly";
-  nextDate?: string;
+  nextDate?: Date | string;
   timezone?: string;
 };
 

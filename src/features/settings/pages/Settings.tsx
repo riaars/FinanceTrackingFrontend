@@ -1,41 +1,36 @@
 import React, { useState } from "react";
 import Content from "@/layout/Content";
-import ChangePasswordDialog from "@/features/auth/ui/ChangePasswordDialog";
-import SavingPlans from "@/components/SavingPlans";
-import { useMeQuery } from "@/features/auth";
+import Account from "../ui/Account";
+import Password from "../ui/Password";
+
+const options = ["Account", "Manage Password"];
 
 function Settings() {
-  const { data: user } = useMeQuery();
+  const [view, setView] = useState("Account");
 
-  const [openChangePasswordDialog, setOpenChangePasswordDialog] =
-    useState(false);
-
-  const togglePasswordChange = () => {
-    setOpenChangePasswordDialog((prev) => !prev);
-  };
   return (
     <Content title={"Settings"}>
-      <div>
-        <h2>Profile</h2>
-        <p>Username: {user?.data.username}</p>
-        <p>
-          Email: <span className="link">{user?.data.email} </span>{" "}
-        </p>
+      <div>Manage your account settings and preferences</div>
+      <div className="settings__container">
+        <div className="settings__menus">
+          {options.map((option) => (
+            <button
+              key={option}
+              className={` ${
+                view === option ? "filter-button active" : "filter-button"
+              }`}
+              onClick={() => setView(option)}
+            >
+              {option.charAt(0).toUpperCase() + option.slice(1)}
+            </button>
+          ))}
+        </div>
 
-        <button
-          className="primary-button"
-          onClick={() => setOpenChangePasswordDialog(true)}
-        >
-          Change password
-        </button>
+        <div className="settings__content">
+          {view === "Account" && <Account />}
+          {view === "Manage Password" && <Password />}
+        </div>
       </div>
-
-      {/* <MonthlyBudgetForm /> */}
-      <SavingPlans />
-
-      {openChangePasswordDialog && (
-        <ChangePasswordDialog toggleDialog={togglePasswordChange} />
-      )}
     </Content>
   );
 }

@@ -1,9 +1,10 @@
 import { baseApi } from "@/services/baseApi";
 import { Budget } from "./type";
 
+type AddMonthlyBudgetRequest = Budget;
 export const budgetApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    addMonthlyBudget: build.mutation<void, { budget_per_category: Budget }>({
+    addMonthlyBudget: build.mutation<void, AddMonthlyBudgetRequest>({
       query: (body) => ({
         url: "/addMonthlyBudget",
         method: "POST",

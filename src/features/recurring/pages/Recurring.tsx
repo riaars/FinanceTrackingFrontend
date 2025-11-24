@@ -1,159 +1,41 @@
-import { formattedCategory } from "@/features/dashboard/utils/transactionUtils";
-import { CategoryIcons } from "@/utils/categoryIcons";
-import React from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import React, { useState } from "react";
 import { useGetActiveRecurringsQuery } from "../api";
 import Content from "@/layout/Content";
-import UpdateRecurringPlanDialog from "../ui/UpdateRecurringPlanDialog";
-import DeleteRecurringPlanDialog from "../ui/DeleteRecurringPlanDialog";
+import RecurringDesktop from "../ui/RecurringDesktop";
+import RecurringMobile from "../ui/RecurringMobile";
+import SearchBar from "@/components/SearchBar";
+import useDebounce from "@/hooks/useDebounce";
 import { Transaction } from "@/features/transaction/api/type";
 
 const Recurring = () => {
   const { data: recurrings } = useGetActiveRecurringsQuery();
-  const [selectedRecurring, setSelectedRecurring] =
-    React.useState<Transaction>();
-  const [isEdit, setIsEdit] = React.useState(false);
-  const [isDelete, setIsDelete] = React.useState(false);
   const recurringsData = recurrings?.data || [];
 
-  const toggleEditDialog = () => {
-    setIsEdit(!isEdit);
-  };
+  const [search, setSearch] = useState("");
+  const debounceSearch = useDebounce(search, 500);
 
-  const toggleDeleteDialog = () => {
-    setIsDelete(!isDelete);
+  // removing useMemo as React Compiler implemented
+  const filteredData = () => {
+    const term = debounceSearch.toLowerCase();
+    return recurringsData?.filter((recurring: Transaction) => {
+      const matchQuery = term
+        ? recurring.detail.toLowerCase().includes(term) ||
+          recurring.category.toLowerCase().includes(term)
+        : true;
+      return matchQuery;
+    });
   };
 
   return (
     <Content title="Recurring">
-      <div className="transaction-desktop">
-        <table className="transaction-table">
-          <thead className="table-head">
-            <tr className="table-row-head">
-              <td className="table-cell">Transaction</td>
-              <td className="table-cell">Amount</td>
-              <td className="table-cell">Period</td>
-              <td className="table-cell">Next Date</td>
-              <td className="table-cell">Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            {recurringsData?.map((recurringItem: any) => (
-              <tr key={recurringItem.transaction_id} className="table-row">
-                <td className="table-cell">
-                  <div className="transaction-category__wrapper">
-                    <button
-                      className={`category-icon-button ${formattedCategory(
-                        recurringItem.category
-                      )}`}
-                    >
-                      {CategoryIcons(recurringItem.category)}
-                    </button>
-                    <div className="transaction-category__details">
-                      {recurringItem.category}
-                      <div className="transaction-detail">
-                        {recurringItem.detail.slice(0, 30)}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                <td className={`table-cell}`}>
-                  <span
-                    className={`${
-                      recurringItem.type === "Expense"
-                        ? "amount-expense"
-                        : "amount-income"
-                    }`}
-                  >
-                    {recurringItem.type === "Expense" ? "-" : "+"}
-                    {recurringItem.amount} kr
-                  </span>
-                </td>
-
-                <td className="table-cell transaction-interval">
-                  {recurringItem.interval}
-                </td>
-                <td className="table-cell">
-                  {new Date(recurringItem.nextDate).toLocaleDateString("en-SE")}{" "}
-                </td>
-
-                <td className="table-cell">
-                  <MdEdit
-                    className="table-cell__icon edit"
-                    onClick={() => {
-                      setSelectedRecurring(recurringItem);
-                      setIsEdit(!isEdit);
-                    }}
-                  />
-                  <MdDelete
-                    className="table-cell__icon delete"
-                    onClick={() => {
-                      setSelectedRecurring(recurringItem);
-                      setIsDelete(!isDelete);
-                    }}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {isEdit && selectedRecurring && (
-          <UpdateRecurringPlanDialog
-            selectedRecurring={selectedRecurring}
-            setSelectedRecurring={setSelectedRecurring}
-            toggleDialog={toggleEditDialog}
-          />
-        )}
-        {isDelete && selectedRecurring && (
-          <DeleteRecurringPlanDialog
-            selectedRecurring={selectedRecurring}
-            toggleDialog={toggleDeleteDialog}
-          />
-        )}
-      </div>
-
-      <div className="transaction-mobile">
-        {recurringsData.map((recurring) => (
-          <div className="transaction-card" key={recurring.transaction_id}>
-            <div className="transaction-category__wrapper">
-              <button
-                className={`category-icon-button ${formattedCategory(
-                  recurring.category
-                )}`}
-              >
-                {CategoryIcons(recurring.category)}
-              </button>
-
-              <div className="transaction-category__details">
-                <div className="transaction-category">{recurring.category}</div>
-                <div className="transaction-date">
-                  <div>{recurring.interval}</div>
-                </div>
-                <div className="transaction-date">
-                  {new Date(recurring.nextDate).toLocaleDateString("en-SE")}
-                </div>
-              </div>
-            </div>
-
-            <div className="transaction-amount__wrapper">
-              <div className="transaction-amount">
-                <span
-                  className={`${
-                    recurring.type === "Expense"
-                      ? "amount-expense"
-                      : "amount-income"
-                  }`}
-                >
-                  {recurring.type === "Expense" ? "-" : "+"}
-                  {recurring.amount} kr
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <SearchBar
+        placeholder="Search for Recurrings, e.g,: category and details"
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
+        name="search"
+      />
+      <RecurringDesktop data={filteredData()} />
+      <RecurringMobile data={filteredData()} />
     </Content>
   );
 };

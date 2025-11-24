@@ -1,7 +1,20 @@
 @use "../utils/variables" as *;
 
+.settings__container {
+  margin: 3rem;
+  background-color: var(--primary-color);
+  padding: 2rem 3rem;
+  border-radius: 0.5rem;
+}
+.settings__content {
+  margin: 3rem;
+}
 @media screen and (max-width: $breakpoint-mobile) {
-  .settings-container {
-    margin-top: 3rem;
+  .settings__container {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+  .settings__content {
+    margin: 0.5rem;
   }
 }

@@ -1,50 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAddMonthlyBudgetMutation, useGetMonthlyBudgetQuery } from "../api";
-import { CategoryExpenseObject } from "@/utils/Constant";
-import { useGetAllTransactionsQuery } from "@/features/transaction/api";
+import { useAddMonthlyBudgetMutation } from "../api";
 import {
-  filterTransactionsByView,
   formattedCategory,
+  getBudgetByCategory,
   getCurrentMonthTransactionsCategory,
 } from "@/features/dashboard/utils/transactionUtils";
 import { CategoryIcons } from "@/utils/categoryIcons";
+import { Budget } from "../api/type";
 
-const ManageBudgetList = () => {
-  const { data: budget_data } = useGetMonthlyBudgetQuery();
-  const currentBudget = budget_data?.data;
-
-  const { data: transactionsData } = useGetAllTransactionsQuery();
+const ManageBudgetList = ({
+  data,
+  current_month_transactions,
+  budget,
+}: any) => {
   const [addMonthlyBudget] = useAddMonthlyBudgetMutation();
-
-  const [budget, setBudget] = useState(currentBudget?.budget_per_categories);
-
-  const transactions = transactionsData?.data || [];
-
-  const current_month_transactions = filterTransactionsByView(
-    transactions,
-    "month"
-  );
-
-  const getCategoryBudget = (type: string) => {
-    return budget?.[type];
-  };
-
-  const budgetPerCategories = (type: string, value: number) => {
-    return {
-      budget_per_categories: {
-        [type]: value,
-      },
-    };
-  };
+  const [monthlyBudget, setMonthlyBudget] = useState(budget);
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChange = (name: string, value: string) => {
-    setBudget({ ...budget, [name]: value });
+    setMonthlyBudget((prev: Budget) => ({
+      ...prev,
+      budget_per_categories: {
+        ...prev.budget_per_categories,
+        [name]: value,
+      },
+    }));
 
     if (timerRef?.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      addMonthlyBudget(budgetPerCategories(name, value));
+      const payload: Budget = {
+        budget_per_categories: {
+          [name]: value,
+        },
+      };
+      addMonthlyBudget(payload);
     }, 500);
   };
 
@@ -67,8 +57,8 @@ const ManageBudgetList = () => {
       </thead>
 
       <tbody>
-        {CategoryExpenseObject.map((item) => (
-          <tr className="table-row ">
+        {data.map((item: any, index: number) => (
+          <tr className="table-row" key={index}>
             <td className="table-cell compact">
               <div className="transaction-category__wrapper">
                 <button
@@ -93,7 +83,11 @@ const ManageBudgetList = () => {
             <td className="table-cell compact">
               <input
                 type="number"
-                value={getCategoryBudget(item.type)}
+                value={
+                  getBudgetByCategory(monthlyBudget, item.type) !== null
+                    ? String(getBudgetByCategory(monthlyBudget, item.type))
+                    : ""
+                }
                 name={item.type}
                 onChange={(e) => handleChange(e.target.name, e.target.value)}
                 className="input-field"

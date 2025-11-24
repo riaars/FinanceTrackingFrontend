@@ -25,11 +25,11 @@
   &.active {
     background-color: var(--secondary-color);
     border-radius: 30%;
-    color: white;
+    color: var(--text-button-color);
   }
 
   &.inactive {
-    background-color: var(--hover-color);
+    background-color: var(--border-color);
     border-radius: 30%;
     color: var(--secondary-color);
   }

@@ -50,7 +50,7 @@
   flex-direction: row;
 }
 .total-amount {
-  font-size: $font-large;
+  font-size: $font-desktop-subsection-title;
   font-weight: bold;
   text-align: left;
   width: 200px;
@@ -63,7 +63,7 @@
   align-items: center;
 }
 .summary-text {
-  font-size: $font-medium;
+  font-size: $font-desktop-subsection-title;
   text-align: left;
 }
 
@@ -131,10 +131,10 @@
     margin: 1rem 0.5rem;
   }
   .total-amount {
-    font-size: $font-large * 0.8;
+    font-size: $font-mobile-subsection-title;
   }
   .summary-text {
-    font-size: $font-medium * 0.8;
+    font-size: $font-mobile-subsection-title;
   }
 
   .dashboard__item {

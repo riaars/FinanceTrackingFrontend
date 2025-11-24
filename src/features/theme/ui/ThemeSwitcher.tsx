@@ -8,10 +8,20 @@ const ThemeSwitcher = () => {
   const dispatch = useAppDispatch();
   const theme = useAppSelector((state) => state.theme.currentTheme);
   return (
-    <div>
-      <span onClick={() => dispatch(toggleTheme())} className="theme">
-        {theme === "dark" ? <MdDarkMode /> : <MdLightMode />}
-      </span>
+    <div className="theme-switcher">
+      <div
+        onClick={() => dispatch(toggleTheme())}
+        className={`theme ${theme === "dark" ? "active" : "inherit"}`}
+      >
+        <MdDarkMode />
+      </div>
+
+      <div
+        onClick={() => dispatch(toggleTheme())}
+        className={`theme ${theme === "dark" ? "inherit" : "active"}`}
+      >
+        <MdLightMode />
+      </div>
     </div>
   );
 };

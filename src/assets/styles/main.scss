@@ -22,6 +22,9 @@
 @use "layout/sidebar";
 @use "layout/authpagelayout";
 
+@use "ui/account";
+@use "ui/password";
+
 @use "pages/app";
 @use "pages/signup";
 @use "pages/login";

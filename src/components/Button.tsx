@@ -26,8 +26,7 @@ function Button(props: ButtonProps) {
         //   gap: "8px",
         // }}
       >
-        {props.icon}
-        {props.title}
+        {props.icon} {props.title}
       </button>
     </>
   );

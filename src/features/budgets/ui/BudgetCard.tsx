@@ -18,13 +18,19 @@ const BudgetCard = (props: BudgetCardProps) => {
     setUpdateBudget(!updateBudget);
   };
 
+  const monthlyBudget = props.category_budget > 0 ? props.category_budget : 0;
   const balanceRemaining = props.category_budget - props.current_balance;
   const percentageUsed = (props.current_balance / props.category_budget) * 100;
 
+  console.log(
+    props.category_label,
+    props.category_budget,
+    props.current_balance
+  );
   return (
     <div className="budget-card__container">
-      <div className="budget-card__category-wrapper">
-        <div>
+      <div>
+        <div className="budget-card__category-wrapper">
           <button
             className={`category-icon-button ${formattedCategory(
               props.category_label
@@ -32,12 +38,12 @@ const BudgetCard = (props: BudgetCardProps) => {
           >
             {CategoryIcons(props.category_label)}
           </button>
-          <span className="transaction-category"> {props.category_label}</span>
-        </div>
-        <div>
-          <span className="budget-card__spending-budget-overview">
-            {props.current_balance} kr / {props.category_budget} kr
-          </span>
+          <div className="budget-card__category">
+            <span className="transaction-category">{props.category_label}</span>
+            <span className="budget-card__spending-budget-overview">
+              {props.current_balance} kr / {monthlyBudget} kr
+            </span>
+          </div>
         </div>
       </div>
       <div className="budget-card__progress">
@@ -46,7 +52,7 @@ const BudgetCard = (props: BudgetCardProps) => {
 
       <div className="budget-card__stats-wrapper">
         <div className="budget-card__used">
-          Used: <strong>{Math.min(percentageUsed, 100).toFixed(0)}%</strong>
+          Used: <strong>{props.current_balance} kr</strong>
         </div>
         <div className="budget-card__remaining">
           Remaining:{" "}
