@@ -72,7 +72,7 @@ const UpcomingTransactionWidget = ({
                 <div className="transaction-category">
                   {transaction.category}
                 </div>
-                <div className="transaction-date">
+                <div className="transaction-detail">
                   {new Date(transaction.nextDate).toLocaleDateString("en-SE")}
                 </div>
               </div>

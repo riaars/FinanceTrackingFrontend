@@ -18,9 +18,15 @@ const BudgetCard = (props: BudgetCardProps) => {
     setUpdateBudget(!updateBudget);
   };
 
+  const monthlyBudget = props.category_budget > 0 ? props.category_budget : 0;
   const balanceRemaining = props.category_budget - props.current_balance;
   const percentageUsed = (props.current_balance / props.category_budget) * 100;
 
+  console.log(
+    props.category_label,
+    props.category_budget,
+    props.current_balance
+  );
   return (
     <div className="budget-card__container">
       <div>
@@ -35,7 +41,7 @@ const BudgetCard = (props: BudgetCardProps) => {
           <div className="budget-card__category">
             <span className="transaction-category">{props.category_label}</span>
             <span className="budget-card__spending-budget-overview">
-              {props.current_balance} kr / {props.category_budget} kr
+              {props.current_balance} kr / {monthlyBudget} kr
             </span>
           </div>
         </div>

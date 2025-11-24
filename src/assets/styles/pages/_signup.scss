@@ -41,7 +41,9 @@
 @media screen and (max-width: $breakpoint-mobile) {
   .signup__body {
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    margin: 2rem;
   }
   .signup__info__logo {
     gap: 0rem;

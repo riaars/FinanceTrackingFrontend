@@ -85,7 +85,7 @@ const LatestTransaction = ({
                 <div className="transaction-category">
                   {transaction.category}
                 </div>
-                <div className="transaction-date">
+                <div className="transaction-detail">
                   {new Date(transaction.createdAt).toLocaleString("en-SE")}
                 </div>
               </div>

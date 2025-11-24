@@ -7,9 +7,10 @@
 }
 
 .chart__title {
-  font-size: $font-medium;
-  font-weight: bold;
+  font-size: $font-desktop-subsection-title;
+  font-weight: 600;
   margin-bottom: 1rem;
+  line-height: 130%;
 }
 .chart__container {
   width: 100%;
@@ -18,6 +19,7 @@
 
 @media screen and (max-width: $breakpoint-mobile) {
   .chart__title {
-    font-size: $font-medium * 0.8;
+    font-size: $font-mobile-subsection-title;
+    line-height: 130%;
   }
 }

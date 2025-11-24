@@ -274,11 +274,10 @@ function Transactions() {
                           {CategoryIcons(transaction.category)}
                         </button>
                         <div className="transaction-category__details">
-                          <span>
-                            {" "}
+                          <div className="transaction-category">
                             {transaction.category}{" "}
                             {transaction?.isRecurring && <IoIosRepeat />}
-                          </span>
+                          </div>
 
                           <a href="" className="transaction-id">
                             {transaction.transaction_id.slice(0, 30)}
@@ -355,7 +354,7 @@ function Transactions() {
                       {" "}
                       {transaction.category}
                     </div>
-                    <div className="transaction-date">
+                    <div className="transaction-detail">
                       {new Date(transaction.createdAt).toLocaleString("en-SE")}
                     </div>
                   </div>
