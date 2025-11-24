@@ -17,6 +17,13 @@ import { FaGifts } from "react-icons/fa";
 import { RiStockFill } from "react-icons/ri";
 import { RiRefund2Fill } from "react-icons/ri";
 
+import * as PATH from "@/config/Path";
+import { LuSettings } from "react-icons/lu";
+import { IoIosRepeat } from "react-icons/io";
+import { IoWalletOutline } from "react-icons/io5";
+import { RiDashboardLine } from "react-icons/ri";
+import { AiOutlineTransaction } from "react-icons/ai";
+
 export const CategoryIcons = (category: string) => {
   switch (category) {
     case "Food & Dining":
@@ -57,3 +64,27 @@ export const CategoryIcons = (category: string) => {
       return <IoStarSharp fontSize={"18px"} />;
   }
 };
+
+export const AppMenus = [
+  {
+    title: "Dashboard",
+    path: PATH.DASHBOARD,
+    icon: <RiDashboardLine />,
+  },
+  {
+    title: "Transactions",
+    path: PATH.TRANSACTIONS,
+    icon: <AiOutlineTransaction />,
+  },
+  {
+    title: "Budgets",
+    path: PATH.BUDGETS,
+    icon: <IoWalletOutline />,
+  },
+  {
+    title: "Recurring",
+    path: PATH.RECURRING,
+    icon: <IoIosRepeat />,
+  },
+  { title: "Settings", path: PATH.SETTINGS, icon: <LuSettings /> },
+];
