@@ -17,29 +17,40 @@ import { CategoryExpenseObject } from "@/utils/Constant";
 import Content from "@/layout/Content";
 
 const Dashboard = () => {
+  // Overview and Financial Insights Data
   const { data: transactionsData } = useGetAllTransactionsQuery();
   const transactions = transactionsData?.data || [];
   const sortedTransactions = transactions.slice().reverse();
 
+  // Upcoming Transactions Widget Data
   const { data: recurringsData } = useGetActiveRecurringsQuery();
   const recurrings = recurringsData?.data || [];
 
-  const sortedRecurrings = [...recurrings].sort(
-    (a, b) => new Date(a.nextDate) - new Date(b.nextDate)
-  );
+  const sortedRecurrings = [...recurrings].sort((a, b) => {
+    const aDate = a.nextDate ? new Date(a.nextDate) : null;
+    const bDate = b.nextDate ? new Date(b.nextDate) : null;
+
+    if (!aDate && !bDate) return 0;
+    if (!aDate) return 1;
+    if (!bDate) return -1;
+
+    return aDate.getTime() - bDate.getTime();
+  });
 
   const today = new Date();
   const upcomingTransactions = sortedRecurrings.filter((recurring) => {
-    return new Date(recurring?.nextDate) > today;
+    return new Date(recurring?.nextDate ?? new Date()) > today;
   });
 
+  // Budget vs Spent Data
   const { data: budget_data } = useGetMonthlyBudgetQuery();
-  const budgetData = budget_data?.data;
+  const budgetData = budget_data?.data || {};
 
   const current_month_transactions = filterTransactionsByPeriod(
     transactions,
     "month"
   );
+
   const budgetActualSpent = CategoryExpenseObject.map((item) => {
     const category = item.label;
     const spent = getCurrentMonthTransactionsCategory(

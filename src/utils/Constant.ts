@@ -1,6 +1,7 @@
 export const TypeOptions = ["Select Type", "Expense", "Income"];
 export const DownloadOptions = ["Download", "PDF", "CSV"];
-
+export const MAX_OVERVIEW_TRANSACTION = 5;
+export const MAX_CHARACTERS_DETAILS = 40;
 export const CategoryExpenseOptions = [
   "Select Category",
   "Food & Dining",

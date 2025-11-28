@@ -38,7 +38,10 @@ export const getCurrentMonthTransactionsCategory = (
     .reduce((sum, t: Transaction) => sum + t.amount, 0);
 };
 
-export const getBudgetByCategory = (budget: Budget, category: string) => {
+export const getBudgetByCategory = (
+  budget: Partial<Budget>,
+  category: string
+) => {
   return budget?.budget_per_categories[category];
 };
 

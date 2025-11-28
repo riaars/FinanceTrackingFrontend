@@ -1,6 +1,14 @@
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 
-const TinyLineChart = ({ data, color }) => (
+type ChartData = {
+  value: number;
+};
+type TinyLineChartProps = {
+  data: ChartData[];
+  color: string;
+};
+
+const TinyLineChart = ({ data, color }: TinyLineChartProps) => (
   <ResponsiveContainer width={60} height={30}>
     <LineChart data={data}>
       <Line

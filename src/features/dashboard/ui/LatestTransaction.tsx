@@ -4,21 +4,22 @@ import React from "react";
 import { formattedCategory } from "../utils/transactionUtils";
 import { Link } from "react-router-dom";
 import * as PATH from "@/config/Path";
+import {
+  MAX_CHARACTERS_DETAILS,
+  MAX_OVERVIEW_TRANSACTION,
+} from "@/utils/Constant";
+
 const LatestTransaction = ({
   transactions,
 }: {
   transactions: Transaction[];
 }) => {
+  //Show only few last transactions
+  const lastTransactions = transactions.slice(0, MAX_OVERVIEW_TRANSACTION);
+
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-          margin: "1rem",
-        }}
-      >
+      <div className="latest-transaction-header">
         <div className="chart__title">Latest Transactions</div>
         <Link to={PATH.TRANSACTIONS} className="link">
           View All
@@ -28,7 +29,7 @@ const LatestTransaction = ({
         <table className="transaction-table">
           <thead className="table-head"></thead>
           <tbody>
-            {transactions.slice(0, 5)?.map((transaction) => (
+            {lastTransactions?.map((transaction) => (
               <tr key={transaction.transaction_id} className="table-row">
                 <td className="table-cell">
                   <div className="transaction-category__wrapper">
@@ -44,7 +45,7 @@ const LatestTransaction = ({
                         {transaction.category}
                       </div>
                       <div className="transaction-detail">
-                        {transaction.detail.slice(0, 40)}
+                        {transaction.detail.slice(0, MAX_CHARACTERS_DETAILS)}
                       </div>
                     </div>
                   </div>
@@ -71,7 +72,7 @@ const LatestTransaction = ({
       </div>
 
       <div className="transaction-mobile">
-        {transactions.slice(0, 5)?.map((transaction) => (
+        {lastTransactions?.map((transaction) => (
           <div className="transaction-card" key={transaction.transaction_id}>
             <div className="transaction-category__wrapper">
               <button

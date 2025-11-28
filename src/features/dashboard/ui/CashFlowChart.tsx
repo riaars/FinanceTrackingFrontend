@@ -37,9 +37,9 @@ type IncomeExpenseItemProps = {
 };
 
 const CashFlowChart = ({ data }: CashFlowChartProps) => {
-  const [view, setView] = useState("month");
+  const [period, setPeriod] = React.useState("month");
 
-  const filteredData = filterTransactionsByPeriod(data, view);
+  const filteredData = filterTransactionsByPeriod(data, period);
 
   const cashFlowData = groupIncomeVsExpense(filteredData).map(
     (entry: IncomeExpenseItemProps) => ({
@@ -75,7 +75,7 @@ const CashFlowChart = ({ data }: CashFlowChartProps) => {
   return (
     <>
       <div className="chart__title">Financial Insights</div>
-      <FilterAction view={view} setView={setView} />
+      <FilterAction period={period} setPeriod={setPeriod} />
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={cashFlowData}>

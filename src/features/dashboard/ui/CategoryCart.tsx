@@ -21,9 +21,9 @@ type CategoryPieChartTooltipProps = {
 };
 
 const CategoryCart = ({ data }: CategoryChartProps) => {
-  const [view, setView] = React.useState("month");
+  const [period, setPeriod] = React.useState("month");
 
-  const expenses = filterTransactionsByPeriod(data, view).filter(
+  const expenses = filterTransactionsByPeriod(data, period).filter(
     (t: Transaction) => t.type === "Expense"
   );
 
@@ -55,7 +55,7 @@ const CategoryCart = ({ data }: CategoryChartProps) => {
   return (
     <>
       <div className="chart__title">Expense Overview</div>
-      <FilterAction view={view} setView={setView} />
+      <FilterAction period={period} setPeriod={setPeriod} />
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
@@ -95,7 +95,7 @@ const CategoryCart = ({ data }: CategoryChartProps) => {
             dominantBaseline="middle"
             className="tooltip__caption-text"
           >
-            This {view} expenses
+            This {period} expenses
           </text>
           <Tooltip content={<CategoryPieChartTooltip />} />
         </PieChart>

@@ -1,8 +1,8 @@
 import React from "react";
 
 type FilterActionProps = {
-  view: string;
-  setView: (view: string) => void;
+  period: string;
+  setPeriod: (view: string) => void;
 };
 const FilterAction = (props: FilterActionProps) => {
   const options = ["day", "week", "month", "year"];
@@ -13,9 +13,9 @@ const FilterAction = (props: FilterActionProps) => {
         <button
           key={option}
           className={` ${
-            props.view === option ? "filter-button active" : "filter-button"
+            props.period === option ? "filter-button active" : "filter-button"
           }`}
-          onClick={() => props.setView(option)}
+          onClick={() => props.setPeriod(option)}
         >
           {option.charAt(0).toUpperCase() + option.slice(1)}
         </button>

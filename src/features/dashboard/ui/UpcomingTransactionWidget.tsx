@@ -2,12 +2,21 @@ import { CategoryIcons } from "@/utils/categoryIcons";
 import React from "react";
 import { formattedCategory } from "../utils/transactionUtils";
 import { Transaction } from "@/features/transaction/api/type";
+import {
+  MAX_CHARACTERS_DETAILS,
+  MAX_OVERVIEW_TRANSACTION,
+} from "@/utils/Constant";
 
 const UpcomingTransactionWidget = ({
   transactions,
 }: {
   transactions: Transaction[];
 }) => {
+  const lastUpcomingTransactions = transactions.slice(
+    0,
+    MAX_OVERVIEW_TRANSACTION
+  );
+
   return (
     <>
       <div className="chart__title">Upcoming Transactions</div>
@@ -15,7 +24,7 @@ const UpcomingTransactionWidget = ({
         <table className="transaction-table">
           <thead className="table-head"></thead>
           <tbody>
-            {transactions.slice(0, 5)?.map((transaction) => (
+            {lastUpcomingTransactions?.map((transaction) => (
               <tr key={transaction.transaction_id} className="table-row">
                 <td className="table-cell">
                   <div className="transaction-category__wrapper">
@@ -31,13 +40,15 @@ const UpcomingTransactionWidget = ({
                         {transaction.category}
                       </div>
                       <div className="transaction-detail">
-                        {transaction.detail.slice(0, 40)}
+                        {transaction.detail.slice(0, MAX_CHARACTERS_DETAILS)}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td className="table-cell">
-                  {new Date(transaction?.nextDate).toLocaleString("en-SE")}
+                  {new Date(transaction?.nextDate ?? new Date()).toLocaleString(
+                    "en-SE"
+                  )}
                 </td>
                 <td className={`table-cell}`}>
                   <span
@@ -58,7 +69,7 @@ const UpcomingTransactionWidget = ({
       </div>
 
       <div className="transaction-mobile">
-        {transactions.slice(0, 5)?.map((transaction) => (
+        {lastUpcomingTransactions?.map((transaction) => (
           <div className="transaction-card" key={transaction.transaction_id}>
             <div className="transaction-category__wrapper">
               <button
@@ -73,7 +84,9 @@ const UpcomingTransactionWidget = ({
                   {transaction.category}
                 </div>
                 <div className="transaction-detail">
-                  {new Date(transaction.nextDate).toLocaleDateString("en-SE")}
+                  {new Date(
+                    transaction.nextDate ?? new Date()
+                  ).toLocaleDateString("en-SE")}
                 </div>
               </div>
             </div>
