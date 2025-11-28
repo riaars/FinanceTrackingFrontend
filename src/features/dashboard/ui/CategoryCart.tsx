@@ -1,43 +1,57 @@
 import React from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import {
-  filterTransactionsByView,
+  filterTransactionsByPeriod,
   getColorByCategory,
-  groupTransactionByKey,
+  groupTransactionsByCategory,
 } from "../utils/transactionUtils";
 import FilterAction from "./FilterAction";
 import { Transaction } from "@/features/transaction/api/type";
 
-const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
+type CategoryChartProps = {
+  data: Transaction[];
+};
+
+type CategoryPieChartTooltipProps = {
+  active?: boolean;
+  payload?: Array<{
+    name: string;
+    value: number;
+  }>;
+};
+
+const CategoryCart = ({ data }: CategoryChartProps) => {
   const [view, setView] = React.useState("month");
-  const categoryDataObj = groupTransactionByKey(
-    filterTransactionsByView(transactions, view).filter(
-      (t: Transaction) => t.type === "Expense"
-    ),
-    "category"
+
+  const expenses = filterTransactionsByPeriod(data, view).filter(
+    (t: Transaction) => t.type === "Expense"
   );
 
-  const data = Object.entries(categoryDataObj).map(([name, value]) => ({
+  const categoryTotalsObj = groupTransactionsByCategory(expenses, "category");
+
+  const categoryTotals = Object.keys(categoryTotalsObj).map((name) => ({
     name,
-    value,
+    value: (categoryTotalsObj as Record<string, number>)[name],
   }));
 
-  const total = data.reduce((sum: number, d: any) => sum + d.value, 0);
+  const totalExpenses = categoryTotals.reduce((sum, d) => sum + d.value, 0);
 
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const item = payload[0];
-      return (
-        <div className="custom-tooltip__container">
-          <p className="custom-tooltip__key">{item.name}</p>
-          <p className="custom-tooltip__value">
-            {item.value.toLocaleString()} kr
-          </p>
-        </div>
-      );
-    }
-    return null;
+  const CategoryPieChartTooltip = ({
+    active,
+    payload,
+  }: CategoryPieChartTooltipProps) => {
+    if (!active || !payload?.length) return null;
+    const item = payload[0];
+    return (
+      <div className="custom-tooltip__container">
+        <p className="custom-tooltip__key">{item.name}</p>
+        <p className="custom-tooltip__value">
+          {item.value.toLocaleString()} kr
+        </p>
+      </div>
+    );
   };
+
   return (
     <>
       <div className="chart__title">Expense Overview</div>
@@ -45,7 +59,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
-            data={data}
+            data={categoryTotals}
             cx="50%"
             cy="50%"
             innerRadius={80}
@@ -55,7 +69,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
             isAnimationActive={true}
             paddingAngle={5}
           >
-            {data.map((item: any, index: number) => (
+            {categoryTotals.map((item: any, index: number) => (
               <Cell
                 key={`cell-${index}`}
                 fill={getColorByCategory(item.name)}
@@ -72,7 +86,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
             dominantBaseline="middle"
             className="tooltip__main-text"
           >
-            {total.toLocaleString()}kr
+            {totalExpenses.toLocaleString()}kr
           </text>
           <text
             x="50%"
@@ -83,7 +97,7 @@ const CategoryCart = ({ transactions }: { transactions: Transaction[] }) => {
           >
             This {view} expenses
           </text>
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CategoryPieChartTooltip />} />
         </PieChart>
       </ResponsiveContainer>
     </>

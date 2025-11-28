@@ -4,11 +4,11 @@ import ManageBudgetList from "../ui/ManageBudgetList";
 import ManageBudgetCard from "../ui/ManageBudgetCard";
 import { useGetMonthlyBudgetQuery } from "../api";
 import { useGetAllTransactionsQuery } from "@/features/transaction/api";
-import { filterTransactionsByView } from "@/features/dashboard/utils/transactionUtils";
 import SearchBar from "@/components/SearchBar";
 import useDebounce from "@/hooks/useDebounce";
 import { CategoryExpenseObject } from "@/utils/Constant";
 import BudgetMenu from "../ui/BudgetMenu";
+import { filterTransactionsByPeriod } from "@/features/dashboard/utils/transactionUtils";
 
 const Budgets = () => {
   const [isManageBudget, setManageBudget] = useState(false);
@@ -18,7 +18,7 @@ const Budgets = () => {
 
   const transactions = transactionsData?.data || [];
 
-  const current_month_transactions = filterTransactionsByView(
+  const current_month_transactions = filterTransactionsByPeriod(
     transactions,
     "month"
   );

@@ -25,3 +25,16 @@ export function debounce<T extends (...args: any[]) => void>(
     timeout = setTimeout(() => func(...args), delay);
   };
 }
+
+export const adjustColorByPercentage = (percentage: number) => {
+  const roundPercentage = Math.round(percentage);
+  if (roundPercentage > 70 && roundPercentage < 90) {
+    return "orange";
+  } else if (roundPercentage > 90) {
+    return "#ee5656";
+  } else return "#3459d4";
+};
+
+export const groupToChartData = <T extends Record<string, number>>(obj: T) => {
+  return Object.entries(obj).map(([name, value]) => ({ name, value }));
+};

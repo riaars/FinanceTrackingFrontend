@@ -30,6 +30,32 @@
   transition: fill 0.3s ease;
 }
 
+.chart-xaxis text {
+  font-size: 12px;
+  fill: #555;
+}
+
+.chart-xaxis .recharts-cartesian-axis-line,
+.chart-xaxis .recharts-cartesian-axis-tick-line {
+  stroke: #ccc;
+}
+
+.chart-yaxis text {
+  font-size: 12px;
+  fill: #555;
+}
+
+.chart-yaxis .recharts-cartesian-axis-line,
+.chart-yaxis .recharts-cartesian-axis-tick-line {
+  stroke: #ccc;
+}
+
+.chart-legend {
+  font-size: 13px !important;
+  color: #333 !important;
+  font-weight: 600 !important;
+}
+
 @media screen and (max-width: $breakpoint-mobile) {
   .chart__title {
     font-size: $font-mobile-subsection-title;

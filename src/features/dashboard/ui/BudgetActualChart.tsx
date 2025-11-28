@@ -1,3 +1,4 @@
+import { adjustColorByPercentage } from "@/utils/helpers";
 import React from "react";
 import {
   Bar,
@@ -10,8 +11,31 @@ import {
   YAxis,
 } from "recharts";
 
-const BudgetActualChart = ({ data }: any) => {
-  const CustomTooltip = ({ active, label, payload }: any) => {
+type BudgetActualChartProps = {
+  data: BudgetActualDataProps[];
+};
+
+type BudgetActualDataProps = {
+  category: string;
+  budget: number;
+  spent: number;
+};
+
+type BarChartTooltipProps = {
+  active?: boolean;
+  label?: string;
+  payload?: Array<{
+    name: string;
+    value: number;
+  }>;
+};
+
+const BudgetActualChart = ({ data }: BudgetActualChartProps) => {
+  const BarChartTooltip = ({
+    active,
+    label,
+    payload,
+  }: BarChartTooltipProps) => {
     if (!active || !payload?.length) return null;
 
     return (
@@ -27,53 +51,23 @@ const BudgetActualChart = ({ data }: any) => {
     );
   };
 
-  const adjustColorByPercentage = (percentage: number) => {
-    const roundPercentage = Math.round(percentage);
-    if (roundPercentage > 70 && roundPercentage < 90) {
-      return "orange";
-    } else if (roundPercentage > 90) {
-      return "#ee5656";
-    } else return "#3459d4";
-  };
   return (
     <>
       <div className="chart__title">Budget Insights</div>
-
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={data} layout="vertical" margin={{ left: 30 }}>
-          <XAxis
-            type="number"
-            tick={{ fontSize: 12, fill: "#555" }}
-            stroke="#ccc"
-          />
-          <YAxis
-            type="category"
-            dataKey="category"
-            tick={{ fontSize: 12, fill: "#555" }}
-            stroke="#ccc"
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend
-            verticalAlign="top"
-            height={30}
-            wrapperStyle={{
-              fontSize: "13px",
-              color: "#333",
-              fontWeight: 600,
-            }}
-          />
-          <Bar
-            dataKey="budget"
-            name="Budget"
-            fill="#333"
-            className="bar-budget"
-          />
-          <Bar dataKey="spent" name="Spent" fill="#3459d4">
+          <XAxis className="chart-xaxis" type="number" />
+          <YAxis className="chart-yaxis" type="category" dataKey="category" />
+          <Tooltip content={<BarChartTooltip />} />
+          <Legend verticalAlign="top" height={30} className="chart-legend" />
+          <Bar dataKey="budget" name="Budget" className="bar-budget" />
+          <Bar dataKey="spent" name="Spent" className="bar-spent">
             {data.map((entry, index) => {
               const percentage =
                 entry.budget > 0 ? (entry.spent / entry.budget) * 100 : 0;
               return (
                 <Cell
+                  className="bar-cell"
                   key={`cell-${index}`}
                   fill={adjustColorByPercentage(percentage)}
                 />

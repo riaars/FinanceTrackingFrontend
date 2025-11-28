@@ -8,7 +8,7 @@ import UpcomingTransactionWidget from "../ui/UpcomingTransactionWidget";
 import { useGetActiveRecurringsQuery } from "@/features/recurring/api";
 import BudgetActualChart from "../ui/BudgetActualChart";
 import {
-  filterTransactionsByView,
+  filterTransactionsByPeriod,
   getBudgetByCategory,
   getCurrentMonthTransactionsCategory,
 } from "../utils/transactionUtils";
@@ -36,7 +36,7 @@ const Dashboard = () => {
   const { data: budget_data } = useGetMonthlyBudgetQuery();
   const budgetData = budget_data?.data;
 
-  const current_month_transactions = filterTransactionsByView(
+  const current_month_transactions = filterTransactionsByPeriod(
     transactions,
     "month"
   );
@@ -56,12 +56,12 @@ const Dashboard = () => {
       <DashboardOverview transactions={transactions} />
 
       <div className="dashboard__item">
-        <CashFlowChart transactions={sortedTransactions} />
+        <CashFlowChart data={sortedTransactions} />
       </div>
 
       <div className="dashboard__wrapper">
         <div className="dashboard__item auto-fill">
-          <CategoryCart transactions={sortedTransactions} />
+          <CategoryCart data={sortedTransactions} />
         </div>
 
         <div className="dashboard__item auto-fill">

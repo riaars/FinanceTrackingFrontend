@@ -2,7 +2,10 @@ import { Budget } from "@/features/budgets/api/type";
 import { Transaction } from "@/features/transaction/api/type";
 import dayjs from "dayjs";
 
-export const groupTransactionByKey = (data: Transaction[], key: string) => {
+export const groupTransactionsByCategory = (
+  data: Transaction[],
+  key: string
+) => {
   return data.reduce((acc, transaction) => {
     const value = transaction[key];
     if (!acc[value]) acc[value] = 0;
@@ -11,7 +14,7 @@ export const groupTransactionByKey = (data: Transaction[], key: string) => {
   }, {});
 };
 
-export const filterTransactionsByView = (
+export const filterTransactionsByPeriod = (
   data: Transaction[],
   viewType: string
 ) => {

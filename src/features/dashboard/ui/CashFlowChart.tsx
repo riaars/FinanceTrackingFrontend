@@ -10,24 +10,51 @@ import {
   YAxis,
 } from "recharts";
 import {
-  filterTransactionsByView,
+  filterTransactionsByPeriod,
   formatCurrencyShort,
   groupIncomeVsExpense,
 } from "../utils/transactionUtils";
 import FilterAction from "./FilterAction";
-const CashFlowChart = ({ transactions }: any) => {
+import { Transaction } from "@/features/transaction/api/type";
+
+type LineChartTooltipProps = {
+  active?: boolean;
+  label?: string;
+  payload?: Array<{
+    name: string;
+    value: number;
+  }>;
+};
+
+type CashFlowChartProps = {
+  data: Transaction[];
+};
+
+type IncomeExpenseItemProps = {
+  date: string;
+  Income: number;
+  Expense: number;
+};
+
+const CashFlowChart = ({ data }: CashFlowChartProps) => {
   const [view, setView] = useState("month");
 
-  const filteredData = filterTransactionsByView(transactions, view);
+  const filteredData = filterTransactionsByPeriod(data, view);
 
-  const cashFlowData = groupIncomeVsExpense(filteredData).map((entry) => ({
-    date: dayjs(entry.date).format("DD MMM YY"),
-    Income: entry.Income,
-    Expense: entry.Expense,
-    net: entry.Income - entry.Expense,
-  }));
+  const cashFlowData = groupIncomeVsExpense(filteredData).map(
+    (entry: IncomeExpenseItemProps) => ({
+      date: dayjs(entry.date).format("DD MMM YY"),
+      Income: entry.Income,
+      Expense: entry.Expense,
+      net: entry.Income - entry.Expense,
+    })
+  );
 
-  const CustomTooltip = ({ active, label, payload }: any) => {
+  const LineChartTooltip = ({
+    active,
+    label,
+    payload,
+  }: LineChartTooltipProps) => {
     if (!active || !payload?.length) return null;
 
     return (
@@ -46,7 +73,7 @@ const CashFlowChart = ({ transactions }: any) => {
   };
 
   return (
-    <div>
+    <>
       <div className="chart__title">Financial Insights</div>
       <FilterAction view={view} setView={setView} />
 
@@ -55,25 +82,15 @@ const CashFlowChart = ({ transactions }: any) => {
           <XAxis
             dataKey="date"
             tickFormatter={(d: string) => dayjs(d).format("DD MMM")}
-            tick={{ fontSize: 12, fill: "#555" }}
-            stroke="#ccc"
+            className="chart-xaxis"
           />
           <YAxis
             tickFormatter={formatCurrencyShort}
-            tick={{ fontSize: 12, fill: "#555" }}
-            stroke="#ccc"
+            className="chart-yaxis"
             width={40}
           />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend
-            verticalAlign="top"
-            height={30}
-            wrapperStyle={{
-              fontSize: "13px",
-              color: "#333",
-              fontWeight: 600,
-            }}
-          />
+          <Tooltip content={<LineChartTooltip />} />
+          <Legend verticalAlign="top" height={30} className="chart-legend" />
           <Line
             type="monotone"
             dataKey="Income"
@@ -100,7 +117,7 @@ const CashFlowChart = ({ transactions }: any) => {
           />
         </LineChart>
       </ResponsiveContainer>
-    </div>
+    </>
   );
 };
 

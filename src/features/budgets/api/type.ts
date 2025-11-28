@@ -1,5 +1,5 @@
 export type Budget = {
-  budget_per_categories: {
+  budget_per_categories: Partial<{
     bills_utilities: number;
     education: number;
     entertainment: number;
@@ -12,5 +12,5 @@ export type Budget = {
     shopping: number;
     transportation: number;
     travel: number;
-  };
+  }>;
 };
