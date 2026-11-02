@@ -21,7 +21,7 @@ const ManageBudgetCard = ({
             current_month_transactions,
             expense_item.label
           )}
-          category_budget={getBudgetByCategory(budget, expense_item.type)}
+          category_budget={getBudgetByCategory(budget, expense_item.type) ?? 0}
         />
       ))}
     </div>

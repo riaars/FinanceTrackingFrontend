@@ -37,7 +37,7 @@ const UpcomingTransactionWidget = ({
                   </div>
                 </td>
                 <td className="table-cell">
-                  {new Date(transaction?.nextDate).toLocaleString("en-SE")}
+                  {new Date(transaction?.nextDate ?? "").toLocaleString("en-SE")}
                 </td>
                 <td className={`table-cell}`}>
                   <span
@@ -73,7 +73,7 @@ const UpcomingTransactionWidget = ({
                   {transaction.category}
                 </div>
                 <div className="transaction-detail">
-                  {new Date(transaction.nextDate).toLocaleDateString("en-SE")}
+                  {new Date(transaction.nextDate ?? "").toLocaleDateString("en-SE")}
                 </div>
               </div>
             </div>

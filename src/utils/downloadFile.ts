@@ -35,12 +35,10 @@ export const downloadPDF = (
         tx.detail,
         `SEK${tx.amount.toFixed(2)}`,
       ]),
-      styles: {
-        head: {
-          fillColor: [52, 89, 212],
-          textColor: 255,
-          fontStyle: "bold",
-        },
+      headStyles: {
+        fillColor: [52, 89, 212],
+        textColor: 255,
+        fontStyle: "bold",
       },
       startY: 50,
     });
@@ -55,7 +53,7 @@ export const downloadCSV = (data: Transaction[], filename = "data.csv") => {
   );
   const csv = [
     headers.join(","), // header row
-    ...data.map((row) => headers.map((field) => `"${row[field]}"`).join(",")),
+    ...data.map((row) => headers.map((field) => `"${row[field as keyof Transaction]}"`).join(",")),
   ].join("\n");
 
   const blob = new Blob([csv], { type: "text/csv" });

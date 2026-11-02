@@ -2,7 +2,14 @@ Finance Tracking Frontend
 
 Start the application:
 
-`npm run dev`
+```
+cp .env.example .env   # set VITE_API_URL to the backend URL
+npm run dev
+```
+
+Checks (also run in CI):
+
+`npm run lint` and `npm run typecheck`
 
 ```
 ├── README.md

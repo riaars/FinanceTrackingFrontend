@@ -6,7 +6,7 @@ import {
   getCurrentMonthTransactionsCategory,
 } from "@/features/dashboard/utils/transactionUtils";
 import { CategoryIcons } from "@/utils/categoryIcons";
-import { Budget } from "../api/type";
+import { Budget, BudgetUpdate } from "../api/type";
 import CurrencyInput from "@/components/CurrencyInput";
 
 const ManageBudgetList = ({
@@ -30,7 +30,7 @@ const ManageBudgetList = ({
 
     if (timerRef?.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      const payload: Budget = {
+      const payload: BudgetUpdate = {
         budget_per_categories: {
           [name]: value,
         },

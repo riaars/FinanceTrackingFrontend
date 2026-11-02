@@ -23,7 +23,7 @@ const RecurringMobile = ({ data }: { data: Transaction[] }) => {
                 <div>{recurring.interval}</div>
               </div>
               <div className="transaction-detail">
-                {new Date(recurring.nextDate).toLocaleDateString("en-SE")}
+                {new Date(recurring.nextDate ?? "").toLocaleDateString("en-SE")}
               </div>
             </div>
           </div>

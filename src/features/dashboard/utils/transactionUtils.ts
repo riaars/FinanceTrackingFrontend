@@ -1,10 +1,13 @@
-import { Budget } from "@/features/budgets/api/type";
+import { Budget, BudgetCategory } from "@/features/budgets/api/type";
 import { Transaction } from "@/features/transaction/api/type";
 import dayjs from "dayjs";
 
-export const groupTransactionByKey = (data: Transaction[], key: string) => {
-  return data.reduce((acc, transaction) => {
-    const value = transaction[key];
+export const groupTransactionByKey = (
+  data: Transaction[],
+  key: keyof Transaction
+) => {
+  return data.reduce<Record<string, number>>((acc, transaction) => {
+    const value = String(transaction[key]);
     if (!acc[value]) acc[value] = 0;
     acc[value] += transaction.amount;
     return acc;
@@ -35,8 +38,11 @@ export const getCurrentMonthTransactionsCategory = (
     .reduce((sum, t: Transaction) => sum + t.amount, 0);
 };
 
-export const getBudgetByCategory = (budget: Budget, category: string) => {
-  return budget?.budget_per_categories[category];
+export const getBudgetByCategory = (
+  budget: Budget | undefined,
+  category: string
+) => {
+  return budget?.budget_per_categories[category as BudgetCategory];
 };
 
 export const groupIncomeVsExpense = (transactions: Transaction[]) => {
@@ -45,7 +51,7 @@ export const groupIncomeVsExpense = (transactions: Transaction[]) => {
   >((acc, { date, type, amount }) => {
     const key = dayjs(date).format("YYYY-MM-DD");
     const entry = acc[key] ?? { date: key, Income: 0, Expense: 0 };
-    entry[type] += amount;
+    if (type !== "Select Type") entry[type] += amount;
     acc[key] = entry;
     return acc;
   }, {});

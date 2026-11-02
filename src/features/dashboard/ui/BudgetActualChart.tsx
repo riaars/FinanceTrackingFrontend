@@ -17,7 +17,7 @@ const BudgetActualChart = ({ data }: any) => {
     return (
       <div className="custom-tooltip__container">
         <p className="custom-tooltip__key">{label}</p>
-        {payload.map((item, i) => (
+        {payload.map((item: any, i: number) => (
           <p key={i} className="custom-tooltip__value">
             <span className="custom-tooltip__key">{item.name}</span>:{" "}
             <span className="custom-tooltip__value">{item.value} kr</span>
@@ -69,7 +69,7 @@ const BudgetActualChart = ({ data }: any) => {
             className="bar-budget"
           />
           <Bar dataKey="spent" name="Spent" fill="#3459d4">
-            {data.map((entry, index) => {
+            {data.map((entry: any, index: number) => {
               const percentage =
                 entry.budget > 0 ? (entry.spent / entry.budget) * 100 : 0;
               return (
