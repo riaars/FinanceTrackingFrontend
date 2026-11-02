@@ -1,23 +1,26 @@
-import Login from "@/features/auth/pages/Login";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Signup from "@/features/auth/pages/Signup";
 
 import * as PATH from "@/config/Path";
-import Sidebar from "@/layout/Sidebar";
-
-import Transactions from "@/features/transaction/pages/Transactions";
 import PrivateRoute from "@/components/PrivateRoute";
-import React, { useEffect } from "react";
-import Dashboard from "@/features/dashboard/pages/Dashboard";
-import Settings from "@/features/settings/pages/Settings";
-import ForgotPassword from "@/features/auth/pages/ForgotPassword";
-import ResetPassword from "@/features/auth/pages/ResetPassword";
-import VerifyEmail from "@/features/auth/pages/VerifyEmail";
 import PublicRoute from "@/components/PublicRoute";
+import AppLayout from "@/layout/AppLayout";
 import { useAppSelector } from "./app/hooks";
-import Budgets from "./features/budgets/pages/Budgets";
-import Recurring from "./features/recurring/pages/Recurring";
-import BottomBar from "./layout/BottomBar";
+
+const Login = lazy(() => import("@/features/auth/pages/Login"));
+const Signup = lazy(() => import("@/features/auth/pages/Signup"));
+const VerifyEmail = lazy(() => import("@/features/auth/pages/VerifyEmail"));
+const ForgotPassword = lazy(
+  () => import("@/features/auth/pages/ForgotPassword")
+);
+const ResetPassword = lazy(() => import("@/features/auth/pages/ResetPassword"));
+const Dashboard = lazy(() => import("@/features/dashboard/pages/Dashboard"));
+const Transactions = lazy(
+  () => import("@/features/transaction/pages/Transactions")
+);
+const Budgets = lazy(() => import("@/features/budgets/pages/Budgets"));
+const Recurring = lazy(() => import("@/features/recurring/pages/Recurring"));
+const Settings = lazy(() => import("@/features/settings/pages/Settings"));
 
 function App() {
   const theme = useAppSelector((s) => s.theme.currentTheme);
@@ -26,77 +29,29 @@ function App() {
     document.documentElement.classList.toggle("dark-mode", theme === "dark");
   }, [theme]);
 
-  const Layout = ({ children }: { children: React.ReactNode }) => {
-    return (
-      <div className="app">
-        <Sidebar />
-        <div className="content">
-          {/* <Header /> */}
-          {children}
-          <BottomBar />
-        </div>
-      </div>
-    );
-  };
-
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<PublicRoute />}>
-          <Route path={PATH.SIGNUP} element={<Signup />} />
-          <Route path={PATH.LOGIN} element={<Login />} />
-          <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
-          <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
-          <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
-        </Route>
+      <Suspense fallback={<p>Loading…</p>}>
+        <Routes>
+          <Route element={<PublicRoute />}>
+            <Route path={PATH.SIGNUP} element={<Signup />} />
+            <Route path={PATH.LOGIN} element={<Login />} />
+            <Route path={PATH.VERIFY_EMAIL} element={<VerifyEmail />} />
+            <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
+            <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />} />
+          </Route>
 
-        <Route element={<PrivateRoute />}>
-          <Route
-            path={PATH.DASHBOARD}
-            element={
-              <Layout>
-                <Dashboard />
-              </Layout>
-            }
-          />
-
-          <Route
-            path={PATH.TRANSACTIONS}
-            element={
-              <Layout>
-                <Transactions />
-              </Layout>
-            }
-          />
-
-          <Route
-            path={PATH.BUDGETS}
-            element={
-              <Layout>
-                <Budgets />
-              </Layout>
-            }
-          />
-
-          <Route
-            path={PATH.RECURRING}
-            element={
-              <Layout>
-                <Recurring />
-              </Layout>
-            }
-          />
-          <Route
-            path={PATH.SETTINGS}
-            element={
-              <Layout>
-                <Settings />
-              </Layout>
-            }
-          />
-        </Route>
-      </Routes>
-      {/* </Suspense> */}
+          <Route element={<PrivateRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+              <Route path={PATH.TRANSACTIONS} element={<Transactions />} />
+              <Route path={PATH.BUDGETS} element={<Budgets />} />
+              <Route path={PATH.RECURRING} element={<Recurring />} />
+              <Route path={PATH.SETTINGS} element={<Settings />} />
+            </Route>
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
