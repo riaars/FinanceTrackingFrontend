@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import InputDate from "@/components/Date";
 import CategoryGrid from "./CategoryGrid";
 import { useAddTransactionMutation } from "../../api";
-import { Transaction } from "../../api/type";
+import { NewTransaction } from "../../api/type";
 import CurrencyInput from "@/components/CurrencyInput";
 const options = ["daily", "weekly", "monthly", "yearly"];
 
@@ -31,9 +31,7 @@ function AddTransactionDialog({
 
   let date = new Date(Date.now());
 
-  const [form, setForm] = useState<
-    Omit<Transaction, "transaction_id" | "email" | "createdAt">
-  >({
+  const [form, setForm] = useState<NewTransaction>({
     date: date.toISOString().split("T")[0],
     category: "Select Category",
     type: type,

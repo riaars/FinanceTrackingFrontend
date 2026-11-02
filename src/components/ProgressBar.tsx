@@ -21,7 +21,7 @@ const ProgressBar = ({ percentage }: ProgressBarProps) => {
         style={{
           "--progress": `${Math.round(percentage)}%`,
           backgroundColor: adjustColorByPercentage(),
-        }}
+        } as React.CSSProperties}
       ></div>
     </div>
   );

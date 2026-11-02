@@ -16,7 +16,7 @@ const Pagination = ({
 }: PaginationProps) => {
   const totalPage = Math.ceil(totalItems / totalItemsPerPage);
 
-  let pageList = [];
+  let pageList: (number | "...")[] = [];
 
   if (totalPage <= 5) {
     for (let i = 1; i <= totalPage; i++) {
@@ -46,7 +46,9 @@ const Pagination = ({
   const renderPageNumber = () => {
     return pageList.map((item, index) =>
       item === "..." ? (
-        <div className="pagination__item">{item}</div>
+        <div className="pagination__item" key={index}>
+          {item}
+        </div>
       ) : (
         <div
           className={`pagination__item ${

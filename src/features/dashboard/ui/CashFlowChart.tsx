@@ -35,7 +35,7 @@ const CashFlowChart = ({ transactions }: any) => {
         <p className="custom-tooltip__key">
           {dayjs(label).format("DD MMM YYYY")}
         </p>
-        {payload.map((item, i) => (
+        {payload.map((item: any, i: number) => (
           <p key={i} className="custom-tooltip__value">
             <span className="custom-tooltip__key">{item.name}</span>:{" "}
             <span className="custom-tooltip__value">{item.value} kr</span>

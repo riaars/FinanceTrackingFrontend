@@ -1,4 +1,5 @@
-export const formattedDate = (date: string) => {
+export const formattedDate = (date?: string | Date) => {
+  if (date instanceof Date) return date.toISOString().split("T")[0];
   return date?.split("T")[0];
 };
 

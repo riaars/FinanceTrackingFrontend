@@ -5,7 +5,6 @@ import { FaFilePdf } from "react-icons/fa6";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosRepeat } from "react-icons/io";
 
-import Input from "@/components/Input";
 import Dropdown from "@/components/Dropdown";
 import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
@@ -48,20 +47,20 @@ function Transactions() {
     [transactionsData]
   );
 
-  const [selectedTransaction, setSelectedTransaction] = useState<
-    Partial<Transaction>
-  >({
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction>({
     createdAt: "",
     transaction_id: "",
     email: "",
+    date: "",
     category: "",
     type: "Expense",
     detail: "",
     amount: 0,
+    isRecurring: false,
   });
 
   const [isAdded, setIsAdded] = useState(false);
-  const [trxType, setTrxType] = useState("Expense");
+  const [trxType, setTrxType] = useState<"Income" | "Expense">("Expense");
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [filtered, setFiltered] = useState(initialFiltered);

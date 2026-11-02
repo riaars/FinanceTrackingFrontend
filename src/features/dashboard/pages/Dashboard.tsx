@@ -25,12 +25,14 @@ const Dashboard = () => {
   const recurrings = recurringsData?.data || [];
 
   const sortedRecurrings = [...recurrings].sort(
-    (a, b) => new Date(a.nextDate) - new Date(b.nextDate)
+    (a, b) =>
+      new Date(a.nextDate ?? "").getTime() -
+      new Date(b.nextDate ?? "").getTime()
   );
 
   const today = new Date();
   const upcomingTransactions = sortedRecurrings.filter((recurring) => {
-    return new Date(recurring?.nextDate) > today;
+    return new Date(recurring?.nextDate ?? "") > today;
   });
 
   const { data: budget_data } = useGetMonthlyBudgetQuery();
